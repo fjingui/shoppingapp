@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/purchar_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentLeft="true"/>
+        <TextView
+            android:id="@+id/purchar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#000"
+            android:layout_toRightOf="@id/purchar_img"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:id="@+id/dollar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f14158"
+            android:text="￥"
+            android:padding="8dp"
+            android:textSize="12sp"
+            android:layout_below="@id/purchar_text"
+            android:layout_toRightOf="@id/purchar_img"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:id="@+id/purchar_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#f14158"
+            android:layout_toRightOf="@id/dollar"
+            android:layout_below="@id/purchar_text"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="13dp"/>
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/smalldiv_line"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数量："
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#000"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="7dp" />
+        <com.learn.myapplication.AmountView
+            android:id="@+id/amountview"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            app:btnWidth="26dp"
+            app:edWidth="43dp"
+            app:btnTxtSize="12sp"
+            app:txtSize="12sp"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/smalldiv_line"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/pur_nextbtn"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="下一步"
+            android:textSize="16sp"
+            android:background="#f13615"
+            android:textColor="#ffffff"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

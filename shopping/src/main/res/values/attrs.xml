@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AmountView" >
+        <attr name="btnWidth" format="dimension" />
+        <attr name="edWidth" format="dimension"/>
+        <attr name="txtSize" format="dimension" />
+        <attr name="btnTxtSize" format="dimension" />
+
+    </declare-styleable>
+<!--    <declare-styleable name="Search_View">
+        <attr format="dimension" name="textSizeSearch"/>
+        <attr format="color" name="textColorSearch"/>
+        <attr format="string" name="textHintSearch"/>
+        <attr format="integer" name="searchBlockHeight"/>
+        <attr format="color" name="searchBlockColor"/>
+    </declare-styleable>-->
+</resources>

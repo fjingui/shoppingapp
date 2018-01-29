@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemheight"
+        android:background="@color/headicon"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/head_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/header" />
+
+        <Button
+            android:id="@+id/headerbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/loginbtnheight"
+            android:background="@color/clickbtn"
+            android:layout_below="@id/head_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin"
+            android:text="@string/loginbtn"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize" />
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ordersheight"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_dfk"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:drawableTop="@mipmap/prepay"
+                    android:text="待付款"
+                    android:drawablePadding="@dimen/padding"
+                    android:textSize="@dimen/textsize" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:drawableTop="@mipmap/send"
+                    android:text="待发货"
+                    android:drawablePadding="@dimen/padding"
+                    android:textSize="@dimen/textsize" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:drawableTop="@mipmap/wait"
+                    android:text="待收货"
+                    android:drawablePadding="@dimen/padding"
+                    android:textSize="@dimen/textsize" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:drawableTop="@mipmap/write"
+                    android:text="待评价"
+                    android:drawablePadding="@dimen/padding"
+                    android:textSize="@dimen/textsize" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/smalldiv_line" />
+
+            <Button
+                android:id="@+id/allorder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/allorder"
+                android:drawablePadding="@dimen/padding"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding"
+                android:text="全部订单"
+                android:textSize="@dimen/textsize" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bigdiv_line" />
+
+            <Button
+                android:id="@+id/orderaddr_manage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/orderaddr"
+                android:drawablePadding="@dimen/padding"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding"
+                android:text="收货地址管理"
+                android:textSize="@dimen/textsize" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/smalldiv_line" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/password"
+                android:drawablePadding="@dimen/padding"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding"
+                android:text="修改密码"
+                android:textSize="@dimen/textsize" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/smalldiv_line" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding"
+                android:text="客服电话：18956662004"
+                android:textSize="@dimen/textsize" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/smalldiv_line" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/bottom"
+                android:paddingLeft="@dimen/padding"
+                android:text="退出登录"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/bigtextsize" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

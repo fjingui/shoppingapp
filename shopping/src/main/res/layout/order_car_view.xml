@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/ordertoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionBarSize"
+        android:background="#b6d7e2"
+        app:title="自家农产品"
+        android:titleTextColor="#dc4458" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bigdiv_line"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="农特产品专卖"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="8dp"
+            android:textSize="16sp"
+            android:textColor="#49bde4"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/alldel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="全部删除"
+            android:textColor="#ff605d"
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="8dp"
+            android:gravity="center"/>
+    </RelativeLayout>
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:src="@drawable/smalldiv_line"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/orderitems"
+            android:layout_width="match_parent"
+            android:layout_height="310dp">
+        </android.support.v7.widget.RecyclerView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/smalldiv_line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <CheckBox
+            android:id="@+id/allchecked"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="全选"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="8dp"
+            android:textSize="14sp"
+            android:textColor="#f54364"/>
+        <TextView
+            android:id="@+id/itemcheckedpri"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="合计0元"
+            android:textColor="#f54364"
+            android:textSize="14sp" />
+        <Button
+            android:id="@+id/checkednums"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="8dp"
+            android:text="结算（0）"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="#f54364" />
+    </RelativeLayout>
+
+</LinearLayout>

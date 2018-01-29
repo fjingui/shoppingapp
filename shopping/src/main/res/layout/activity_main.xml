@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shop.myapplication.MainActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/framevp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v4.view.ViewPager>
+
+    <RadioGroup
+        android:id="@+id/radiogp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:background="@color/clickbtn"
+        android:orientation="horizontal">
+
+        <RadioButton
+            style="@style/radiostyle"
+            android:id="@+id/homeradio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/folder_home2"
+            android:text="首页" />
+
+        <RadioButton
+            style="@style/radiostyle"
+            android:id="@+id/shopradio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/precious"
+            android:text="珍藏品" />
+
+        <RadioButton
+            style="@style/radiostyle"
+            android:id="@+id/carradio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/shopping_full2"
+            android:button="@null"
+            android:text="购物车" />
+
+        <RadioButton
+            style="@style/radiostyle"
+            android:id="@+id/accoradio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/people2"
+            android:text="账户" />
+    </RadioGroup>
+</RelativeLayout>
+

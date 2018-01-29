@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true">
+
+    <ImageView
+        android:id="@+id/shop_im"
+        android:layout_width="@dimen/logoheight"
+        android:layout_height="@dimen/logoheight" />
+
+    <TextView
+        android:id="@+id/shop_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/shop_im"
+        android:padding="@dimen/padding"
+        android:layout_marginTop="-10dp"
+        android:textSize="@dimen/textsize" />
+
+    <TextView
+        android:id="@+id/shop_addr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shop_name"
+        android:layout_toRightOf="@id/shop_im"
+        android:padding="@dimen/padding"
+        android:textSize="@dimen/textsize" />
+
+    <TextView
+        android:id="@+id/shop_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shop_addr"
+        android:layout_toRightOf="@id/shop_im"
+        android:padding="@dimen/padding"
+        android:textSize="@dimen/textsize" />
+
+    <TextView
+        android:id="@+id/shop_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shop_price"
+        android:layout_toRightOf="@id/shop_im"
+        android:padding="@dimen/padding"
+        android:textSize="@dimen/textsize"
+        android:maxLines="1" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/smalldiv_line"/>
+</RelativeLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/myorderbar"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="#b6d7e2"
+        app:title="收货地址管理" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/allorderaddr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/myorderbar">
+    </android.support.v7.widget.RecyclerView>
+    <Button
+        android:id="@+id/neworderaddr"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="#f23564"
+        android:text="新增收货地址"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="#ffffff"/>
+
+</RelativeLayout>
