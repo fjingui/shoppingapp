@@ -3,41 +3,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/ordercar">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/ordertoolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/actionBarSize"
-        android:background="#b6d7e2"
-        app:title="自家农产品"
-        android:titleTextColor="#dc4458" />
+        android:layout_height="@dimen/titleheight"
+        android:background="@color/titlebackground"
+        android:contentInsetStart="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/line1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/headtext1"
+                android:gravity="center" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/line1" />
+        </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/bigdiv_line"/>
+        </android.support.v7.widget.Toolbar>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="38dp">
+        android:layout_height="@dimen/smallheight">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="农特产品专卖"
+            android:text="@string/orcdercartitle"
             android:layout_alignParentLeft="true"
-            android:paddingLeft="8dp"
-            android:textSize="16sp"
-            android:textColor="#49bde4"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/bigtextsize"
+            android:textColor="@color/colorAccent"
             android:gravity="center"/>
         <TextView
             android:id="@+id/alldel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="全部删除"
-            android:textColor="#ff605d"
-            android:textSize="14sp"
+            android:text="@string/delbtn"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/textsize"
             android:layout_alignParentRight="true"
-            android:paddingRight="8dp"
+            android:paddingRight="@dimen/padding"
             android:gravity="center"/>
     </RelativeLayout>
 <ImageView
@@ -48,7 +67,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/orderitems"
             android:layout_width="match_parent"
-            android:layout_height="310dp">
+            android:layout_height="@dimen/viewpager">
         </android.support.v7.widget.RecyclerView>
 
     <ImageView
@@ -58,17 +77,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="@dimen/titleheight">
         <CheckBox
             android:id="@+id/allchecked"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="全选"
+            android:text="@string/allbtn"
             android:gravity="center"
             android:layout_alignParentLeft="true"
-            android:paddingLeft="8dp"
-            android:textSize="14sp"
-            android:textColor="#f54364"/>
+            android:paddingLeft="@dimen/padding"
+            android:textSize="@dimen/textsize"
+            android:textColor="@color/colorAccent"/>
         <TextView
             android:id="@+id/itemcheckedpri"
             android:layout_width="wrap_content"
@@ -76,18 +95,18 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="合计0元"
-            android:textColor="#f54364"
-            android:textSize="14sp" />
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/textsize" />
         <Button
             android:id="@+id/checkednums"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:paddingRight="8dp"
+            android:paddingRight="@dimen/padding"
             android:text="结算（0）"
             android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="#f54364" />
+            android:textSize="@dimen/bigtextsize"
+            android:textColor="@color/colorAccent" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -88,7 +88,7 @@ private Handler prechandler=new Handler(){
             preciousrv.addItemDecoration(space);
         }
         if(!limitlist.isEmpty()){
-            loadstate.removeAllViews();
+//            loadstate.removeAllViews();
             focuslayout.setVisibility(View.VISIBLE);
         }
     }
@@ -111,9 +111,9 @@ private Handler prechandler=new Handler(){
         }
         }.start();
         focuslayout.setVisibility(View.GONE);
-        loadstate.removeAllViews();
-        RemoveParent.removeParent(LoadStateView.showLoading(true));
-        loadstate.addView(LoadStateView.showLoading(true));
+//        loadstate.removeAllViews();
+//        RemoveParent.removeParent(LoadStateView.showLoading(true));
+//        loadstate.addView(LoadStateView.showLoading(true));
     }
 //    public void getImgFromServer() {
 //

@@ -5,73 +5,77 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
+<LinearLayout
+    android:id="@+id/ordercar_img"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <CheckBox
         android:id="@+id/itemclick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:checked="false" />
-
     <ImageView
         android:id="@+id/itemimage"
-        android:layout_width="80dp"
-        android:layout_height="90dp"
+        android:layout_width="@dimen/ordersheight"
+        android:layout_height="@dimen/ordersheight"
         android:scaleType="center"/>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="90dp"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/itemfac"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:padding="8dp"
-        android:textSize="14sp" />
-    <TextView
-        android:id="@+id/itemname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:padding="8dp"
-        android:textSize="14sp" />
 </LinearLayout>
 
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="90dp">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/padding">
+        <TextView
+            android:id="@+id/itemfac"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/bigtextsize" />
         <TextView
             android:id="@+id/itemprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/itemfac"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
-            android:textSize="14sp" />
+            android:paddingRight="@dimen/padding"
+            android:textSize="@dimen/textsize" />
 
-        <com.learn.myapplication.AmountView
-            android:id="@+id/itemamount"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:paddingTop="8dp"
-            android:layout_alignRight="@id/itemprice"
-            android:layout_below="@id/itemprice"
-            app:btnWidth="26dp"
-            app:edWidth="30dp"
-            app:btnTxtSize="12sp"
-            app:txtSize="10sp"></com.learn.myapplication.AmountView>
+    <com.learn.myapplication.AmountView
+        android:id="@+id/itemamount"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/aview_height"
+        android:paddingTop="@dimen/padding"
+        android:layout_below="@id/itemprice"
+        android:layout_alignParentRight="true"
+        app:btnWidth="@dimen/aview_btnwidth"
+        app:edWidth="@dimen/aview_edwidth"
+        app:btnTxtSize="@dimen/aview_textsize"
+        app:txtSize="@dimen/aview_textsize"/>
 
         <TextView
-            android:id="@+id/itemdel"
+            android:id="@+id/itemname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@id/itemamount"
             android:layout_below="@id/itemamount"
-            android:paddingTop="8dp"
-            android:textSize="14sp"
-            android:text="删除"
-            android:textColor="#ff605d"/>
-    </RelativeLayout>
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/textsize"
+            android:textColor="@color/title"/>
+
+    <TextView
+        android:id="@+id/itemdel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/itemname"
+        android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/padding"
+        android:textSize="@dimen/textsize"
+        android:text="删除"
+        android:textColor="@color/colorAccent"/>
+
+</RelativeLayout>
+
 </LinearLayout>

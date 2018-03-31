@@ -62,8 +62,6 @@ public class BottomHold implements View.OnClickListener {
         return aview;
     }
 
-    private PopupWindow popupWindow;
-
     public BottomHold() {
         bottomtview = initView();
     }
@@ -77,8 +75,6 @@ public class BottomHold implements View.OnClickListener {
 
         shopnums = View.inflate(BaseApplication.getContext(), R.layout.shopping_nums, null);
         clkNextbtn = (Button) shopnums.findViewById(R.id.pur_nextbtn);
-
-
         return view;
     }
 
@@ -101,14 +97,16 @@ public class BottomHold implements View.OnClickListener {
             aview.setGoods_storage(50);
         }
         ImageView purcharimg = (ImageView) shopnums.findViewById(R.id.purchar_img);
-        TextView purchartext = (TextView) shopnums.findViewById(R.id.purchar_text);
+        TextView popmainname = (TextView) shopnums.findViewById(R.id.pop_mainname);
+        TextView popsubname = (TextView) shopnums.findViewById(R.id.pop_subname);
         TextView purprice = (TextView) shopnums.findViewById(R.id.purchar_price);
 
         x.image().bind(purcharimg,seller.getFactory_log(),
                 new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                         .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)
                         .setUseMemCache(true).build());
-        purchartext.setText(seller.getProduct_name());
+        popmainname.setText(seller.getFactory_name());
+        popsubname.setText(seller.getProduct_name());
         purprice.setText(seller.getProduct_price()+seller.getPrice_unit());
 
 

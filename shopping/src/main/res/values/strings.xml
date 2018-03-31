@@ -1,12 +1,18 @@
 <resources>
-    <string name="app_name">特色购物</string>
+    <string name="app_name">农家购</string>
+    <string name="orcdercartitle">农家特色专卖</string>
     <string name="itemtitle1">莴笋咸菜</string>
     <string name="title_activity_order">确认订单</string>
     <string name="title1">今日推荐</string>
     <string name="title2">销售商品</string>
+    <string name="delbtn">全部删除</string>
+    <string name="allbtn">全选</string>
     <string name="loadfail">数据加载失败，请检查网络状态！</string>
     <string name="freshbtn">点我刷新数据</string>
     <string name="loginbtn">点击登录</string>
+    <string name="proaddr">产地:</string>
+    <string name="prodesc">详情:</string>
+    <string name="acc_nbr">请输入手机号</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

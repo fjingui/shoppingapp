@@ -6,21 +6,28 @@
     <ImageView
         android:id="@+id/logoimage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin"/>
 
     <TextView
+        android:id="@+id/factoryname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/bigtextsize"
         android:textColor="@color/colorAccent"
-        android:layout_marginTop="@dimen/margin"
-        android:text="简介:"/>
+        android:layout_marginTop="@dimen/margin" />
     <TextView
-        android:id="@+id/logotext"
+        android:id="@+id/subproname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textsize"
-        android:layout_marginTop="@dimen/margin"
-        android:text="#0d9dce"/>
+        android:textColor="@color/headicon"
+        android:layout_marginTop="@dimen/margin" />
+    <TextView
+        android:id="@+id/saleprice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textsize"
+        android:layout_marginTop="@dimen/margin" />
 
 </LinearLayout>

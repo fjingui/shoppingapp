@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,15 +27,20 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bean.list.CustInfo;
 import com.bean.list.Global_Final;
 import com.bean.list.OrderItem;
 import com.bean.list.Seller;
 import com.bean.list.SpaceItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hold.list.LoadStateView;
 import com.learn.myapplication.AmountView;
 import com.learn.myapplication.LoginBroadReceiver;
 import com.learn.myapplication.OrderBroadcastReceiver;
+import com.utils.list.GetDataFromServer;
+import com.utils.list.ParseJsonData;
+import com.utils.list.RemoveParent;
 import com.utils.list.ViewGroupUtils;
 
 import org.xutils.common.Callback;
@@ -43,6 +49,7 @@ import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,19 +63,24 @@ public class OrderCarFrame extends Fragment {
     private CheckBox allchecked;
     private TextView itemcheckedpri;
     private Button checkeditems;
-    private OrderAdapter orderdata=new OrderAdapter();
+    private OrderAdapter orderdata;
     private List<OrderItem> orderlist = new ArrayList();
+    private CustInfo custaddr=new CustInfo();
     private String orderid=null;
     private float checkedprice=0;
     private int checkednums=0;
     private String cust_acct;
-
-    //   OrderBroadcastReceiver orderbroadcast=new OrderBroadcastReceiver();
+    private View mainview;
+    private FrameLayout loaddata;
+    private GetDataFromServer getcarorderlist;
+    private GetDataFromServer gercustaddr;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View carorder = View.inflate(BaseApplication.getContext(), R.layout.order_car_view, null);
+        mainview=carorder.findViewById(R.id.ordercar);
         orderitems= (RecyclerView) carorder.findViewById(R.id.orderitems);
+       // loaddata= (FrameLayout) carorder.findViewById(R.id.ordercardata);
         allchecked= (CheckBox) carorder.findViewById(R.id.allchecked);
         alldel = (TextView) carorder.findViewById(R.id.alldel);
         itemcheckedpri= (TextView) carorder.findViewById(R.id.itemcheckedpri);
@@ -77,32 +89,12 @@ public class OrderCarFrame extends Fragment {
             cust_acct = ((MainActivity) getActivity()).getCust_acct();
         }
         Toolbar toolbar = (Toolbar) carorder.findViewById(R.id.ordertoolbar);
-        orderitems.setLayoutManager(new LinearLayoutManager(this.getActivity(),LinearLayoutManager.VERTICAL,false));
-        initData();
-        orderitems.setAdapter(orderdata);
-        SpaceItem space = new SpaceItem(16);
-        orderitems.addItemDecoration(space);
-        orderdata.setItemCheckedListener(new ItemCheckedListener() {
-            @Override
-            public void itemOnChecked() {
-                checkedhandler.sendEmptyMessage(0);
-            }
-        });
-        orderdata.setItemDelListener(new ItemDelListener() {
-            @Override
-            public void itemOnDel(int position) {
-                orderid=orderlist.get(position).getCust_order_id();
-                delOrderFromServer(Global_Final.deleteorderpath, orderid,cust_acct);
-                SystemClock.sleep(300);
-                initData();
-                orderid=null;
-            }
-        });
+
         allchecked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 for (int i=0;i<orderitems.getLayoutManager().getChildCount();i++){
-                    CheckBox radbtn= (CheckBox) orderitems.getLayoutManager().getChildAt(i).findViewById(R.id.itemclick);
+                     CheckBox radbtn= (CheckBox) orderitems.getLayoutManager().getChildAt(i).findViewById(R.id.itemclick);
                   if(radbtn.isChecked()) {radbtn.setChecked(false);}
                     else {
                       radbtn.setChecked(true);
@@ -115,32 +107,77 @@ public class OrderCarFrame extends Fragment {
             public void onClick(View v) {
                 delOrderFromServer(Global_Final.deleteallorder,orderid,cust_acct);
                 SystemClock.sleep(300);
-                initData();
+                initDataFromServer();
             }
         });
+        LoadStateView.getFreshbtn().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loaddata.removeAllViews();
+                initDataFromServer();
+            }
+        });
+        checkeditems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (custaddr==null){
+                    Intent intent = new Intent(getActivity(),OrderAddrManage.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getActivity(),OrderAcitvity.class);
+                    intent.putExtra("cust_acct",cust_acct);
+                    ArrayList<OrderItem> orderlist2= new ArrayList<OrderItem>(orderlist);
+                    intent.putParcelableArrayListExtra("orderlist", orderlist2);
+                    startActivity(intent);
+                }
+            }
+        });
+        initDataFromServer();
         return carorder;
     }
 
+
+    private Handler loadcardata=new Handler(){
     @Override
-    public void onStart() {
-        super.onStart();
+    public void handleMessage(Message msg) {
+        if(msg.what==1){
+            orderlist= ParseJsonData.parseFromJson(getcarorderlist.getGetresult(),OrderItem[].class) ;
+            orderdata=new OrderAdapter();
+            orderitems.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+            orderitems.setAdapter(orderdata);
+            orderdata.setItemCheckedListener(new ItemCheckedListener() {
+                @Override
+                public void itemOnChecked() {
+                    checkedhandler.sendEmptyMessage(0);
+                }
+            });
+            orderdata.setItemDelListener(new ItemDelListener() {
+                @Override
+                public void itemOnDel(int position) {
+                    orderid=orderlist.get(position).getCust_order_id();
+                    delOrderFromServer(Global_Final.deleteorderpath, orderid,cust_acct);
+                    SystemClock.sleep(300);
+                    initDataFromServer();
+                    orderid=null;
+                }
+            });
+
+        }
+        if(msg.what==2){
+            custaddr= (CustInfo) ParseJsonData.parseObjectJson(gercustaddr.getGetresult(),CustInfo.class);
+        }
+        if(!orderlist.isEmpty()){
+            mainview.setVisibility(View.VISIBLE);
+        }
     }
-
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction("LOGIN_ACCT_ACTION");    //只有持有相同的action的接受者才能接收此广播
-//        getActivity().registerReceiver(loginbroadreceiver, filter);
-//
-//        super.onCreate(savedInstanceState);
-//    }
-
+};
     private Handler checkedhandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             for (int i=0;i<orderitems.getLayoutManager().getChildCount();i++){
                 CheckBox radbtn= (CheckBox) orderitems.getLayoutManager().getChildAt(i).findViewById(R.id.itemclick);
                 AmountView itemamount = (AmountView) orderitems.getLayoutManager().getChildAt(i).findViewById(R.id.itemamount);
+                orderlist.get(i).setOrder_amount(itemamount.getAmount());
                 if (radbtn.isChecked()){
                     Float itemprice=orderlist.get(i).getProduct_price();
                     int nums=itemamount.getAmount();
@@ -148,61 +185,35 @@ public class OrderCarFrame extends Fragment {
                     checkednums+=1;
                 }
             }
-            itemcheckedpri.setText("合计"+checkedprice+"元");
+            DecimalFormat decf= new DecimalFormat(".00");
+            itemcheckedpri.setText("合计"+decf.format(checkedprice)+"元");
             checkeditems.setText("结算"+"("+checkednums+")");
             checkedprice=0;
             checkednums=0;
         }
     };
 
-    public void initData() {
-
-        new Thread() {
+    public void initDataFromServer(){
+        getcarorderlist=new GetDataFromServer(loadcardata,loaddata,1);
+        getcarorderlist.setParam(cust_acct);
+        getcarorderlist.setParam2("购物车");
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                getDataFromServer();
-                SystemClock.sleep(500);
-                if(orderlist!=null){
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            orderdata.notifyDataSetChanged();
-                        }
-                    });
-                }
+                getcarorderlist.getData(Global_Final.requestorderpath);
             }
-
-        }.start();
-
+        }).start();
+        gercustaddr=new GetDataFromServer(loadcardata,loaddata,2);
+        gercustaddr.setParam(cust_acct);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                gercustaddr.getData(Global_Final.requestcustpath);
+            }
+        }).start();
+        mainview.setVisibility(View.GONE);
     }
 
-    public void getDataFromServer() {
-        RequestParams orderrequparm = new RequestParams(Global_Final.requestorderpath);
-        orderrequparm.addQueryStringParameter("cust_acct",cust_acct);
-        orderrequparm.addQueryStringParameter("orderstatus","购物车");
-        x.http().post(orderrequparm, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                parseOrderData(result);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
-
-    }
     public void delOrderFromServer(String delPath, String orderid,String cust_acct){
         RequestParams delorderparm=new RequestParams(delPath);
         delorderparm.addQueryStringParameter("orderid",orderid);
@@ -252,7 +263,12 @@ public class OrderCarFrame extends Fragment {
             this.itemdel= (TextView) itemView.findViewById(R.id.itemdel);
             this.itemlistener=mychecklistener;
             this.itemDelListener=mydellistener;
-
+            itemamount.setOnAmountChangeListener(new AmountView.OnAmountChangeListener() {
+                @Override
+                public void amountChangeListener(View view, int amount) {
+                    checkedhandler.sendEmptyMessage(0);
+                }
+            });
             itemradio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -271,6 +287,7 @@ public class OrderCarFrame extends Fragment {
                 }
             });
         }
+
     }
 
     public class OrderAdapter extends RecyclerView.Adapter<OrderHold> {
@@ -308,11 +325,6 @@ public class OrderCarFrame extends Fragment {
         }
     }
 
-    public void parseOrderData(String json) {
-        Gson gson = new Gson();
-        orderlist = gson.fromJson(json, new TypeToken<List<OrderItem>>() {
-        }.getType());
-    }
     public interface ItemCheckedListener {
          void itemOnChecked( );
     }

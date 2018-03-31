@@ -12,11 +12,16 @@
     <dimen name="bigtextsize">17sp</dimen>
     <dimen name="headtext1">20sp</dimen>
     <dimen name="titleheight">50dp</dimen>
+    <dimen name="smallheight">40dp</dimen>
     <dimen name="searchheight">50dp</dimen>
     <dimen name="divider">6dp</dimen>
-    <dimen name="viewpager">200dp</dimen>
+    <dimen name="viewpager">300dp</dimen>
     <dimen name="itemheight">200dp</dimen>
     <dimen name="logoheight">100dp</dimen>
     <dimen name="loginbtnheight">20dp</dimen>
     <dimen name="ordersheight">80dp</dimen>
+    <dimen name="aview_btnwidth">26dp</dimen>
+    <dimen name="aview_edwidth">39dp</dimen>
+    <dimen name="aview_textsize">12sp</dimen>
+    <dimen name="aview_height">28dp</dimen>
 </resources>

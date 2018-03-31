@@ -2,6 +2,7 @@ package com.shop.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.widget.NestedScrollView;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.bean.list.Global_Final;
 import com.bean.list.OrderInfo;
+import com.bean.list.OrderItem;
 import com.bean.list.Seller;
 import com.google.gson.Gson;
 import com.hold.list.BottomHold;
@@ -22,6 +24,9 @@ import com.utils.list.ParseJsonData;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailActivity extends Activity {
 
@@ -43,6 +48,8 @@ public class DetailActivity extends Activity {
     private OrderInfo orderInfo;
     private String carorderjson;
     private String cust_acct;
+    private List<OrderItem> orderlist = new ArrayList();
+    private OrderItem orderitem;
     //  private AmountView amountView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +89,18 @@ public class DetailActivity extends Activity {
                     }
                     if (bottomHold.getBtnflag() == 2) { //立即购买
                         Intent intent = new Intent(BaseApplication.getContext(), OrderAcitvity.class);
-                        intent.putExtra("smpseller", seller);
-                        intent.putExtra("orderinfo", orderInfo);
+                        orderitem=new OrderItem();
+                        orderitem.setOrder_amount(orderInfo.getOrder_amount());
+                        orderitem.setFactory_log(seller.getFactory_log());
+                        orderitem.setFactory_name(seller.getFactory_name());
+                        orderitem.setProduct_name(seller.getProduct_name());
+                        orderitem.setProduct_price(seller.getProduct_price());
+                        orderlist.clear();
+                        orderlist.add(orderitem);
+                        ArrayList<OrderItem> orderlist2= new ArrayList<OrderItem>(orderlist);
+                        intent.putParcelableArrayListExtra("orderlist", orderlist2);
+//                        intent.putExtra("smpseller", seller);
+//                        intent.putExtra("orderinfo", orderInfo);
                         intent.putExtra("cust_acct",cust_acct);
                         startActivity(intent);
                     }
@@ -110,8 +127,6 @@ public class DetailActivity extends Activity {
         orderInfo.setOrder_status("购物车");
         orderInfo.setOrder_amount(bottomHold.getAview().getAmount());
         orderInfo.setOrder_money(Math.round(seller.getProduct_price()* orderInfo.getOrder_amount()*100)/100);
-//        Gson gson = new Gson();
-//        carorderjson=gson.toJson(orderInfo);
         carorderjson= ParseJsonData.parseToJson(orderInfo);
     }
 

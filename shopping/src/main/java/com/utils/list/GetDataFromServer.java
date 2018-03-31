@@ -26,19 +26,26 @@ public class GetDataFromServer {
     private Handler loaddatahandler;
     private int mes;
     private String getresult;
+    private RequestParams param=new RequestParams();
+
     public GetDataFromServer(Handler loaddatahandler, FrameLayout loadprogress, int mes) {
         this.loaddatahandler = loaddatahandler;
         this.loadprogress = loadprogress;
         this.mes = mes;
     }
-
     public String getGetresult() {
         return getresult;
     }
 
+    public void setParam(String addstr){
+        this.param.addQueryStringParameter("cust_acct",addstr);
+    }
+    public void setParam2(String str){
+        this.param.addQueryStringParameter("orderstatus",str);
+    }
     public void getData(String url){
-        RequestParams param = new RequestParams(url);
-
+        param.setUri(url);
+       // param = new RequestParams(url);
         x.http().get(param, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {

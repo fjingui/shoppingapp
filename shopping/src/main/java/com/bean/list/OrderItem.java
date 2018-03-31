@@ -1,10 +1,13 @@
 package com.bean.list;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Administrator on 2017/9/2 0002.
  */
 
-public class OrderItem {
+public class OrderItem implements Parcelable{
     private String cust_order_id;
     private String factory_log;
     private String factory_name;
@@ -12,6 +15,9 @@ public class OrderItem {
     private Float product_price;
     private int order_amount;
 
+    public OrderItem(){
+
+    }
     public String getCust_order_id() {
         return cust_order_id;
     }
@@ -61,14 +67,36 @@ public class OrderItem {
     }
 
     @Override
-    public String toString() {
-        return "OrderItem{" +
-                "cust_order_id='" + cust_order_id + '\'' +
-                ", factory_log='" + factory_log + '\'' +
-                ", factory_name='" + factory_name + '\'' +
-                ", product_name='" + product_name + '\'' +
-                ", product_price=" + product_price +
-                ", order_amount=" + order_amount +
-                '}';
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(cust_order_id);
+        dest.writeString(factory_log);
+        dest.writeString(factory_name);
+        dest.writeString(product_name);
+        dest.writeFloat(product_price);
+        dest.writeInt(order_amount);
+    }
+    protected OrderItem(Parcel in) {
+        cust_order_id = in.readString();
+        factory_log = in.readString();
+        factory_name = in.readString();
+        product_name = in.readString();
+        product_price=in.readFloat();
+        order_amount = in.readInt();
+    }
+    public static final Creator<OrderItem> CREATOR = new Creator<OrderItem>() {
+        @Override
+        public OrderItem createFromParcel(Parcel in) {
+            return new OrderItem(in);
+        }
+
+        @Override
+        public OrderItem[] newArray(int size) {
+            return new OrderItem[size];
+        }
+    };
 }

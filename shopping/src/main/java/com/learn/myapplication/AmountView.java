@@ -121,7 +121,6 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
         }
     }
 
-
     public interface OnAmountChangeListener {
         void amountChangeListener(View view, int amount);
     }

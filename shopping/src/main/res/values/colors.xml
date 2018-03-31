@@ -5,8 +5,14 @@
     <color name="colorAccent">#FF4081</color>
     <color name="divider">#ffd2d2d2</color>
     <color name="title">#c6b1a7</color>
+    <color name="titlebackground">#b6d7e2</color>
     <color name="headicon">#f28299</color>
     <color name="clickbtn">#e79368</color>
     <color name="white">#ffffff</color>
     <color name="cover">#AF000000</color>
+    <color name="textblue">#7987d7</color>
+    <color name="notice">#ecdebf</color>
+    <color name="noticetext">#e9a207</color>
+    <color name="black">#000</color>
+    <color name="paytextcolor">#ae2a13</color>
 </resources>

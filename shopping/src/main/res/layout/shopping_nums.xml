@@ -13,38 +13,33 @@
             android:id="@+id/purchar_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:padding="@dimen/padding"
             android:layout_alignParentLeft="true"/>
         <TextView
-            android:id="@+id/purchar_text"
-            android:layout_width="wrap_content"
+            android:id="@+id/pop_mainname"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#000"
             android:layout_toRightOf="@id/purchar_img"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"/>
+            android:textSize="@dimen/bigtextsize"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/margin" />
         <TextView
-            android:id="@+id/dollar"
-            android:layout_width="wrap_content"
+            android:id="@+id/pop_subname"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#f14158"
-            android:text="￥"
-            android:padding="8dp"
-            android:textSize="12sp"
-            android:layout_below="@id/purchar_text"
             android:layout_toRightOf="@id/purchar_img"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_below="@id/pop_mainname"
+            android:textSize="@dimen/textsize"
+            android:textColor="@color/title"
+            android:padding="@dimen/padding" />
         <TextView
             android:id="@+id/purchar_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#f14158"
-            android:layout_toRightOf="@id/dollar"
-            android:layout_below="@id/purchar_text"
+            android:textSize="@dimen/textsize"
+            android:textColor="@color/colorAccent"
+            android:layout_toRightOf="@id/purchar_img"
+            android:layout_below="@id/pop_subname"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="13dp"/>
     </RelativeLayout>
@@ -62,22 +57,21 @@
             android:layout_height="wrap_content"
             android:text="数量："
             android:gravity="center"
-            android:textSize="12sp"
-            android:textColor="#000"
+            android:textSize="@dimen/textsize"
+            android:textColor="@color/black"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="7dp" />
+            android:padding="@dimen/padding" />
         <com.learn.myapplication.AmountView
             android:id="@+id/amountview"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/aview_height"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:padding="@dimen/padding"
             android:gravity="center"
-            app:btnWidth="26dp"
-            app:edWidth="43dp"
-            app:btnTxtSize="12sp"
-            app:txtSize="12sp"/>
+            app:btnWidth="@dimen/aview_btnwidth"
+            app:edWidth="@dimen/aview_edwidth"
+            app:btnTxtSize="@dimen/aview_textsize"
+            app:txtSize="@dimen/aview_textsize"/>
     </RelativeLayout>
 
     <ImageView
