@@ -23,7 +23,11 @@ android {
         }
     }
 }
-
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -41,4 +45,5 @@ dependencies {
     compile 'com.carson_ho:SearchLayout:1.0.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile(name:'paysdk-release-1.2.2', ext:'aar')//paysdk-release-1.2.2
 }
