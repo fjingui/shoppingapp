@@ -17,6 +17,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.base.bj.paysdk.utils.TrPay;
+import com.learn.myapplication.NoScrollViewPager;
+
 import java.util.ArrayList;
 
 
@@ -27,7 +30,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private RadioButton shopradio;
     private RadioButton carradio;
     private RadioButton accoradio;
-    private ViewPager framevp;
+    private NoScrollViewPager framevp;
     private MyFragmentPagerAdapter framePadapter;
     private ArrayList<Fragment> framelist=new ArrayList();
     private String cust_acct=null;
@@ -44,7 +47,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
          shopradio = (RadioButton) findViewById(R.id.shopradio);
          carradio = (RadioButton) findViewById(R.id.carradio);
         accoradio= (RadioButton) findViewById(R.id.accoradio);
-        framevp = (ViewPager) findViewById(R.id.framevp);
+        framevp = (NoScrollViewPager) findViewById(R.id.framevp);
         if(!networkinfo.isAvailable()){
             Toast.makeText(this,"网络不可用，请检查网络状态！",Toast.LENGTH_LONG).show();
         }
@@ -59,7 +62,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         framevp.setAdapter(framePadapter);
         framevp.setOffscreenPageLimit(1);
       //  framevp.setCurrentItem(3);
-
 
         radgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -160,12 +162,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             return super.instantiateItem(container, position);
         }
     }
-//    public void sendAcctBroadcast(){
-//        Intent loginintent = new Intent();
-//        loginintent.setAction("LOGIN_ACCT_ACTION");
-//        loginintent.putExtra("cust_acct",cust_acct);
-//        sendBroadcast(loginintent);
-//    }
 
     public String getCust_acct() {
         return cust_acct;

@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.widget.NestedScrollView;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -19,6 +22,7 @@ import com.hold.list.BottomHold;
 import com.hold.list.DetailTextHold;
 import com.hold.list.ImagesHold;
 import com.hold.list.LogoHold;
+import com.utils.list.GeneOrderId;
 import com.utils.list.HttpPostData;
 import com.utils.list.ParseJsonData;
 
@@ -28,7 +32,7 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailActivity extends Activity {
+public class DetailActivity extends AppCompatActivity {
 
     @ViewInject(R.id.bottommenu)
     private FrameLayout bottomlayout;
@@ -50,13 +54,26 @@ public class DetailActivity extends Activity {
     private String cust_acct;
     private List<OrderItem> orderlist = new ArrayList();
     private OrderItem orderitem;
-    //  private AmountView amountView;
+    private String shoptype="";
+    private String getorderid;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_detail);
+        Toolbar detailtoolbar = (Toolbar) findViewById(R.id.detailtoolbar);
+        setSupportActionBar(detailtoolbar);
         x.view().inject(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initData();
         setViews();
         setBtnClick();
@@ -83,16 +100,21 @@ public class DetailActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(cust_acct!=null) {
-                    parseOrderCar();
+                    getorderid=GeneOrderId.getOrderid();
                     if (bottomHold.getBtnflag() == 1) { //加入购物车
+                        shoptype="购物车";
+                        parseOrderCar();
                         HttpPostData.PostData(Global_Final.neworderpath, carorderjson);
                     }
                     if (bottomHold.getBtnflag() == 2) { //立即购买
+                        shoptype="待付款";
                         Intent intent = new Intent(BaseApplication.getContext(), OrderAcitvity.class);
                         orderitem=new OrderItem();
-                        orderitem.setOrder_amount(orderInfo.getOrder_amount());
+                        orderitem.setOrder_amount(bottomHold.getAview().getAmount());
+                        orderitem.setCust_order_id(getorderid);
                         orderitem.setFactory_log(seller.getFactory_log());
                         orderitem.setFactory_name(seller.getFactory_name());
+                        orderitem.setProduct_id(seller.getProduct_id());
                         orderitem.setProduct_name(seller.getProduct_name());
                         orderitem.setProduct_price(seller.getProduct_price());
                         orderlist.clear();
@@ -123,8 +145,9 @@ public class DetailActivity extends Activity {
     public void parseOrderCar(){
         orderInfo =new OrderInfo();
         orderInfo.setCust_acct(cust_acct );
+        orderInfo.setCust_order_id(getorderid);
         orderInfo.setProduct_id(seller.getProduct_id());
-        orderInfo.setOrder_status("购物车");
+        orderInfo.setOrder_status(shoptype);
         orderInfo.setOrder_amount(bottomHold.getAview().getAmount());
         orderInfo.setOrder_money(Math.round(seller.getProduct_price()* orderInfo.getOrder_amount()*100)/100);
         carorderjson= ParseJsonData.parseToJson(orderInfo);

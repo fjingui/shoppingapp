@@ -4,8 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -23,6 +26,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -82,12 +86,20 @@ public class LoginActivity extends AppCompatActivity  {
     private String mresult="false";
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Set up the login form.
         mPhoneView = (AutoCompleteTextView) findViewById(R.id.phone);
-
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -223,10 +235,13 @@ public class LoginActivity extends AppCompatActivity  {
 
         private final String mphone;
         private final String mPassword;
-
+        private ConnectivityManager connectservice;
+        private NetworkInfo networkinfo;
         UserLoginTask(String phone, String password) {
             mphone = phone;
             mPassword = password;
+            connectservice = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            networkinfo = connectservice.getActiveNetworkInfo();
         }
 
         @Override
@@ -253,7 +268,10 @@ public class LoginActivity extends AppCompatActivity  {
                     setResult(1,loginacct);
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
                     finish();
-            } else {
+            } else if(!networkinfo.isAvailable()){
+                mPasswordView.setError(getString(R.string.error_incorrect2));
+            }
+            else {
                 mPasswordView.setError(getString(R.string.error_incorrect));
                 mPasswordView.requestFocus();
             }

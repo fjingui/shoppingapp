@@ -161,6 +161,7 @@
                 android:src="@drawable/smalldiv_line" />
 
             <Button
+                android:id="@+id/backlogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

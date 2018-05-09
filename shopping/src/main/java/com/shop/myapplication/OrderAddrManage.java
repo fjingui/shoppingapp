@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -26,10 +27,19 @@ public class OrderAddrManage extends AppCompatActivity {
     private Button saveaddr;
     private String newcustjson;
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_order_addr_manage);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("新增收货地址");
         addrname= (EditText) findViewById(R.id.newaddrnmae);
         addrphone= (EditText) findViewById(R.id.newaddrphone);
         addrdetail= (EditText) findViewById(R.id.newaddrdetail);

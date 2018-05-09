@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -32,13 +34,24 @@ public class MyAllOrders extends AppCompatActivity {
     private List<OrderItem> allorderlist=new ArrayList<>();
     public AllOrderAdapter allorderdata= new AllOrderAdapter();
     private String cust_acct;
+    private TextView emptydata;
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_my_all_orders);
-       // this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Toolbar myallorderbar = (Toolbar) findViewById(R.id.myorderbar);
+        setSupportActionBar(myallorderbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        emptydata= (TextView) findViewById(R.id.ordersempty);
         allordersrecycl= (RecyclerView) findViewById(R.id.allorders);
         allordersrecycl.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         cust_acct=getIntent().getStringExtra("cust_acct");
@@ -46,6 +59,7 @@ public class MyAllOrders extends AppCompatActivity {
         allordersrecycl.setAdapter(allorderdata);
     }
     public void initData(){
+        emptydata.setVisibility(View.GONE);
         new Thread(){
             @Override
             public void run() {
@@ -75,6 +89,10 @@ public class MyAllOrders extends AppCompatActivity {
             @Override
             public void onSuccess(String result) {
                 parseOrderData(result);
+                if(allorderlist.isEmpty()){
+                    emptydata.setText("暂无数据！");
+                    emptydata.setVisibility(View.VISIBLE);
+                }
 
             }
 

@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/myorderbar"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="#b6d7e2"
-        app:title="新增收货地址" />
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/myorderbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="52dp"-->
+        <!--android:background="#b6d7e2"-->
+        <!--app:title="新增收货地址" />-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp">

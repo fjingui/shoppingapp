@@ -15,7 +15,7 @@
     <dimen name="smallheight">40dp</dimen>
     <dimen name="searchheight">50dp</dimen>
     <dimen name="divider">6dp</dimen>
-    <dimen name="viewpager">300dp</dimen>
+    <dimen name="viewpager">200dp</dimen>
     <dimen name="itemheight">200dp</dimen>
     <dimen name="logoheight">100dp</dimen>
     <dimen name="loginbtnheight">20dp</dimen>
@@ -24,4 +24,5 @@
     <dimen name="aview_edwidth">39dp</dimen>
     <dimen name="aview_textsize">12sp</dimen>
     <dimen name="aview_height">28dp</dimen>
+    <dimen name="aview_heightbig">33dp</dimen>
 </resources>

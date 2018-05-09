@@ -3,6 +3,8 @@ package com.bean.list;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/9/2 0002.
  */
@@ -11,13 +13,14 @@ public class OrderItem implements Parcelable{
     private String cust_order_id;
     private String factory_log;
     private String factory_name;
+    private int product_id;
     private String product_name;
     private Float product_price;
     private int order_amount;
 
     public OrderItem(){
-
     }
+
     public String getCust_order_id() {
         return cust_order_id;
     }
@@ -66,6 +69,14 @@ public class OrderItem implements Parcelable{
         this.product_price = product_price;
     }
 
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -79,6 +90,7 @@ public class OrderItem implements Parcelable{
         dest.writeString(product_name);
         dest.writeFloat(product_price);
         dest.writeInt(order_amount);
+        dest.writeInt(product_id);
     }
     protected OrderItem(Parcel in) {
         cust_order_id = in.readString();
@@ -87,6 +99,7 @@ public class OrderItem implements Parcelable{
         product_name = in.readString();
         product_price=in.readFloat();
         order_amount = in.readInt();
+        product_id=in.readInt();
     }
     public static final Creator<OrderItem> CREATOR = new Creator<OrderItem>() {
         @Override

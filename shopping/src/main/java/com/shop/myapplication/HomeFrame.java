@@ -69,6 +69,9 @@ public class HomeFrame extends Fragment {
     private FrameLayout stateview;
     private View mainlayout;
     private String cust_acct;
+    private LoadStateView loaddatastate=new LoadStateView();
+    private String sellerstate;
+    private String importstate;
     private GetDataFromServer getimagespath;
     private GetDataFromServer allseller;
     private GetDataFromServer importsell;
@@ -97,7 +100,7 @@ public class HomeFrame extends Fragment {
             }
         });
 
-        LoadStateView.getFreshbtn().setOnClickListener(new View.OnClickListener() {
+        loaddatastate.getFreshbtn().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stateview.removeAllViews();
@@ -129,6 +132,7 @@ public class HomeFrame extends Fragment {
             }
             if( msg.what==1){
                 shoplist= ParseJsonData.parseFromJson(allseller.getGetresult(),Seller[].class);
+                sellerstate=allseller.getState();
                 salelist.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
                 salerva=new RecyclerViewAdapter(shoplist);
                 salelist.setAdapter(salerva);
@@ -146,6 +150,7 @@ public class HomeFrame extends Fragment {
                 }
             if(msg.what==2){
                 importseller= ParseJsonData.parseFromJson(importsell.getGetresult(),Seller[].class);
+                importstate=importsell.getState();
                 importlist.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
                 importlist.setAdapter(importva);
                 importva.setIclistener(new ItemClickListener() {
@@ -159,7 +164,7 @@ public class HomeFrame extends Fragment {
                 });
             }
 
-            if(!importseller.isEmpty() && !shoplist.isEmpty()){
+            if(sellerstate=="success" && importstate=="success"){
                 stateview.removeAllViews();
                 mainlayout.setVisibility(View.VISIBLE);
             }
@@ -239,8 +244,8 @@ public class HomeFrame extends Fragment {
         }).start();
         mainlayout.setVisibility(View.GONE);
         stateview.removeAllViews();
-        RemoveParent.removeParent(LoadStateView.showLoading(true));
-        stateview.addView(LoadStateView.showLoading(true));
+        RemoveParent.removeParent(loaddatastate.showLoading(true));
+        stateview.addView(loaddatastate.showLoading(true));
     }
         class MyPagerAdapter extends PagerAdapter {
 

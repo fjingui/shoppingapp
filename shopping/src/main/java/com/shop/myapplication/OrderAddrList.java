@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,10 +38,19 @@ public class OrderAddrList extends AppCompatActivity {
     private String cust_acct;
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_order_addr_list);
+        getSupportActionBar().setTitle("收货地址管理");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addrmanagerecy = (RecyclerView) findViewById(R.id.allorderaddr);
         newaddrbtn = (Button) findViewById(R.id.neworderaddr);
         addrmanagerecy.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

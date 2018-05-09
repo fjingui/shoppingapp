@@ -47,7 +47,8 @@ public class LimitFocus extends Fragment {
     private FocusAdapter focusadapter;
     private RecyclerView preciousrv;
     private String cust_acct;
-    private View focuslayout;
+    private LoadStateView loaddatastate=new LoadStateView();
+    private String requeststate;
     private GetDataFromServer preciouspath;
     private FrameLayout loadstate;
 
@@ -62,7 +63,6 @@ public class LimitFocus extends Fragment {
         View focusframe = View.inflate(getActivity(), R.layout.fragment_focus,null);
         preciousrv = (RecyclerView) focusframe.findViewById(R.id.recyview);
         loadstate = (FrameLayout) focusframe.findViewById(R.id.preciousload);
-        focuslayout=focusframe.findViewById(R.id.focuslayout);
         cust_acct=((MainActivity)getActivity()).getCust_acct();
         initData();
         return focusframe;
@@ -72,6 +72,7 @@ private Handler prechandler=new Handler(){
     public void handleMessage(Message msg) {
         if(msg.what==1){
             limitlist= ParseJsonData.parseFromJson(preciouspath.getGetresult(),Seller[].class);
+            requeststate=preciouspath.getState();
             preciousrv.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
             focusadapter=new FocusAdapter();
             focusadapter.setFocusitemclnlsn(new FocusItemClickListen() {
@@ -87,9 +88,8 @@ private Handler prechandler=new Handler(){
             SpaceItem space = new SpaceItem(16);
             preciousrv.addItemDecoration(space);
         }
-        if(!limitlist.isEmpty()){
-//            loadstate.removeAllViews();
-            focuslayout.setVisibility(View.VISIBLE);
+        if(requeststate=="success"){
+           loadstate.removeAllViews();
         }
     }
 };
@@ -110,41 +110,10 @@ private Handler prechandler=new Handler(){
                 preciouspath.getData(Global_Final.limitsellerpath);
         }
         }.start();
-        focuslayout.setVisibility(View.GONE);
-//        loadstate.removeAllViews();
-//        RemoveParent.removeParent(LoadStateView.showLoading(true));
-//        loadstate.addView(LoadStateView.showLoading(true));
+        loadstate.removeAllViews();
+        RemoveParent.removeParent(loaddatastate.showLoading(true));
+        loadstate.addView(loaddatastate.showLoading(true));
     }
-//    public void getImgFromServer() {
-//
-//               RequestParams facimgpara = new RequestParams(Global_Final.limitsellerpath);
-//               x.http().post(facimgpara, new Callback.CommonCallback<String>() {
-//                   @Override
-//                   public void onCancelled(CancelledException cex) {
-//
-//                   }
-//
-//                   @Override
-//                   public void onSuccess(String result) {
-//                       parseJson(result);
-//
-//                   }
-//
-//                   @Override
-//                   public void onError(Throwable ex, boolean isOnCallback) {
-//
-//                   }
-//
-//                   @Override
-//                   public void onFinished() {
-//
-//                   }
-//       });
-//    }
-//    public void parseJson(String json) {
-//        Gson focusjson= new Gson();
-//        limitlist=focusjson.fromJson(json,new TypeToken<List<Seller>>(){}.getType());
-//    }
     public class  FocusHold extends RecyclerView.ViewHolder {
         ImageView iview;
         TextView tview;

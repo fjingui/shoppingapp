@@ -26,6 +26,8 @@ public class GetDataFromServer {
     private Handler loaddatahandler;
     private int mes;
     private String getresult;
+    private String state;
+    private LoadStateView loaddatastate=new LoadStateView();
     private RequestParams param=new RequestParams();
 
     public GetDataFromServer(Handler loaddatahandler, FrameLayout loadprogress, int mes) {
@@ -33,6 +35,11 @@ public class GetDataFromServer {
         this.loadprogress = loadprogress;
         this.mes = mes;
     }
+
+    public String getState() {
+        return state;
+    }
+
     public String getGetresult() {
         return getresult;
     }
@@ -49,20 +56,23 @@ public class GetDataFromServer {
         x.http().get(param, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
+                        state="success";
                         getresult=result;
                         loaddatahandler.sendEmptyMessage(mes);
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
+                        state="error";
                         loadprogress.removeAllViews();
-                        loadprogress.addView(LoadStateView.showLoadFail(true));
+                        loadprogress.addView(loaddatastate.showLoadFail(true));
                     }
 
                     @Override
                     public void onCancelled(CancelledException cex) {
+                        state="cancel";
                         loadprogress.removeAllViews();
-                        loadprogress.addView(LoadStateView.showLoadFail(true));
+                        loadprogress.addView(loaddatastate.showLoadFail(true));
                     }
 
                     @Override

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">农家购</string>
     <string name="orcdercartitle">农家特色专卖</string>
+    <string name="dpayorder">待付款订单</string>
     <string name="itemtitle1">莴笋咸菜</string>
     <string name="title_activity_order">确认订单</string>
     <string name="title1">今日推荐</string>
@@ -88,6 +89,7 @@
     <string name="title_activity_test_action_bar">TestActionBar</string>
     <string name="title_activity_order_car">购物车</string>
     <string name="title_activity_login">农家购</string>
+    <string name="title_detail_activity">农家购</string>
 
     <string name="querytext">输入查询关键字</string>
 
@@ -102,6 +104,7 @@
     <string name="password_field_required">密码不能为空</string>
     <string name="phone_field_required">手机号不能为空</string>
     <string name="error_incorrect">手机号或密码不正确</string>
+    <string name="error_incorrect2">网络不可用，请检查网络状态！</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>

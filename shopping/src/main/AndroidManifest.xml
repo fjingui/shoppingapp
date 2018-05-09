@@ -17,7 +17,7 @@
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/shop_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -30,7 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity" />
+        <activity android:name=".DetailActivity"
+            android:label="@string/title_detail_activity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".OrderAcitvity"
             android:label="@string/title_activity_order_acitvity"
@@ -40,21 +42,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shop.myapplication.DetailActivity" />
         </activity>
-
-        <!-- <receiver android:name="com.learn.myapplication.LoginBroadReceiver"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="LOGIN_ACCT_ACTION"/> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
-
-        <activity android:name=".MyAllOrders" />
-        <activity android:name=".OrderAddrList" />
+        <activity android:name=".MyAllOrders"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".OrderAddrList"
+            android:theme="@style/AppTheme2"/>
         <activity android:name=".OrderAddrManage" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".JumpToActivity" />
-        <activity android:name=".SearchListActivity"></activity>
+        <activity android:name=".SearchListActivity" />
+        <activity android:name=".DpayActivity"></activity>
     </application>
 
 </manifest>

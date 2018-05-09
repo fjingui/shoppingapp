@@ -65,22 +65,21 @@ public class OrderCarFrame extends Fragment {
     private Button checkeditems;
     private OrderAdapter orderdata;
     private List<OrderItem> orderlist = new ArrayList();
+    private ArrayList<OrderItem> payorders=new ArrayList<OrderItem>();
     private CustInfo custaddr=new CustInfo();
     private String orderid=null;
     private float checkedprice=0;
     private int checkednums=0;
     private String cust_acct;
-    private View mainview;
-    private FrameLayout loaddata;
+    private TextView emptydata;
     private GetDataFromServer getcarorderlist;
     private GetDataFromServer gercustaddr;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View carorder = View.inflate(BaseApplication.getContext(), R.layout.order_car_view, null);
-        mainview=carorder.findViewById(R.id.ordercar);
         orderitems= (RecyclerView) carorder.findViewById(R.id.orderitems);
-       // loaddata= (FrameLayout) carorder.findViewById(R.id.ordercardata);
+        emptydata= (TextView) carorder.findViewById(R.id.emptyText);
         allchecked= (CheckBox) carorder.findViewById(R.id.allchecked);
         alldel = (TextView) carorder.findViewById(R.id.alldel);
         itemcheckedpri= (TextView) carorder.findViewById(R.id.itemcheckedpri);
@@ -88,7 +87,6 @@ public class OrderCarFrame extends Fragment {
         if(cust_acct==null) {
             cust_acct = ((MainActivity) getActivity()).getCust_acct();
         }
-        Toolbar toolbar = (Toolbar) carorder.findViewById(R.id.ordertoolbar);
 
         allchecked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -105,18 +103,12 @@ public class OrderCarFrame extends Fragment {
         alldel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                delOrderFromServer(Global_Final.deleteallorder,orderid,cust_acct);
+                delOrderFromServer(Global_Final.deleteallorder, orderid,cust_acct);
                 SystemClock.sleep(300);
                 initDataFromServer();
             }
         });
-        LoadStateView.getFreshbtn().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loaddata.removeAllViews();
-                initDataFromServer();
-            }
-        });
+
         checkeditems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,8 +118,8 @@ public class OrderCarFrame extends Fragment {
                 }else {
                     Intent intent = new Intent(getActivity(),OrderAcitvity.class);
                     intent.putExtra("cust_acct",cust_acct);
-                    ArrayList<OrderItem> orderlist2= new ArrayList<OrderItem>(orderlist);
-                    intent.putParcelableArrayListExtra("orderlist", orderlist2);
+                   // ArrayList<OrderItem> orderlist2= new ArrayList<OrderItem>(orderlist);
+                    intent.putParcelableArrayListExtra("orderlist", payorders);
                     startActivity(intent);
                 }
             }
@@ -135,7 +127,6 @@ public class OrderCarFrame extends Fragment {
         initDataFromServer();
         return carorder;
     }
-
 
     private Handler loadcardata=new Handler(){
     @Override
@@ -166,19 +157,24 @@ public class OrderCarFrame extends Fragment {
         if(msg.what==2){
             custaddr= (CustInfo) ParseJsonData.parseObjectJson(gercustaddr.getGetresult(),CustInfo.class);
         }
-        if(!orderlist.isEmpty()){
-            mainview.setVisibility(View.VISIBLE);
+        if(orderlist.isEmpty()){
+            emptydata.setText("暂无数据!");
+            emptydata.setVisibility(View.VISIBLE);
         }
     }
 };
     private Handler checkedhandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
+            payorders.clear();
+            checkednums=0;
+            checkedprice=0;
             for (int i=0;i<orderitems.getLayoutManager().getChildCount();i++){
                 CheckBox radbtn= (CheckBox) orderitems.getLayoutManager().getChildAt(i).findViewById(R.id.itemclick);
                 AmountView itemamount = (AmountView) orderitems.getLayoutManager().getChildAt(i).findViewById(R.id.itemamount);
                 orderlist.get(i).setOrder_amount(itemamount.getAmount());
                 if (radbtn.isChecked()){
+                    payorders.add(orderlist.get(i));
                     Float itemprice=orderlist.get(i).getProduct_price();
                     int nums=itemamount.getAmount();
                     checkedprice+=itemprice*nums;
@@ -194,7 +190,7 @@ public class OrderCarFrame extends Fragment {
     };
 
     public void initDataFromServer(){
-        getcarorderlist=new GetDataFromServer(loadcardata,loaddata,1);
+        getcarorderlist=new GetDataFromServer(loadcardata,null,1);
         getcarorderlist.setParam(cust_acct);
         getcarorderlist.setParam2("购物车");
         new Thread(new Runnable() {
@@ -203,7 +199,7 @@ public class OrderCarFrame extends Fragment {
                 getcarorderlist.getData(Global_Final.requestorderpath);
             }
         }).start();
-        gercustaddr=new GetDataFromServer(loadcardata,loaddata,2);
+        gercustaddr=new GetDataFromServer(loadcardata,null,2);
         gercustaddr.setParam(cust_acct);
         new Thread(new Runnable() {
             @Override
@@ -211,12 +207,12 @@ public class OrderCarFrame extends Fragment {
                 gercustaddr.getData(Global_Final.requestcustpath);
             }
         }).start();
-        mainview.setVisibility(View.GONE);
+        emptydata.setVisibility(View.GONE);
     }
 
     public void delOrderFromServer(String delPath, String orderid,String cust_acct){
         RequestParams delorderparm=new RequestParams(delPath);
-        delorderparm.addQueryStringParameter("orderid",orderid);
+        delorderparm.addQueryStringParameter("orderid", orderid);
         delorderparm.addQueryStringParameter("cust_acct",cust_acct);
         x.http().post(delorderparm,new Callback.CommonCallback<String>(){
             @Override

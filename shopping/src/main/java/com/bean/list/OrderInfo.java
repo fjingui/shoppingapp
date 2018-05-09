@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class OrderInfo implements Serializable{
     private String cust_acct;
+    private String cust_order_id;
     private int product_id;
     private String order_status;
     private int order_amount;
@@ -51,5 +52,13 @@ public class OrderInfo implements Serializable{
 
     public void setOrder_money(float order_money) {
         this.order_money = order_money;
+    }
+
+    public String getCust_order_id() {
+        return cust_order_id;
+    }
+
+    public void setCust_order_id(String cust_order_id) {
+        this.cust_order_id = cust_order_id;
     }
 }
