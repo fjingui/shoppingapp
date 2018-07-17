@@ -109,8 +109,7 @@ public class BottomHold implements View.OnClickListener {
         popsubname.setText(seller.getProduct_name());
         purprice.setText(seller.getProduct_price()+seller.getPrice_unit());
 
-
-        PopupWindow popWin = new PopupWindow(shopnums, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT){
+        PopupWindow popWin = new PopupWindow(shopnums, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT){
             @Override
             public void dismiss() {
                 coverView.setVisibility(View.GONE);

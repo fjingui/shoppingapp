@@ -5,20 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bean.list.Product_Images;
 import com.bean.list.Seller;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.shop.myapplication.BaseApplication;
 import com.shop.myapplication.R;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/8.
@@ -74,7 +67,7 @@ public class ImagesHold {
 
         @Override
         public void onBindViewHolder(RecyViewHold holder, int position) {
-            x.image().bind(holder.rvim,seller.getPro_imgs().get(position).getPro_Img_Addr(),
+            x.image().bind(holder.rvim,seller.getPro_imgs().get(position).getPro_img_addr(),
                     new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                             .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)
                             .setUseMemCache(true).build());

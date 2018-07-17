@@ -13,6 +13,7 @@
     <color name="textblue">#7987d7</color>
     <color name="notice">#ecdebf</color>
     <color name="noticetext">#e9a207</color>
+    <color name="hint">#cccbcb</color>
     <color name="black">#000</color>
     <color name="paytextcolor">#ae2a13</color>
 </resources>

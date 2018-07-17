@@ -63,7 +63,7 @@ public class OrderAddrManage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"收货地址不能为空",Toast.LENGTH_SHORT).show();
                 } else {
                     newCustInfo("18956662004",addrname.getText().toString(),addrphone.getText().toString(),addrselect.getText().toString()+addrdetail.getText().toString());
-                    HttpPostData.PostData(Global_Final.newcustpath,newcustjson);
+                    new HttpPostData().PostData(Global_Final.newcustpath,newcustjson);
                     finish();
                 }
             }

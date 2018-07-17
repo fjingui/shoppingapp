@@ -9,11 +9,16 @@
     <string name="delbtn">全部删除</string>
     <string name="allbtn">全选</string>
     <string name="loadfail">数据加载失败，请检查网络状态！</string>
+    <string name="upfail">抱歉，数据上传失败，点击刷新按钮重试！</string>
     <string name="freshbtn">点我刷新数据</string>
+    <string name="upagain">再试一次</string>
     <string name="loginbtn">点击登录</string>
     <string name="proaddr">产地:</string>
     <string name="prodesc">详情:</string>
     <string name="acc_nbr">请输入手机号</string>
+    <string name="saleacct">账户金额</string>
+    <string name="chrgdetail">收支明细</string>
+    <string name="exchgdetail">交易明细</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
@@ -108,4 +113,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_sale_acct_detail">账户中心</string>
+    <string name="title_activity_act_test">ActTest</string>
 </resources>

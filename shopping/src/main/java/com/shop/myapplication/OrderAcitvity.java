@@ -174,7 +174,7 @@ public void setOrderMonety(){
             Toast.makeText(getApplicationContext(), "联系电话不能为空", Toast.LENGTH_SHORT).show();
         } else {
             resetCustInfo();
-            HttpPostData.PostData(Global_Final.newcustpath, custinfojson);
+            new HttpPostData().PostData(Global_Final.newcustpath, custinfojson);
             TrPay.getInstance(OrderAcitvity.this).callPay(tradename, outtradeno, amount, backparams, notifyurl, userid, new PayResultListener() {
                 @Override
                 public void onPayFinish(Context context, String outtradeno, int resultCode, String resultString, int payType, Long amount, String tradename) {
@@ -183,7 +183,7 @@ public void setOrderMonety(){
                         for (int i = 0; i < orderlist.size(); i++) {
                             String str1 = "已付款";
                             setOrderInfo(orderlist.get(i), str1);
-                            HttpPostData.PostData(Global_Final.neworderpath, orderinfojson);
+                            new HttpPostData().PostData(Global_Final.neworderpath, orderinfojson);
                         }
                         Toast.makeText(OrderAcitvity.this, "支付成功，等待商家发货", Toast.LENGTH_LONG).show();
                         //支付成功逻辑处理
@@ -191,7 +191,7 @@ public void setOrderMonety(){
                         for (int i = 0; i < orderlist.size(); i++) {
                             String str2 = "待付款";
                             setOrderInfo(orderlist.get(i), str2);
-                            HttpPostData.PostData(Global_Final.neworderpath, orderinfojson);
+                            new HttpPostData().PostData(Global_Final.neworderpath, orderinfojson);
 
                             Toast.makeText(OrderAcitvity.this, "支付失败，请稍后重新尝试", Toast.LENGTH_LONG).show();
                             //支付失败逻辑处理

@@ -8,7 +8,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- the following two permissions are required if you want to take photo in selector -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -30,9 +33,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity"
+        <activity
+            android:name=".DetailActivity"
             android:label="@string/title_detail_activity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OrderAcitvity"
             android:label="@string/title_activity_order_acitvity"
@@ -42,17 +46,29 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.shop.myapplication.DetailActivity" />
         </activity>
-        <activity android:name=".MyAllOrders"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".OrderAddrList"
-            android:theme="@style/AppTheme2"/>
+        <activity
+            android:name=".MyAllOrders"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OrderAddrList"
+            android:theme="@style/AppTheme2" />
         <activity android:name=".OrderAddrManage" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
+        <activity
+            android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".JumpToActivity" />
+        <activity android:name=".SearchActivity" />
         <activity android:name=".SearchListActivity" />
-        <activity android:name=".DpayActivity"></activity>
+        <activity android:name=".DpayActivity" />
+        <activity android:name=".PublishResult" />
+        <activity android:name=".SaleAcctDetailActivity"
+            android:label="账户中心"
+            android:theme="@style/AppTheme3"/>
+        <activity android:name=".ChargeDetail"
+            android:label="收支明细"></activity>
     </application>
 
 </manifest>

@@ -104,7 +104,7 @@ public class DetailActivity extends AppCompatActivity {
                     if (bottomHold.getBtnflag() == 1) { //加入购物车
                         shoptype="购物车";
                         parseOrderCar();
-                        HttpPostData.PostData(Global_Final.neworderpath, carorderjson);
+                        new HttpPostData().PostData(Global_Final.neworderpath, carorderjson);
                     }
                     if (bottomHold.getBtnflag() == 2) { //立即购买
                         shoptype="待付款";

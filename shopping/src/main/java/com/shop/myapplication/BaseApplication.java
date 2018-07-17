@@ -3,6 +3,8 @@ package com.shop.myapplication;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import org.xutils.x;
 
 /**
@@ -22,5 +24,7 @@ public class BaseApplication extends Application {
 //        xUtils3.0初始化
         x.Ext.init(this);
         mcontext=getApplicationContext();
+//        the following line is important
+        Fresco.initialize(getApplicationContext());
     }
 }

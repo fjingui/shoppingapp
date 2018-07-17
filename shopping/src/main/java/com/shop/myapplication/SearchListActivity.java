@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -34,66 +35,72 @@ import scut.carson_ho.searchview.bCallBack;
 public class SearchListActivity extends AppCompatActivity {
 
     private RecyclerView searchlist;
-    private SearchView keysearch;
     private List<Seller> keylist=new ArrayList();
     private SaleRVAdapter listadapter=new SaleRVAdapter();
     private String cust_acct;
+    private String searchKey;
+    private TextView searchhint;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_search_list);
-        keysearch = (SearchView) findViewById(R.id.keysearch);
         searchlist= (RecyclerView) findViewById(R.id.searchlist);
-        Intent intent = getIntent();
-        cust_acct=intent.getStringExtra("cust_acct");
-        searchlist.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        searchlist.setAdapter(listadapter);
+        searchhint= (TextView) findViewById(R.id.searchDataHint);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initData();
 
-        keysearch.setOnClickSearch(new ICallBack() {
-            @Override
-            public void SearchAciton(String string) {
-                Message msg = Message.obtain();
-                msg.obj=string;
-                keyhandler.sendMessage(msg);
-
-            }
-        });
-        keysearch.setOnClickBack(new bCallBack() {
-            @Override
-            public void BackAciton() {
-                finish();
-            }
-        });
+    }
+    public void initData(){
+        cust_acct=getIntent().getStringExtra("cust_acct");
+        searchKey=getIntent().getStringExtra("searchkey");
+        getDataFromServer(searchKey);
     }
     private Handler keyhandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            String str = (String) msg.obj;
-            getDataFromServer(str);
-            SystemClock.sleep(1000);
-            if(keylist!=null){
-                listadapter.notifyDataSetChanged();
+            searchhint.setVisibility(View.GONE);
+           if(msg.what==1 ){
+               if(keylist.size()>0) {
+                   searchlist.setLayoutManager(new LinearLayoutManager(SearchListActivity.this, LinearLayoutManager.VERTICAL, false));
+                   searchlist.setAdapter(listadapter);
+               }else{
+                   searchhint.setText("没有匹配的搜索结果！");
+                   searchhint.setVisibility(View.VISIBLE);
+               }
+           }
+            if(msg.what==2){
+                searchhint.setText("错误或网络异常！");
             }
         }
     };
 
     public void getDataFromServer(String str) {
         RequestParams param = new RequestParams(Global_Final.sellerpath);
-        param.addQueryStringParameter("proname",str);
+        param.addQueryStringParameter("proname",searchKey);
         x.http().get(param, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         gsonParse(result);
+                        keyhandler.sendEmptyMessage(1);
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
+                        keyhandler.sendEmptyMessage(2);
                     }
 
                     @Override
                     public void onCancelled(CancelledException cex) {
-
+                        keyhandler.sendEmptyMessage(2);
                     }
 
                     @Override

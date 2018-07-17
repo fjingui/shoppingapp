@@ -6,12 +6,14 @@ import java.io.Serializable;
  * Created by Administrator on 2017/9/5 0005.
  */
 
-public class ProductInfo implements Serializable{
+public class Product implements Serializable{
     private int product_id;
     private String product_name;
     private Float product_price;
     private String price_unit;
-    private String product_desc;
+    private String product_desc ;
+    private String sale_state;
+    private int factory_id;
 
     public int getProduct_id() {
         return product_id;
@@ -51,5 +53,21 @@ public class ProductInfo implements Serializable{
 
     public void setProduct_desc(String product_desc) {
         this.product_desc = product_desc;
+    }
+
+    public String getSale_state() {
+        return sale_state;
+    }
+
+    public void setSale_state(String sale_state) {
+        this.sale_state = sale_state;
+    }
+
+    public int getFactory_id() {
+        return factory_id;
+    }
+
+    public void setFactory_id(int factory_id) {
+        this.factory_id = factory_id;
     }
 }

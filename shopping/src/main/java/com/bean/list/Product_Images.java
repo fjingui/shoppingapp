@@ -7,22 +7,41 @@ import java.io.Serializable;
  */
 
 public class Product_Images implements Serializable {
-    private String pro_Img_Addr;
-    private String pro_Img_Desc;
 
-    public String getPro_Img_Addr() {
-        return pro_Img_Addr;
+    private int product_id;
+    private int pro_img_id;
+    private String pro_img_addr;
+    private String pro_img_desc;
+
+    public int getProduct_id() {
+        return product_id;
     }
 
-    public void setPro_Img_Addr(String pro_Img_Addr) {
-        this.pro_Img_Addr = pro_Img_Addr;
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
     }
 
-    public String getPro_Img_Desc() {
-        return pro_Img_Desc;
+    public int getPro_img_id() {
+        return pro_img_id;
     }
 
-    public void setPro_Img_Desc(String pro_Img_Desc) {
-        this.pro_Img_Desc = pro_Img_Desc;
+    public void setPro_img_id(int pro_img_id) {
+        this.pro_img_id = pro_img_id;
+    }
+
+    public String getPro_img_addr() {
+        return pro_img_addr;
+    }
+
+    public void setPro_img_addr(String pro_img_addr) {
+        this.pro_img_addr = pro_img_addr;
+    }
+
+    public String getPro_img_desc() {
+        return pro_img_desc;
+    }
+
+    public void setPro_img_desc(String pro_img_desc) {
+        this.pro_img_desc = pro_img_desc;
     }
 }

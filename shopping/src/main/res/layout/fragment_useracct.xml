@@ -107,7 +107,37 @@
                 android:paddingLeft="@dimen/padding"
                 android:text="全部订单"
                 android:textSize="@dimen/textsize" />
-
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bigdiv_line" />
+            <Button
+                android:id="@+id/sale_acct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/orderaddr"
+                android:drawablePadding="@dimen/padding"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding"
+                android:text="我的账户"
+                android:textSize="@dimen/textsize"
+                android:drawableRight="@mipmap/rightsrrow" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bigdiv_line" />
+            <Button
+                android:id="@+id/sale_thing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/orderaddr"
+                android:drawablePadding="@dimen/padding"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding"
+                android:text="我卖的东西"
+                android:textSize="@dimen/textsize"/>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

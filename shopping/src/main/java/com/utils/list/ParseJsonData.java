@@ -22,7 +22,7 @@ public class  ParseJsonData {
         Gson gson = new Gson();
         return gson.toJson(k);
     }
-    public static <T>  Object parseObjectJson(String json,Class<T> cls){
+    public static <T>  T parseObjectJson(String json,Class<T> cls){
         Gson gson= new Gson();
         return gson.fromJson(json,cls);
     }

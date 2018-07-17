@@ -29,6 +29,8 @@ import java.util.List;
 public class UserAcct extends Fragment {
 
     private Button allorders;
+    private Button sale_thing;
+    private Button sale_acct;
     private Button orderaddrmanage;
     private Button headerbtn;
     private Button dfkbtn;
@@ -38,33 +40,36 @@ public class UserAcct extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View accview = View.inflate(getContext(), R.layout.fragment_useracct, null);
-        dfkbtn= (Button) accview.findViewById(R.id.btn_dfk);
+        dfkbtn = (Button) accview.findViewById(R.id.btn_dfk);
         allorders = (Button) accview.findViewById(R.id.allorder);
-        backlogin= (Button) accview.findViewById(R.id.backlogin);
-        orderaddrmanage= (Button) accview.findViewById(R.id.orderaddr_manage);
+        backlogin = (Button) accview.findViewById(R.id.backlogin);
+        orderaddrmanage = (Button) accview.findViewById(R.id.orderaddr_manage);
         headerbtn = (Button) accview.findViewById(R.id.headerbtn);
-        if(cust_acct==null) {
+        sale_thing = (Button) accview.findViewById(R.id.sale_thing);
+        sale_acct = (Button) accview.findViewById(R.id.sale_acct);
+
+        if (cust_acct == null) {
             cust_acct = ((MainActivity) getActivity()).getCust_acct();
         }
-        if(cust_acct!=null){
+        if (cust_acct != null) {
             headerbtn.setText(cust_acct);
         }
         dfkbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cust_acct ==null ){
+                if (cust_acct == null) {
                     JumpToActivity.jumpToLogin(getActivity(), new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct=JumpToActivity.cust_acct;
+                            cust_acct = JumpToActivity.cust_acct;
                             headerbtn.setText(cust_acct);
-                            ((MainActivity)getActivity()).setCust_acct(cust_acct);
+                            ((MainActivity) getActivity()).setCust_acct(cust_acct);
                             Intent intent = new Intent(getContext(), DpayActivity.class);
                             intent.putExtra("cust_acct", cust_acct);
                             startActivity(intent);
                         }
                     });
-                }else {
+                } else {
                     Intent intent = new Intent(getContext(), DpayActivity.class);
                     intent.putExtra("cust_acct", cust_acct);
                     startActivity(intent);
@@ -89,19 +94,19 @@ public class UserAcct extends Fragment {
         allorders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cust_acct ==null ){
+                if (cust_acct == null) {
                     JumpToActivity.jumpToLogin(getActivity(), new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct=JumpToActivity.cust_acct;
+                            cust_acct = JumpToActivity.cust_acct;
                             headerbtn.setText(cust_acct);
-                            ((MainActivity)getActivity()).setCust_acct(cust_acct);
+                            ((MainActivity) getActivity()).setCust_acct(cust_acct);
                             Intent intent = new Intent(getContext(), MyAllOrders.class);
                             intent.putExtra("cust_acct", cust_acct);
                             startActivity(intent);
                         }
                     });
-                }else {
+                } else {
                     Intent intent = new Intent(getContext(), MyAllOrders.class);
                     intent.putExtra("cust_acct", cust_acct);
                     startActivity(intent);
@@ -111,18 +116,18 @@ public class UserAcct extends Fragment {
         orderaddrmanage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cust_acct ==null ){
+                if (cust_acct == null) {
                     JumpToActivity.jumpToLogin(getActivity(), new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct=JumpToActivity.cust_acct;
-                            ((MainActivity)getActivity()).setCust_acct(cust_acct);
+                            cust_acct = JumpToActivity.cust_acct;
+                            ((MainActivity) getActivity()).setCust_acct(cust_acct);
                             Intent intent = new Intent(getContext(), OrderAddrList.class);
                             intent.putExtra("cust_acct", cust_acct);
                             startActivity(intent);
                         }
                     });
-                }else {
+                } else {
                     Intent intent = new Intent(getContext(), OrderAddrList.class);
                     intent.putExtra("cust_acct", cust_acct);
                     startActivity(intent);
@@ -132,12 +137,32 @@ public class UserAcct extends Fragment {
         backlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cust_acct="";
+                cust_acct = "";
                 ((MainActivity) getActivity()).setCust_acct("");
                 headerbtn.setText(R.string.loginbtn);
             }
         });
+        sale_acct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cust_acct ==null ){
+                    JumpToActivity.jumpToLogin(getActivity(), new JumpToActivity.LoginCallback() {
+                        @Override
+                        public void onlogin() {
+                            cust_acct=JumpToActivity.cust_acct;
+                            ((MainActivity)getActivity()).setCust_acct(cust_acct);
+                            Intent intent = new Intent(getContext(), SaleAcctDetailActivity.class);
+                            intent.putExtra("cust_acct", cust_acct);
+                            startActivity(intent);
+                        }
+                    });
+                }else {
+                    Intent intent = new Intent(getContext(), SaleAcctDetailActivity.class);
+                    intent.putExtra("cust_acct", cust_acct);
+                    startActivity(intent);
+                }
+            }
+        });
         return accview;
     }
-
 }

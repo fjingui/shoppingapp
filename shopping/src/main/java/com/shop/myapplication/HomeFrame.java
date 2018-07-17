@@ -93,7 +93,7 @@ public class HomeFrame extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
-                    Intent intent = new Intent(getActivity(), SearchListActivity.class);
+                    Intent intent = new Intent(getActivity(), SearchActivity.class);
                     intent.putExtra("cust_acct",cust_acct);
                     startActivity(intent);
                 }

@@ -36,6 +36,9 @@ public class GetDataFromServer {
         this.mes = mes;
     }
 
+    public GetDataFromServer() {
+    }
+
     public String getState() {
         return state;
     }
@@ -49,6 +52,32 @@ public class GetDataFromServer {
     }
     public void setParam2(String str){
         this.param.addQueryStringParameter("orderstatus",str);
+    }
+    public void setParam3(String proname){this.param.addQueryStringParameter("product_name",proname);}
+    public void setParam4(String facid){this.param.addQueryStringParameter("factory_id",facid);}
+    public void setParam5(int product_id){this.param.addQueryStringParameter("product_id",product_id+"");}
+    public void delData(String url){
+        param.setUri(url);
+        x.http().post(param, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                getresult=result;
+            }
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
     public void getData(String url){
         param.setUri(url);

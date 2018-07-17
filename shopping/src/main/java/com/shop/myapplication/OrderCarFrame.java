@@ -72,6 +72,7 @@ public class OrderCarFrame extends Fragment {
     private int checkednums=0;
     private String cust_acct;
     private TextView emptydata;
+    private View bottomoption;
     private GetDataFromServer getcarorderlist;
     private GetDataFromServer gercustaddr;
 
@@ -124,7 +125,7 @@ public class OrderCarFrame extends Fragment {
                 }
             }
         });
-        initDataFromServer();
+        if(cust_acct!=null){initDataFromServer();}
         return carorder;
     }
 
@@ -132,7 +133,9 @@ public class OrderCarFrame extends Fragment {
     @Override
     public void handleMessage(Message msg) {
         if(msg.what==1){
-            orderlist= ParseJsonData.parseFromJson(getcarorderlist.getGetresult(),OrderItem[].class) ;
+            if(getcarorderlist!=null) {
+                orderlist = ParseJsonData.parseFromJson(getcarorderlist.getGetresult(), OrderItem[].class);
+            }
             orderdata=new OrderAdapter();
             orderitems.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
             orderitems.setAdapter(orderdata);

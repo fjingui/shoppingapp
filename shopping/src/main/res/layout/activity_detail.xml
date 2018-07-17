@@ -62,7 +62,7 @@
                 android:id="@+id/bottommenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
+                android:layout_marginBottom="@dimen/bottom0">
             </FrameLayout>
         </LinearLayout>
 

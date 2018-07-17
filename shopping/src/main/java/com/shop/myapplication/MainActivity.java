@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
+    private View mainview;
     private RadioGroup radgroup;
     private RadioButton homeradio;
     private RadioButton shopradio;
@@ -42,19 +43,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_main);
         ConnectivityManager connectservice = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkinfo = connectservice.getActiveNetworkInfo();
+        mainview=findViewById(R.id.activity_main);
         radgroup = (RadioGroup) findViewById(R.id.radiogp);
          homeradio = (RadioButton) findViewById(R.id.homeradio);
          shopradio = (RadioButton) findViewById(R.id.shopradio);
          carradio = (RadioButton) findViewById(R.id.carradio);
         accoradio= (RadioButton) findViewById(R.id.accoradio);
         framevp = (NoScrollViewPager) findViewById(R.id.framevp);
-        if(!networkinfo.isAvailable()){
+        if(networkinfo == null ){
             Toast.makeText(this,"网络不可用，请检查网络状态！",Toast.LENGTH_LONG).show();
         }
         buttonClick();
 
         framelist.add(new HomeFrame());
-        framelist.add(new LimitFocus());
+        framelist.add(new SellThing());
         framelist.add(new OrderCarFrame());
         framelist.add(new UserAcct());
 
@@ -88,7 +90,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         });
     }
 
-   public void buttonClick(){
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainview.setFocusable(true);
+        mainview.setFocusableInTouchMode(true);
+        mainview.requestFocus();
+    }
+
+    public void buttonClick(){
         homeradio.setOnClickListener(this);
         shopradio.setOnClickListener(this);
         carradio.setOnClickListener(this);

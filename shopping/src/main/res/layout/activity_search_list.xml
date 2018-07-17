@@ -7,21 +7,18 @@
     android:layout_height="match_parent"
     tools:context="com.shop.myapplication.SearchListActivity">
 
-        <scut.carson_ho.searchview.SearchView
-            android:id="@+id/keysearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:textSizeSearch="10dp"
-            app:textColorSearch="#3F51B5"
-            app:textHintSearch="@string/querytext"
-            app:searchBlockHeight="80">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/searchDataHint"
+    android:textSize="@dimen/bigtextsize"
+    android:visibility="gone"/>
 
-        </scut.carson_ho.searchview.SearchView>
-
-        <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
             android:id="@+id/searchlist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin">
 
-        </android.support.v7.widget.RecyclerView>
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.shop.myapplication.SaleAcctDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemheight"
+        android:background="@color/textblue"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/bigtextsize"
+            android:textColor="@color/white"
+            android:text="@string/saleacct"
+            android:layout_marginTop="@dimen/bottom"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:id="@+id/acct_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textsize"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/margintop"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/chrgdetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/acctbtn"
+        android:drawableLeft="@mipmap/prepay"
+        android:text="@string/chrgdetail" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divider"/>
+    <Button
+        android:id="@+id/exchgdetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/acctbtn"
+        android:drawableLeft="@mipmap/prepay"
+        android:text="@string/exchgdetail" />
+</LinearLayout>

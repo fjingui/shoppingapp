@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">63dp</dimen>
     <dimen name="activity_vertical_margin">20dp</dimen>
     <dimen name="bottom">45dp</dimen>
+    <dimen name="bottom0">0dp</dimen>
     <dimen name="margintop">20dp</dimen>
     <dimen name="margin">6dp</dimen>
     <dimen name="padding">5dp</dimen>
