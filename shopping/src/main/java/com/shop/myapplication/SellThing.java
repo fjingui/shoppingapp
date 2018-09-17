@@ -22,6 +22,7 @@ import com.bean.list.Product_Images;
 import com.hold.list.LoadStateView;
 import com.utils.list.GetDataFromServer;
 import com.utils.list.HttpPostData;
+import com.utils.list.LoginUserAcct;
 import com.utils.list.ParseJsonData;
 import com.utils.list.RemoveParent;
 import com.zfdang.multiple_images_selector.ImagesSelectorActivity;
@@ -96,7 +97,7 @@ public class SellThing extends Fragment implements View.OnClickListener{
     private GetDataFromServer getprodata;
     private GetDataFromServer delfailpro;
     private GetDataFromServer delfailproimg;
-
+    private View errorView;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +109,7 @@ public class SellThing extends Fragment implements View.OnClickListener{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        cust_acct = ((MainActivity)getActivity()).getCust_acct();
+        cust_acct = LoginUserAcct.user.getCust_acct();
         if(cust_acct!=null){getFacData(INITTFAC);}
         seledimages.setOnClickListener(this);
         submitbtn.setOnClickListener(new View.OnClickListener() {
@@ -122,29 +123,46 @@ public class SellThing extends Fragment implements View.OnClickListener{
                         @Override
                         public void onlogin() {
                             cust_acct=JumpToActivity.cust_acct;
-                            ((MainActivity)getActivity()).setCust_acct(cust_acct);
                             getFacData(INITTFAC);
 
                         }
                     });
                 }else if(seller.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "称呼不能为空！", Toast.LENGTH_LONG).show();
+                    seller.setError("称呼不能为空！");
+                    errorView = seller;
+                    errorView.requestFocus();
                 }else if(selladdr.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "销售地址不能为空！", Toast.LENGTH_LONG).show();
+                    selladdr.setError("销售地址不能为空！");
+                    errorView = seller;
+                    errorView.requestFocus();
                 }else if(sellproduct.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "销售品不能为空！", Toast.LENGTH_LONG).show();
+                    sellproduct.setError("销售品不能为空！");
+                    errorView = seller;
+                    errorView.requestFocus();
                 }else if(sellformat.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "销售规格不能为空！", Toast.LENGTH_LONG).show();
+                    sellformat.setError("销售规格不能为空！");
+                    errorView = seller;
+                    errorView.requestFocus();
                 }else if(sellprice.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "销售价格不能为空！", Toast.LENGTH_LONG).show();
+                    sellprice.setError("销售价格不能为空！");
+                    errorView = seller;
+                    errorView.requestFocus();
                 }else if(sellamount.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "单价数量不能为空！", Toast.LENGTH_LONG).show();
+                    sellamount.setError("单价数量不能为空！");
+                    errorView = seller;
+                    errorView.requestFocus();
                 }else if(sellunit.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "数量单位不能为空！", Toast.LENGTH_LONG).show();
+                    sellunit.setError("数量单位不能为空！");
+                    errorView = seller;
+                    errorView.requestFocus();
                 }else if(selldesc.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "销售品描述不能为空！", Toast.LENGTH_LONG).show();
+                    selldesc.setError("销售品描述不能为空！");
+                    errorView = seller;
+                    errorView.requestFocus();
                 }else if(sellnbr.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "联系电话不能为空！", Toast.LENGTH_LONG).show();
+                    sellnbr.setError("联系电话不能为空！");
+                    errorView = seller;
+                    errorView.requestFocus();
                 }else {
                     getFacData(GETFAC);
                     salelayoutview.setVisibility(View.GONE);
@@ -173,11 +191,9 @@ public class SellThing extends Fragment implements View.OnClickListener{
     private Handler parsedatahandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-         //   upfailview.setVisibility(View.GONE);
             if (msg.what == INITTFAC) {
-                if(getfacdata.getGetresult()!=null) {
+                if(!getfacdata.getGetresult().equals("")) {
                     factory = ParseJsonData.parseObjectJson(getfacdata.getGetresult(), Factory.class);
-                    System.out.println("得到卖家"+factory.toString());
                     if (seller.getText().toString().equals("")) {
                         seller.setText(factory.getFactory_name());
                     }
@@ -231,7 +247,6 @@ public class SellThing extends Fragment implements View.OnClickListener{
                 upstateflout.addView(upstateview.showLoadFail(true));
                 upstateflout.setVisibility(View.VISIBLE);
             }
-            System.out.println("上传到"+upstep);
         }
     };
 
@@ -271,6 +286,7 @@ public class SellThing extends Fragment implements View.OnClickListener{
         product.setProduct_name(sellproduct.getText().toString());
         product.setProduct_price(Float.parseFloat(sellprice.getText().toString()) );
         product.setPrice_unit(sellunit.getText().toString());
+        product.setProduct_unit(sellformat.getText().toString());
         product.setProduct_desc(selldesc.getText().toString());
         product.setSale_state("待售");
         projson = ParseJsonData.parseToJson(product);
@@ -279,7 +295,6 @@ public class SellThing extends Fragment implements View.OnClickListener{
         pro_imgs.setProduct_id(product.getProduct_id());
         pro_imgs.setPro_img_addr(imgpath); //设置上传后图片路径
         proimgsjson = ParseJsonData.parseToJson(pro_imgs);
-        System.out.println(proimgsjson);
     }
     public void upFacData(){
         parseSellData();

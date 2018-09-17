@@ -52,8 +52,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MyRecyleViewHold> 
                         .setUseMemCache(true).build());
 
         holder.shopaddr.setText(salelist.get(position).getFactory_addr());
-        holder.shopdesc.setText(salelist.get(position).getComment());
-        holder.shopname.setText(salelist.get(position).getFactory_name());
+        holder.shopdesc.setText(salelist.get(position).getProduct_desc());
+        holder.shopname.setText(salelist.get(position).getProduct_name());
+        holder.facname.setText(salelist.get(position).getFactory_name());
         holder.shopprice.setText(salelist.get(position).getProduct_price() + salelist.get(position).getPrice_unit());
 
     }

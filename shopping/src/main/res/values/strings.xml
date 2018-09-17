@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">农家购</string>
-    <string name="orcdercartitle">农家特色专卖</string>
+    <string name="orcdercartitle">我想买</string>
     <string name="dpayorder">待付款订单</string>
     <string name="itemtitle1">莴笋咸菜</string>
     <string name="title_activity_order">确认订单</string>
@@ -118,4 +118,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_sale_acct_detail">账户中心</string>
     <string name="title_activity_act_test">ActTest</string>
+    <string name="title_activity_my_saled_thing">我卖的货</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

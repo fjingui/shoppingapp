@@ -13,6 +13,7 @@ public class OrderInfo implements Serializable{
     private String order_status;
     private int order_amount;
     private float order_money;
+    private String product_unit;
 
     public String getCust_acct() {
         return cust_acct;
@@ -60,5 +61,13 @@ public class OrderInfo implements Serializable{
 
     public void setCust_order_id(String cust_order_id) {
         this.cust_order_id = cust_order_id;
+    }
+
+    public String getProduct_unit() {
+        return product_unit;
+    }
+
+    public void setProduct_unit(String product_unit) {
+        this.product_unit = product_unit;
     }
 }

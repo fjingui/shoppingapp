@@ -1,266 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    <!--tools:context=".OrderAcitvity"-->
-    <!--tools:showIn="@layout/activity_order_acitvity">-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_height="wrap_content"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_order_acitvity"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/order_addr_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:layout_centerVertical="true"
-            android:background="@mipmap/orderaddr"
-            android:padding="@dimen/padding"/>
-        <LinearLayout
-            android:id="@+id/container_ordername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_toRightOf="@id/order_addr_img"
-            android:layout_marginLeft="@dimen/padding">
-            <TextView
-                android:id="@+id/order_name_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="收货人："
-                android:textSize="@dimen/textsize"/>
-            <EditText
-                android:id="@+id/order_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textsize"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/container_ordercontact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_toRightOf="@id/order_addr_img"
-            android:layout_below="@id/container_ordername"
-            android:layout_marginLeft="@dimen/padding">
-            <TextView
-                android:id="@+id/order_tel_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="联系电话："
-                android:textSize="@dimen/textsize"/>
-            <EditText
-                android:id="@+id/order_tel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:hint="@string/acc_nbr"
-                android:textSize="@dimen/textsize"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding"
-            android:orientation="horizontal"
-            android:layout_toRightOf="@id/order_addr_img"
-            android:layout_below="@id/container_ordercontact">
-            <TextView
-                android:id="@+id/order_addr_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="收货地址："
-                android:textSize="@dimen/textsize"/>
-            <EditText
-                android:id="@+id/order_addr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textsize"/>
-        </LinearLayout>
 
-    </RelativeLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bigdiv_line"/>
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-        <!--<ImageView-->
-            <!--android:id="@+id/order_pro_img"-->
-            <!--android:layout_width="@dimen/logoheight"-->
-            <!--android:layout_height="@dimen/logoheight"-->
-            <!--android:scaleType="center"-->
-            <!--android:padding="@dimen/padding" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/mainname"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toRightOf="@id/order_pro_img"-->
-            <!--android:textSize="@dimen/bigtextsize"-->
-            <!--android:textColor="@color/colorAccent"-->
-            <!--android:layout_marginTop="@dimen/margin" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/subname"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toRightOf="@id/order_pro_img"-->
-            <!--android:layout_below="@id/mainname"-->
-            <!--android:textSize="@dimen/textsize"-->
-            <!--android:textColor="@color/headicon"-->
-            <!--android:padding="@dimen/padding" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/order_pro_price"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toRightOf="@id/order_pro_img"-->
-            <!--android:layout_below="@id/subname"-->
-            <!--android:padding="@dimen/padding" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/order_pro_nums_label"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toRightOf="@id/order_pro_price"-->
-            <!--android:layout_below="@id/subname"-->
-            <!--android:padding="@dimen/padding"/>-->
-    <!--</RelativeLayout>-->
-
-    <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/bigdiv_line"/>-->
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/smallheight"-->
-        <!--android:gravity="center">-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="购买数量："-->
-            <!--android:padding="@dimen/padding"/>-->
-        <!--<com.learn.myapplication.AmountView-->
-            <!--android:id="@+id/amountview02"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:padding="@dimen/padding"-->
-            <!--android:gravity="center"-->
-            <!--app:btnWidth="@dimen/aview_btnwidth"-->
-            <!--app:edWidth="@dimen/aview_edwidth"-->
-            <!--app:btnTxtSize="@dimen/aview_textsize"-->
-            <!--app:txtSize="@dimen/aview_textsize">-->
-        <!--</com.learn.myapplication.AmountView>-->
-    <!--</RelativeLayout>-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/smallheight"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/order_yunfee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding"
-            android:text="运费："/>
-        <TextView
-            android:id="@+id/order_yunfee_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:padding="@dimen/padding"
-            android:text="10元"/>
-    </RelativeLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/smalldiv_line"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/titleheight"
-        android:padding="@dimen/padding"
-        android:layout_gravity="center"
-        android:hint="给商家留言："
-        android:inputType="textMultiLine"
-        android:maxLines="5"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/smalldiv_line"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/smallheight"
-        android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding"
-            android:text="优惠："/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:padding="@dimen/padding"
-            android:text="无"/>
-    </RelativeLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/smalldiv_line"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/orderitemlist"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bigdiv_line"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/smallheight"
-        android:background="@color/notice"
-        android:text="请务必仔细核对收货地址是否有误"
-        android:textSize="@dimen/textsize"
-        android:gravity="center"
-        android:textColor="@color/noticetext"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/smalldiv_line"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin1">
+
         <TextView
             android:id="@+id/orderTotal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textColor="@color/black"
             android:layout_weight="2"
-            android:textSize="@dimen/textsize"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize" />
+
         <Button
             android:id="@+id/pur_nextbtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="确认付款"
-            android:textSize="@dimen/bigtextsize"
             android:background="@color/paytextcolor"
-            android:textColor="@color/white"/>
+            android:text="确认付款"
+            android:textColor="@color/white"
+            android:textSize="@dimen/bigtextsize" />
     </LinearLayout>
-</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/shoporderaddr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/order_addr_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@mipmap/orderaddr"
+            android:padding="@dimen/padding"
+            android:scaleType="center" />
+
+        <LinearLayout
+            android:id="@+id/container_ordername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding"
+            android:layout_toRightOf="@id/order_addr_img"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/order_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收货人："
+                android:textSize="@dimen/textsize" />
+
+            <TextView
+                android:id="@+id/order_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/container_ordercontact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/container_ordername"
+            android:padding="@dimen/padding"
+            android:layout_toRightOf="@id/order_addr_img"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/order_tel_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="联系电话："
+                android:textSize="@dimen/textsize" />
+
+            <TextView
+                android:id="@+id/order_tel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/acc_nbr"
+                android:inputType="phone"
+                android:textSize="@dimen/textsize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/container_ordercontact"
+            android:padding="@dimen/padding"
+            android:layout_toRightOf="@id/order_addr_img"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/order_addr_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收货地址："
+                android:textSize="@dimen/textsize" />
+
+            <TextView
+                android:id="@+id/order_addr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/sarrow"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bigdiv_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/shoporderaddr">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/orderitemlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/smallheight"
+                android:background="@color/notice"
+                android:gravity="center"
+                android:text="请务必仔细核对收货地址是否有误"
+                android:textColor="@color/noticetext"
+                android:textSize="@dimen/textsize" />
+        </LinearLayout>
+
+</RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -1,19 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:id="@+id/ordercar">
-    <TextView
-        android:id="@+id/emptyText"
+
+    <LinearLayout
+        android:id="@+id/orderbottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="@dimen/textsize"
-        android:visibility="gone"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/bottom1">
+
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:src="@drawable/smalldiv_line"/>-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/noticetext">
+            <CheckBox
+                android:id="@+id/allchecked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/allbtn"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:paddingLeft="@dimen/padding"
+                android:textSize="@dimen/textsize"
+                android:textColor="@color/colorAccent"/>
+            <TextView
+                android:id="@+id/itemcheckedpri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="合计0元"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textsize" />
+            <Button
+                android:id="@+id/paychecked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/notice"
+                android:layout_alignParentRight="true"
+                android:paddingRight="@dimen/padding"
+                android:text="结算（0）"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/bigtextsize"
+                android:textColor="@color/colorAccent" />
+        </RelativeLayout>
+    </LinearLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/ordertoolbar"
@@ -46,8 +86,10 @@
         </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
+        android:id="@+id/orderintro"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/smallheight">
+        android:layout_height="@dimen/smallheight"
+        android:layout_below="@id/ordertoolbar">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -69,56 +111,34 @@
             android:gravity="center"/>
     </RelativeLayout>
 <ImageView
+    android:id="@+id/orderdivide1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_below="@id/orderintro"
     android:src="@drawable/smalldiv_line"/>
 
+    <android.support.v4.widget.NestedScrollView android:layout_height="match_parent"
+        android:id="@+id/nestscroll"
+        android:layout_width="match_parent"
+        android:layout_below="@id/orderdivide1"
+        android:layout_marginBottom="@dimen/bottom2"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/emptyText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/textsize"
+            android:text="暂无数据!"
+            android:visibility="visible"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/orderitems"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/smalldiv_line"/>
-
-    <RelativeLayout
-        android:id="@+id/bottomoption"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/titleheight"
-        android:layout_marginBottom="@dimen/bottom">
-        <CheckBox
-            android:id="@+id/allchecked"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/allbtn"
-            android:gravity="center"
-            android:layout_alignParentLeft="true"
-            android:paddingLeft="@dimen/padding"
-            android:textSize="@dimen/textsize"
-            android:textColor="@color/colorAccent"/>
-        <TextView
-            android:id="@+id/itemcheckedpri"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="合计0元"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/textsize" />
-        <Button
-            android:id="@+id/checkednums"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/padding"
-            android:text="结算（0）"
-            android:gravity="center"
-            android:textSize="@dimen/bigtextsize"
-            android:textColor="@color/colorAccent" />
-    </RelativeLayout>
-
-</LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

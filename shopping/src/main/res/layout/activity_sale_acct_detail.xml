@@ -12,14 +12,29 @@
         android:background="@color/textblue"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/bigtextsize"
-            android:textColor="@color/white"
-            android:text="@string/saleacct"
-            android:layout_marginTop="@dimen/bottom"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_marginTop="@dimen/bottom">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/bigtextsize"
+                android:textColor="@color/white"
+                android:text="@string/saleacct" />
+            <Button
+                android:id="@+id/withdraw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin"
+                android:textColor="@color/withdraw"
+                android:textSize="@dimen/textsize"
+                android:text="提现"/>
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/acct_money"
             android:layout_width="wrap_content"
@@ -27,7 +42,8 @@
             android:textSize="@dimen/textsize"
             android:textColor="@color/white"
             android:layout_marginTop="@dimen/margintop"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:text="￥0.00"/>
     </LinearLayout>
 
 
@@ -49,4 +65,34 @@
         style="@style/acctbtn"
         android:drawableLeft="@mipmap/prepay"
         android:text="@string/exchgdetail" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divider"/>
+    <Button
+        android:id="@+id/withdraw_accout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/acctbtn"
+        android:drawableLeft="@mipmap/prepay"
+        android:text="提现账户" />
+    <LinearLayout
+        android:id="@+id/withdrawtraction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/divider"/>
+        <Button
+            android:id="@+id/withdrawdetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/acctbtn"
+            android:drawableLeft="@mipmap/prepay"
+            android:text="待办提现事务" />
+    </LinearLayout>
+
 </LinearLayout>

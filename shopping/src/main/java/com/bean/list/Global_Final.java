@@ -6,14 +6,14 @@ package com.bean.list;
 
 public class Global_Final {
     //10.0.2.2 /114.115.138.24 /192.168.1.100
-    public static final String basepath = "http://114.115.138.24:8080/shopping_service/";
+    public static final String basepath = "http://192.168.1.100:8080/shopping_service/";
     public static final String imagespath =basepath +"json/homeimgs";
     public static final String sellerpath =basepath +"json/sellerjson";
     public static final String importseller =basepath +"json/importseller";
     public static final String limitsellerpath=basepath + "json/limitseller";
-    public static final String orderdatapath=basepath+"json/orderjson";
     public static final String neworderpath=basepath+"json/neworder";
-    public static final String requestorderpath=basepath+"json/requestorder";
+    public static final String requestorderpath=basepath+"json/reqorder_queryOrder";
+    public static final String requestsalerorders=basepath+"json/reqorder_querySalerOrders";
     public static final String newcustpath=basepath+"json/newcust";
     public static final String requestcustpath=basepath+"json/requestcust_queryCust";
     public static final String requestcustlist=basepath+"json/requestcust_queryCustList";
@@ -31,7 +31,15 @@ public class Global_Final {
     public static final String delfactory=basepath+"manage/fac_del";
     public static final String delproduct=basepath+"manage/pro_del";
     public static final String delproimg=basepath+"manage/proimg_del";
-    public static final String accountdatil=basepath+"json/account_detail";
-    public static final String accountinsert=basepath+"json/account_insert";
+    public static final String accountdetail =basepath+"json/account_detail";
+    public static final String accdtailinsert=basepath+"json/accdtail_insert";
     public static final String accountbalance=basepath+"json/account_balance";
+    public static final String register=basepath+"manage/regesteacct";
+    public static final String qureyacct=basepath+"manage/queryacct";
+    public static final String withdraw_get=basepath+"json/wda_getWithDrawAcct";
+    public static final String withdraw_insert=basepath+"json/wda_insertWithDrawAcct";
+    public static final String withdraw_saveAcctImage=basepath+"json/wda_saveAcctImage";
+    public static final String setwithimagepath=basepath+"withdrawimages/";
+    public static final String withperform_get=basepath+"json/withperform_selectWithPerform";
+    public static final String withperform_update=basepath+"json/withperform_update";
 }

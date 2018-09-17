@@ -67,7 +67,7 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
         int btnwidth = obStyAtt.getDimensionPixelSize(R.styleable.AmountView_btnWidth, 30);
         int edwidth = obStyAtt.getDimensionPixelSize(R.styleable.AmountView_edWidth, 50);
         int btntxtsize = obStyAtt.getDimensionPixelSize(R.styleable.AmountView_btnTxtSize, 5);
-        int edtxtsize = obStyAtt.getDimensionPixelSize(R.styleable.AmountView_txtSize,5);
+        int edtxtsize = obStyAtt.getDimensionPixelSize(R.styleable.AmountView_txtSize,12);
         obStyAtt.recycle();
 
         LayoutParams btnparm = new LayoutParams(btnwidth, ViewGroup.LayoutParams.MATCH_PARENT);

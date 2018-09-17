@@ -4,11 +4,15 @@
     <dimen name="activity_vertical_margin">20dp</dimen>
     <dimen name="bottom">45dp</dimen>
     <dimen name="bottom0">0dp</dimen>
+    <dimen name="bottom1">52dp</dimen>
+    <dimen name="bottom2">100dp</dimen>
     <dimen name="margintop">20dp</dimen>
     <dimen name="margin">6dp</dimen>
+    <dimen name="margin1">1dp</dimen>
     <dimen name="padding">5dp</dimen>
     <dimen name="fab_margin">10dp</dimen>
     <dimen name="actionBarSize">52dp</dimen>
+    <dimen name="moneyflag">17dp</dimen>
     <dimen name="textsize">15sp</dimen>
     <dimen name="bigtextsize">17sp</dimen>
     <dimen name="headtext1">20sp</dimen>
@@ -26,4 +30,5 @@
     <dimen name="aview_textsize">12sp</dimen>
     <dimen name="aview_height">28dp</dimen>
     <dimen name="aview_heightbig">33dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 </resources>

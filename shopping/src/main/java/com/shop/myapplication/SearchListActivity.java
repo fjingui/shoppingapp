@@ -19,6 +19,9 @@ import com.bean.list.Global_Final;
 import com.bean.list.Seller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.utils.list.ItemClickListener;
+import com.utils.list.MyRecyleViewHold;
+import com.utils.list.RecyclerViewAdapter;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -36,7 +39,7 @@ public class SearchListActivity extends AppCompatActivity {
 
     private RecyclerView searchlist;
     private List<Seller> keylist=new ArrayList();
-    private SaleRVAdapter listadapter=new SaleRVAdapter();
+    private RecyclerViewAdapter listadapter ;
     private String cust_acct;
     private String searchKey;
     private TextView searchhint;
@@ -71,6 +74,16 @@ public class SearchListActivity extends AppCompatActivity {
            if(msg.what==1 ){
                if(keylist.size()>0) {
                    searchlist.setLayoutManager(new LinearLayoutManager(SearchListActivity.this, LinearLayoutManager.VERTICAL, false));
+                   listadapter = new RecyclerViewAdapter(keylist);
+                   listadapter.setIclistener(new ItemClickListener() {
+                       @Override
+                       public void itemClick(int position) {
+                           Intent intent = new Intent(BaseApplication.getContext(), DetailActivity.class);
+                           intent.putExtra("detailseller", keylist.get(position));
+                           intent.putExtra("cust_acct",cust_acct);
+                           startActivity(intent);
+                       }
+                   });
                    searchlist.setAdapter(listadapter);
                }else{
                    searchhint.setText("没有匹配的搜索结果！");
@@ -113,57 +126,5 @@ public class SearchListActivity extends AppCompatActivity {
     public void gsonParse(String json) {
         Gson sellerjson = new Gson();
         keylist = sellerjson.fromJson(json, new TypeToken<List<Seller>>() {}.getType());
-    }
-
-    class SaleRecyleView extends RecyclerView.ViewHolder{
-        private TextView shopaddr;
-        private TextView shopdesc;
-        private ImageView shopim;
-        private TextView shopname;
-        private TextView shopprice;
-        public SaleRecyleView(View itemView) {
-            super(itemView);
-            shopaddr = (TextView) itemView.findViewById(R.id.shop_addr);
-            shopdesc = (TextView) itemView.findViewById(R.id.shop_desc);
-            shopim = (ImageView) itemView.findViewById(R.id.shop_im);
-            shopname = (TextView) itemView.findViewById(R.id.shop_name);
-            shopprice = (TextView) itemView.findViewById(R.id.shop_price);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(BaseApplication.getContext(), DetailActivity.class);
-                    intent.putExtra("detailseller", keylist.get(getAdapterPosition()));
-                    intent.putExtra("cust_acct",cust_acct);
-                    startActivity(intent);
-                }
-            });
-        }
-    }
-    class SaleRVAdapter extends RecyclerView.Adapter<SaleRecyleView>{
-        @Override
-        public int getItemCount() {
-            return keylist.size();
-        }
-
-        @Override
-        public SaleRecyleView onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = View.inflate(getApplicationContext(), R.layout.shoplist, null);
-            return new SaleRecyleView(view);
-        }
-
-        @Override
-        public void onBindViewHolder(SaleRecyleView holder, int position) {
-            x.image().bind(holder.shopim, keylist.get(position).getFactory_log(),
-                    new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                            .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)
-                            .setUseMemCache(true).build());
-
-            holder.shopaddr.setText(keylist.get(position).getFactory_addr());
-            holder.shopdesc.setText(keylist.get(position).getComment());
-            holder.shopname.setText(keylist.get(position).getFactory_name());
-            holder.shopprice.setText(keylist.get(position).getProduct_price() + keylist.get(position).getPrice_unit());
-
-        }
     }
 }

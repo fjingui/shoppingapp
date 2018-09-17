@@ -3,34 +3,23 @@ package com.shop.myapplication;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,27 +27,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bean.list.*;
-import com.bean.list.UserAcct;
-import com.learn.myapplication.LoginBroadReceiver;
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
+import com.utils.list.LoginUserAcct;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.Manifest.permission.READ_CONTACTS;
-import static java.lang.System.out;
-
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity  {
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -82,17 +62,18 @@ public class LoginActivity extends AppCompatActivity  {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private com.bean.list.UserAcct useracct=new UserAcct();
-    private String mresult="false";
+    private String mresult = "false";
+    private TextView regestebtn;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,13 +94,20 @@ public class LoginActivity extends AppCompatActivity  {
         });
 
         Button mPhoneSignInButton = (Button) findViewById(R.id.phone_sign_in_button);
+        regestebtn = (TextView) findViewById(R.id.register_btn);
         mPhoneSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
-
+        regestebtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent reges = new Intent(LoginActivity.this, RegesterActivity.class);
+                startActivity(reges);
+            }
+        });
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -147,7 +135,7 @@ public class LoginActivity extends AppCompatActivity  {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) ){
+        if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.password_field_required));
             focusView = mPasswordView;
             cancel = true;
@@ -183,7 +171,7 @@ public class LoginActivity extends AppCompatActivity  {
 
     private boolean isPhoneValid(String phone) {
         //TODO: Replace this with your own logic
-        return phone.length()==11 ;
+        return phone.length() == 11;
     }
 
     private boolean isPasswordValid(String password) {
@@ -237,6 +225,7 @@ public class LoginActivity extends AppCompatActivity  {
         private final String mPassword;
         private ConnectivityManager connectservice;
         private NetworkInfo networkinfo;
+
         UserLoginTask(String phone, String password) {
             mphone = phone;
             mPassword = password;
@@ -247,12 +236,12 @@ public class LoginActivity extends AppCompatActivity  {
         @Override
         protected Boolean doInBackground(Void... params) {
 
-                // Simulate network access.
-                checkLoginFromServer(mphone,mPassword);
-                SystemClock.sleep(2000);
-            if(mresult.equals("true")){
+            // Simulate network access.
+            checkLoginFromServer(mphone, mPassword);
+            SystemClock.sleep(2000);
+            if (mresult.equals("true")) {
                 return true;
-            }else {
+            } else {
                 return false;
             }
 
@@ -263,15 +252,36 @@ public class LoginActivity extends AppCompatActivity  {
             mAuthTask = null;
             showProgress(false);
             if (success) {
-                    Intent loginacct = new Intent();
-                    loginacct.putExtra("mphone",mphone);
-                    setResult(1,loginacct);
-                Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
-                    finish();
-            } else if(!networkinfo.isAvailable()){
+                Intent loginacct = new Intent();
+                loginacct.putExtra("mphone", mphone);
+                setResult(1, loginacct);
+                LoginUserAcct.getUserAcct(mphone);
+                EMChatManager.getInstance().login(mphone, "123456", new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        EMChatManager.getInstance().loadAllConversations();
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+                    }
+                });
+//                EaseUI.getInstance().setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+//                    @Override
+//                    public EaseUser getUser(String username) {
+//                        return getUser(username);
+//                    }
+//                });
+                Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+                finish();
+            } else if (!networkinfo.isAvailable()) {
                 mPasswordView.setError(getString(R.string.error_incorrect2));
-            }
-            else {
+                mPasswordView.requestFocus();
+            } else {
                 mPasswordView.setError(getString(R.string.error_incorrect));
                 mPasswordView.requestFocus();
             }
@@ -284,16 +294,17 @@ public class LoginActivity extends AppCompatActivity  {
         }
 
     }
-    protected void checkLoginFromServer(String phone,String pwd){
+
+    protected void checkLoginFromServer(String phone, String pwd) {
 //            useracct.setMphone(phone);
 //            useracct.setmPassword(pwd);
         RequestParams loginreqpara = new RequestParams(Global_Final.userlogin);
-        loginreqpara.addQueryStringParameter("mphone",phone);
-        loginreqpara.addQueryStringParameter("mpassword",pwd);
+        loginreqpara.addQueryStringParameter("mphone", phone);
+        loginreqpara.addQueryStringParameter("mpassword", pwd);
         x.http().post(loginreqpara, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                mresult=result;
+                mresult = result;
             }
 
             @Override

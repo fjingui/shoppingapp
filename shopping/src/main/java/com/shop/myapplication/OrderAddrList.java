@@ -54,7 +54,6 @@ public class OrderAddrList extends AppCompatActivity {
         addrmanagerecy = (RecyclerView) findViewById(R.id.allorderaddr);
         newaddrbtn = (Button) findViewById(R.id.neworderaddr);
         addrmanagerecy.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        cust_acct=getIntent().getStringExtra("cust_acct");
         initData();
         addrmanagerecy.setAdapter(addradapter);
         addradapter.setBoxcheck(new BoxChecked() {
@@ -77,6 +76,7 @@ public class OrderAddrList extends AppCompatActivity {
     }
 
     public void initData() {
+        cust_acct=getIntent().getStringExtra("cust_acct");
         new Thread() {
             public void run() {
                 getDataFromServer();

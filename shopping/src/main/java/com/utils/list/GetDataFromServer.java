@@ -47,11 +47,11 @@ public class GetDataFromServer {
         return getresult;
     }
 
-    public void setParam(String addstr){
-        this.param.addQueryStringParameter("cust_acct",addstr);
+    public void setParam(String cust_acct){
+        this.param.addQueryStringParameter("cust_acct",cust_acct);
     }
-    public void setParam2(String str){
-        this.param.addQueryStringParameter("orderstatus",str);
+    public void setParam2(String orderstatus){
+        this.param.addQueryStringParameter("orderstatus",orderstatus);
     }
     public void setParam3(String proname){this.param.addQueryStringParameter("product_name",proname);}
     public void setParam4(String facid){this.param.addQueryStringParameter("factory_id",facid);}

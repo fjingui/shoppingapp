@@ -8,30 +8,42 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <ImageView
             android:id="@+id/purchar_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding"
             android:layout_alignParentLeft="true"/>
-        <TextView
-            android:id="@+id/pop_mainname"
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:id="@+id/pronames"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/purchar_img"
             android:textSize="@dimen/bigtextsize"
             android:textColor="@color/black"
-            android:layout_marginTop="@dimen/margin" />
+            android:padding="@dimen/padding"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/pop_mainname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/pop_subname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin"/>
+        </LinearLayout>
+
         <TextView
-            android:id="@+id/pop_subname"
+            android:id="@+id/proaddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/purchar_img"
-            android:layout_below="@id/pop_mainname"
             android:textSize="@dimen/textsize"
-            android:textColor="@color/title"
-            android:padding="@dimen/padding" />
+            android:textColor="@color/colorAccent"
+            android:layout_toRightOf="@id/purchar_img"
+            android:layout_below="@id/pronames"
+            android:padding="@dimen/padding"/>
         <TextView
             android:id="@+id/purchar_price"
             android:layout_width="wrap_content"
@@ -39,9 +51,8 @@
             android:textSize="@dimen/textsize"
             android:textColor="@color/colorAccent"
             android:layout_toRightOf="@id/purchar_img"
-            android:layout_below="@id/pop_subname"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="13dp"/>
+            android:layout_below="@id/proaddress"
+            android:padding="@dimen/padding"/>
     </RelativeLayout>
     <ImageView
         android:layout_width="match_parent"
@@ -70,8 +81,7 @@
             android:gravity="center"
             app:btnWidth="@dimen/aview_btnwidth"
             app:edWidth="@dimen/aview_edwidth"
-            app:btnTxtSize="@dimen/aview_textsize"
-            app:txtSize="@dimen/aview_textsize"/>
+            app:btnTxtSize="@dimen/aview_textsize" />
     </RelativeLayout>
 
     <ImageView
@@ -84,7 +94,7 @@
         <Button
             android:id="@+id/pur_nextbtn"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="39dp"
             android:text="下一步"
             android:textSize="16sp"
             android:background="#f13615"

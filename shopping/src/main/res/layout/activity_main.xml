@@ -37,8 +37,8 @@
             android:id="@+id/shopradio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@mipmap/precious"
-            android:text="珍藏品" />
+            android:drawableTop="@mipmap/trade"
+            android:text="卖东西" />
 
         <RadioButton
             style="@style/radiostyle"
@@ -48,6 +48,14 @@
             android:drawableTop="@mipmap/shopping_full2"
             android:button="@null"
             android:text="购物车" />
+        <RadioButton
+            style="@style/radiostyle"
+            android:id="@+id/chatlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/chat"
+            android:button="@null"
+            android:text="聊业务" />
 
         <RadioButton
             style="@style/radiostyle"
@@ -55,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/people2"
-            android:text="账户" />
+            android:text="我的" />
     </RadioGroup>
 </RelativeLayout>
 

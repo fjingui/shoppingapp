@@ -63,7 +63,7 @@ public class LimitFocus extends Fragment {
         View focusframe = View.inflate(getActivity(), R.layout.fragment_focus,null);
         preciousrv = (RecyclerView) focusframe.findViewById(R.id.recyview);
         loadstate = (FrameLayout) focusframe.findViewById(R.id.preciousload);
-        cust_acct=((MainActivity)getActivity()).getCust_acct();
+      //  cust_acct=((MainActivity)getActivity()).getCust_acct();
         initData();
         return focusframe;
     }
@@ -98,7 +98,7 @@ private Handler prechandler=new Handler(){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==2 && resultCode==2) {
             cust_acct=data.getStringExtra("cust_acct");
-            ((MainActivity)getActivity()).setCust_acct(cust_acct);
+          //  ((MainActivity)getActivity()).setCust_acct(cust_acct);
         }
     }
 

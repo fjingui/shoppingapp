@@ -23,6 +23,8 @@ public class Seller implements Serializable {
     private Float product_price;
     private String price_unit;
     private String product_desc;
+    private String cust_acct;
+    private String product_unit;
     private List<Product_Images> pro_imgs=new ArrayList<Product_Images>();
 
     public List<Product_Images> getPro_imgs() {
@@ -127,6 +129,19 @@ public class Seller implements Serializable {
         this.comment = comment;
     }
 
+    public String getCust_acct() {
+        return cust_acct;
+    }
+    public String getProduct_unit() {
+        return product_unit;
+    }
+    public void setProduct_unit(String product_unit) {
+        this.product_unit = product_unit;
+    }
+
+    public void setCust_acct(String cust_acct) {
+        this.cust_acct = cust_acct;
+    }
 
     @Override
     public String toString() {

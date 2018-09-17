@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/withdrawbak">
+
+        <ImageView
+            android:id="@+id/zfb_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding"
+            android:src="@mipmap/zfb"/>
+        <TextView
+            android:id="@+id/zfb_acc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@id/zfb_img"/>
+        <TextView
+            android:id="@+id/zfb_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@id/zfb_img"
+            android:layout_below="@id/zfb_acc"
+            android:paddingTop="@dimen/padding"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/withdraw"
+            android:text="默认账号"
+            android:textSize="@dimen/textsize"
+            android:gravity="right"
+            android:layout_below="@id/zfb_name"
+            android:paddingRight="@dimen/padding"
+            android:layout_marginTop="@dimen/bottom"/>
+
+</RelativeLayout>

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/order_pro_img"
         android:layout_width="@dimen/logoheight"
@@ -15,14 +15,22 @@
         android:padding="@dimen/padding" />
     <TextView
         android:id="@+id/mainname"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/order_pro_img"
         android:textSize="@dimen/bigtextsize"
         android:textColor="@color/colorAccent"
-        android:layout_marginTop="@dimen/margin" />
+        android:padding="@dimen/padding" />
+        <TextView
+            android:id="@+id/prousername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/mainname"
+            android:textSize="@dimen/bigtextsize"
+            android:textColor="@color/colorAccent"
+            android:padding="@dimen/padding"/>
     <TextView
-        android:id="@+id/subname"
+        android:id="@+id/proaddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/order_pro_img"
@@ -35,36 +43,132 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/order_pro_img"
-        android:layout_below="@id/subname"
+        android:layout_below="@id/proaddress"
         android:padding="@dimen/padding" />
     <TextView
         android:id="@+id/order_pro_nums_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/order_pro_price"
-        android:layout_below="@id/subname"
+        android:layout_below="@id/proaddress"
         android:padding="@dimen/padding"/>
     </RelativeLayout>
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/smallheight"-->
-        <!--android:gravity="center">-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="购买数量："-->
-            <!--android:padding="@dimen/padding"/>-->
-        <!--<com.learn.myapplication.AmountView-->
-            <!--android:id="@+id/amountview02"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:padding="@dimen/padding"-->
-            <!--android:gravity="center"-->
-            <!--app:btnWidth="@dimen/aview_btnwidth"-->
-            <!--app:edWidth="@dimen/aview_edwidth"-->
-            <!--app:btnTxtSize="@dimen/aview_textsize"-->
-            <!--app:txtSize="@dimen/aview_textsize">-->
-        <!--</com.learn.myapplication.AmountView>-->
-    <!--</RelativeLayout>-->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divider"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/smallheight"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/order_yunfee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding"
+            android:text="运费："/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/moneyflag"
+                android:text="￥"/>
+            <EditText
+                android:id="@+id/order_yunfee_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textSize="@dimen/textsize"
+                android:text="10.0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/moneyflag"
+                android:text="元"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divider"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/smallheight"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding"
+            android:text="优惠："/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/moneyflag"
+                android:text="-￥"/>
+            <EditText
+                android:id="@+id/itemkold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize"
+                android:inputType="number"
+                android:text="0.00"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/moneyflag"
+                android:text="元"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divider"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/smallheight"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/bigtextsize"
+            android:padding="@dimen/padding"
+            android:text="小计:"
+            android:textColor="@color/headicon"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/moneyflag"
+            android:text="￥"/>
+        <TextView
+            android:id="@+id/itemsum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/bigtextsize"
+            android:paddingRight="@dimen/padding"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/moneyflag"
+            android:text="元"/>
+    </LinearLayout>
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:src="@drawable/bigdiv_line"/>
 </LinearLayout>

@@ -25,10 +25,9 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <FrameLayout
                 android:id="@+id/logoshop"
@@ -37,36 +36,43 @@
             </FrameLayout>
 
             <ImageView
+                android:id="@+id/line01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/logoshop"
                 android:background="@drawable/bigdiv_line"/>
             <FrameLayout
                 android:id="@+id/detailtext"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line01">
             </FrameLayout>
 
             <ImageView
+                android:id="@+id/line02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/detailtext"
                 android:background="@drawable/bigdiv_line"/>
 
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/imageslist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/line02"
                 android:layout_marginBottom="@dimen/bottom">
             </android.support.v4.widget.NestedScrollView>
 
-            <FrameLayout
-                android:id="@+id/bottommenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/bottom0">
-            </FrameLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
     </ScrollView>
+    <FrameLayout
+        android:id="@+id/bottommenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+    </FrameLayout>
+
     <View
         android:id="@+id/coverview"
         android:layout_width="match_parent"

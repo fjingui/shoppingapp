@@ -16,4 +16,8 @@
     <color name="hint">#cccbcb</color>
     <color name="black">#000</color>
     <color name="paytextcolor">#ae2a13</color>
+    <color name="tablebck">#978e7c</color>
+    <color name="zfbpop">#81def1</color>
+    <color name="withdraw">#66e62f</color>
+    <color name="withdrawbak">#1f9fdb</color>
 </resources>

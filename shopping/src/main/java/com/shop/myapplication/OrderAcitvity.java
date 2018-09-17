@@ -9,11 +9,11 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,9 +27,12 @@ import com.bean.list.Global_Final;
 import com.bean.list.OrderInfo;
 import com.bean.list.OrderItem;
 import com.utils.list.GetDataFromServer;
+import com.utils.list.HoldItemChangeListener;
 import com.utils.list.HttpPostData;
+import com.utils.list.LoginUserAcct;
 import com.utils.list.OrderRecyleViewHold;
 import com.utils.list.ParseJsonData;
+
 import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
@@ -37,9 +40,8 @@ import org.xutils.x;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class OrderAcitvity extends AppCompatActivity implements View.OnClickListener{
+public class OrderAcitvity extends AppCompatActivity implements View.OnClickListener {
 
     @ViewInject(R.id.order_name)
     private TextView custname;
@@ -51,25 +53,29 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
     private TextView ordertotal;
     @ViewInject(R.id.pur_nextbtn)
     private Button payBtn;
-    private int proamount=0;
-    private float totalmoney=0;
-    private CustInfo custinfo=new CustInfo();
+    private int proamount = 0;
+    private float inittotalmoney = 0;
+    private float totalmoney = 0;
+    private CustInfo custinfo = new CustInfo();
     private List<OrderItem> orderlist = new ArrayList();
     private RecyclerView orderitems;
+    private OrderRecyleViewAdapter orderitemsadapter;
     private String custinfojson;
-    private OrderInfo orderinfo=new OrderInfo();
+    private OrderInfo orderinfo = new OrderInfo();
     private String orderinfojson;
-    private String cust_acct="";
+    private String cust_acct = "";
     private GetDataFromServer datafromserv;
     private FrameLayout initframe;
+    private TextView orderaddrmanage;
     private View orderlayout;
     private String paycustorderid;
+    private DecimalFormat decf = new DecimalFormat(".0");
     private final static String channel = "360";//应用商店渠道名(如：360，小米、华为)
     private final static String appkey = "55388a820c3644aa8eaef76f9f89ecdb";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -80,66 +86,82 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_acitvity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    //    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         initframe = (FrameLayout) findViewById(R.id.initframe);
-        orderitems= (RecyclerView) findViewById(R.id.orderitemlist);
-        orderlayout=findViewById(R.id.orderlayout);
-        payBtn= (Button) findViewById(R.id.pur_nextbtn);
-        setSupportActionBar(toolbar);
+        orderitems = (RecyclerView) findViewById(R.id.orderitemlist);
+        orderaddrmanage = (TextView) findViewById(R.id.order_addr);
+        orderlayout = findViewById(R.id.orderlayout);
+        payBtn = (Button) findViewById(R.id.pur_nextbtn);
         x.view().inject(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initData();
-        setOrderMonety();
+
+        orderaddrmanage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(orderlist.get(0).getCust_acct().equals(cust_acct)){
+                    Intent intent = new Intent(OrderAcitvity.this, OrderAddrList.class);
+                    intent.putExtra("cust_acct",cust_acct);
+                    startActivity(intent);
+                }
+            }
+        });
         getDataFromServer();
         payBtn.setOnClickListener(OrderAcitvity.this);
-        TrPay.getInstance(this).initPaySdk(appkey,channel);
+        TrPay.getInstance(this).initPaySdk(appkey, channel);
     }
-    public void initData(){
+
+    public void initData() {
         Intent intent = getIntent();
-        cust_acct = intent.getStringExtra("cust_acct");
-        orderlist=intent.getParcelableArrayListExtra("orderlist");
-        paycustorderid=orderlist.get(0).getCust_order_id();
+        cust_acct = LoginUserAcct.user.getCust_acct();
+        orderlist = intent.getParcelableArrayListExtra("orderlist");
+        paycustorderid = orderlist.get(0).getCust_order_id();
     }
-public void setOrderMonety(){
-    for(int i=0;i<orderlist.size();i++){
-        proamount+=orderlist.get(i).getOrder_amount();
-        totalmoney+=orderlist.get(i).getProduct_price()*orderlist.get(i).getOrder_amount();
-    }
-}
-    private Handler getdatahandler= new Handler(){
+
+    private Handler getdatahandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what==1) {
-                custinfo = (CustInfo) ParseJsonData.parseObjectJson(datafromserv.getGetresult(), CustInfo.class);
+            if (msg.what == 1) {
+                custinfo = ParseJsonData.parseObjectJson(datafromserv.getGetresult(), CustInfo.class);
                 custaddr.setText(custinfo.getCust_address());
                 custname.setText(custinfo.getCust_name());
                 custnbr.setText(custinfo.getCust_contact_nbr());
-                orderitems.setLayoutManager(new LinearLayoutManager(OrderAcitvity.this,LinearLayoutManager.VERTICAL,false));
-                orderitems.setAdapter(new OrderRecyleViewAdapter());
-                DecimalFormat decf= new DecimalFormat(".00");
-                ordertotal.setText("共"+proamount+"件商品，"+"总金额￥" +decf.format(totalmoney)+"元");
+                orderitems.setLayoutManager(new LinearLayoutManager(OrderAcitvity.this, LinearLayoutManager.VERTICAL, false));
+                orderitemsadapter = new OrderRecyleViewAdapter();
+                orderitems.setAdapter(orderitemsadapter);
+                orderitemsadapter.setHtcl(new HoldItemChangeListener() {
+                    @Override
+                    public void textChange(int i) {
+                        proamount=0;
+                        totalmoney=0;
+                        orderitemsadapter.notifyDataSetChanged();
+                    }
+                });
             }
             orderlayout.setVisibility(View.VISIBLE);
         }
     };
-    public  void resetCustInfo() {
-        custinfo.setCust_address(custaddr.getText()+"");
-        custinfo.setCust_contact_nbr(custnbr.getText()+"");
-        custinfo.setCust_name(custname.getText()+"");
-        custinfojson=ParseJsonData.parseToJson(custinfo);
+
+    public void resetCustInfo() {
+        custinfo.setCust_address(custaddr.getText() + "");
+        custinfo.setCust_contact_nbr(custnbr.getText() + "");
+        custinfo.setCust_name(custname.getText() + "");
+        custinfojson = ParseJsonData.parseToJson(custinfo);
     }
-    public void setOrderInfo(OrderItem order,String ordertype){
+
+    public void setOrderInfo(OrderItem order, String ordertype) {
         orderinfo.setCust_acct(cust_acct);
         orderinfo.setCust_order_id(order.getCust_order_id());
         orderinfo.setOrder_amount(order.getOrder_amount());
         orderinfo.setProduct_id(order.getProduct_id());
         orderinfo.setOrder_status(ordertype);
-        orderinfo.setOrder_money(Math.round(totalmoney*100)/100);
-        orderinfojson= ParseJsonData.parseToJson(orderinfo);
+        orderinfo.setOrder_money(Math.round(totalmoney * 100) / 100);
+        orderinfojson = ParseJsonData.parseToJson(orderinfo);
     }
-    public void getDataFromServer(){
-        datafromserv=new GetDataFromServer(getdatahandler,initframe,1);
+
+    public void getDataFromServer() {
+        datafromserv = new GetDataFromServer(getdatahandler, initframe, 1);
         datafromserv.setParam(cust_acct);
         new Thread(new Runnable() {
             @Override
@@ -148,7 +170,7 @@ public void setOrderMonety(){
             }
         }).start();
         orderlayout.setVisibility(View.GONE);
-}
+    }
 
     @Override
     public void onClick(View v) {
@@ -172,6 +194,10 @@ public void setOrderMonety(){
             Toast.makeText(getApplicationContext(), "收货人不能为空", Toast.LENGTH_SHORT).show();
         } else if (custnbr.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "联系电话不能为空", Toast.LENGTH_SHORT).show();
+        } else if(totalmoney <= 0){
+            payBtn.setError("总金额不能小于0");
+            View error = payBtn;
+            error.requestFocus();
         } else {
             resetCustInfo();
             new HttpPostData().PostData(Global_Final.newcustpath, custinfojson);
@@ -202,28 +228,45 @@ public void setOrderMonety(){
 
         }
     }
-            class OrderRecyleViewAdapter extends RecyclerView.Adapter<OrderRecyleViewHold> {
 
-                @Override
-                public OrderRecyleViewHold onCreateViewHolder(ViewGroup parent, int viewType) {
-                    View orderview = View.inflate(OrderAcitvity.this, R.layout.orderitem_pay, null);
-                    return new OrderRecyleViewHold(orderview);
-                }
+    class OrderRecyleViewAdapter extends RecyclerView.Adapter<OrderRecyleViewHold> {
 
-                @Override
-                public void onBindViewHolder(OrderRecyleViewHold holder, int position) {
-                    x.image().bind(holder.orderProImg, orderlist.get(position).getFactory_log(), new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                            .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)
-                            .setUseMemCache(true).build());
-                    holder.mainproname.setText(orderlist.get(position).getFactory_name());
-                    holder.subProName.setText(orderlist.get(position).getProduct_name());
-                    holder.orderProPrice.setText("￥" + orderlist.get(position).getProduct_price());
-                    holder.orderProNumsLabel.setText("×" + orderlist.get(position).getOrder_amount());
-                }
+        private float itemmoney=0;
+        private float itemdiscount=0;
+        private HoldItemChangeListener htcl;
 
-                @Override
-                public int getItemCount() {
-                    return orderlist.size();
-                }
-            }
+        public void setHtcl(HoldItemChangeListener htcl) {
+            this.htcl = htcl;
         }
+
+        @Override
+        public OrderRecyleViewHold onCreateViewHolder(ViewGroup parent, int viewType) {
+            View orderview = View.inflate(OrderAcitvity.this, R.layout.orderitem_pay, null);
+            return new OrderRecyleViewHold(orderview,htcl);
+        }
+
+        @Override
+        public void onBindViewHolder(OrderRecyleViewHold holder, int position) {
+            x.image().bind(holder.orderProImg, orderlist.get(position).getFactory_log(), new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                    .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)
+                    .setUseMemCache(true).build());
+            holder.mainproname.setText(orderlist.get(position).getProduct_name());
+            holder.prouser.setText(orderlist.get(position).getFactory_name());
+            holder.proaddress.setText(orderlist.get(position).getProduct_unit());
+            holder.orderProPrice.setText("￥" + orderlist.get(position).getProduct_price());
+            holder.orderProNumsLabel.setText("×" + orderlist.get(position).getOrder_amount());
+            itemmoney = orderlist.get(position).getProduct_price() * orderlist.get(position).getOrder_amount();
+            itemdiscount = Float.valueOf(holder.orderyunfee.getText().toString())-Float.valueOf(holder.itemkold.getText().toString());
+            float itemsum = itemmoney+itemdiscount;
+            holder.itemmoneysum.setText(decf.format(itemsum) +"");
+            totalmoney += itemsum;
+            proamount += orderlist.get(position).getOrder_amount();
+            ordertotal.setText("共" + proamount + "件商品，" + "总金额￥" + decf.format(totalmoney) + "元");
+        }
+
+        @Override
+        public int getItemCount() {
+            return orderlist.size();
+        }
+    }
+}

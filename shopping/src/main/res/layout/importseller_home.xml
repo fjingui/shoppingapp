@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="100dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <TextView
         android:id="@+id/import_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
+        android:padding="@dimen/padding"
         android:textSize="@dimen/textsize"
-        android:layout_gravity="center"/>
+        android:layout_gravity="left"/>
+    <TextView
+        android:id="@+id/imp_pro_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding"
+        android:textSize="@dimen/textsize"
+        android:layout_gravity="left"/>
 
     <ImageView
         android:id="@+id/improt_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin" />
+        android:padding="@dimen/padding"
+        android:layout_gravity="left"/>
     <TextView
         android:id="@+id/import_desc"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding"
+        android:layout_gravity="left"
         android:textSize="@dimen/textsize"
         android:maxLines="2" />
     <TextView
         android:id="@+id/import_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding"
-        android:textSize="@dimen/textsize" />
+        android:layout_gravity="left"
+        android:gravity="center"
+        android:textSize="@dimen/textsize"
+        android:padding="@dimen/padding"/>
 
 </LinearLayout>

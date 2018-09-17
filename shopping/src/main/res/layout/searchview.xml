@@ -9,10 +9,8 @@
         android:id="@+id/keysearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:textSizeSearch="13dp"
         app:textColorSearch="#3F51B5"
-        app:textHintSearch="@string/querytext"
-        app:searchBlockHeight="100">
+        app:textHintSearch="@string/querytext">
 
     </scut.carson_ho.searchview.SearchView>
 

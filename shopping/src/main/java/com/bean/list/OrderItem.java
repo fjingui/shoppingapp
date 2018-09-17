@@ -11,14 +11,26 @@ import java.io.Serializable;
 
 public class OrderItem implements Parcelable{
     private String cust_order_id;
+    private String cust_acct;
     private String factory_log;
     private String factory_name;
     private int product_id;
     private String product_name;
     private Float product_price;
     private int order_amount;
+    private float order_money;
+    private String order_status;
+    private String product_unit;
 
     public OrderItem(){
+    }
+
+    public String getCust_acct() {
+        return cust_acct;
+    }
+
+    public void setCust_acct(String cust_acct) {
+        this.cust_acct = cust_acct;
     }
 
     public String getCust_order_id() {
@@ -77,6 +89,29 @@ public class OrderItem implements Parcelable{
         this.product_id = product_id;
     }
 
+    public float getOrder_money() {
+        return order_money;
+    }
+    public void setOrder_money(float order_money) {
+        this.order_money = order_money;
+    }
+
+    public String getOrder_status() {
+        return order_status;
+    }
+
+    public void setOrder_status(String order_status) {
+        this.order_status = order_status;
+    }
+
+    public String getProduct_unit() {
+        return product_unit;
+    }
+
+    public void setProduct_unit(String product_unit) {
+        this.product_unit = product_unit;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -91,6 +126,10 @@ public class OrderItem implements Parcelable{
         dest.writeFloat(product_price);
         dest.writeInt(order_amount);
         dest.writeInt(product_id);
+        dest.writeFloat(order_money);
+        dest.writeString(order_status);
+        dest.writeString(product_unit);
+        dest.writeString(cust_acct);
     }
     protected OrderItem(Parcel in) {
         cust_order_id = in.readString();
@@ -100,6 +139,10 @@ public class OrderItem implements Parcelable{
         product_price=in.readFloat();
         order_amount = in.readInt();
         product_id=in.readInt();
+        order_money=in.readFloat();
+        order_status=in.readString();
+        product_unit=in.readString();
+        cust_acct=in.readString();
     }
     public static final Creator<OrderItem> CREATOR = new Creator<OrderItem>() {
         @Override

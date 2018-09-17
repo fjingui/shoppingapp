@@ -16,16 +16,18 @@ public class MyRecyleViewHold extends RecyclerView.ViewHolder {
     public TextView shopdesc;
     public ImageView shopim;
     public TextView shopname;
+    public TextView facname;
     public TextView shopprice;
     public ItemClickListener itemclicklsner;
 
     public MyRecyleViewHold(View itemView, ItemClickListener clicklsner) {
         super(itemView);
-        shopaddr = (TextView) itemView.findViewById(R.id.shop_addr);
-        shopdesc = (TextView) itemView.findViewById(R.id.shop_desc);
-        shopim = (ImageView) itemView.findViewById(R.id.shop_im);
-        shopname = (TextView) itemView.findViewById(R.id.shop_name);
-        shopprice = (TextView) itemView.findViewById(R.id.shop_price);
+        shopaddr = itemView.findViewById(R.id.shop_addr);
+        shopdesc =  itemView.findViewById(R.id.shop_desc);
+        shopim = itemView.findViewById(R.id.shop_im);
+        shopname = itemView.findViewById(R.id.shop_name);
+        facname = itemView.findViewById(R.id.fac_name);
+        shopprice = itemView.findViewById(R.id.shop_price);
         this.itemclicklsner = clicklsner;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

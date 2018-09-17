@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/head_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerInParent="true"
             android:src="@mipmap/header" />
 
@@ -58,17 +58,7 @@
                     android:textSize="@dimen/textsize" />
 
                 <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:drawableTop="@mipmap/send"
-                    android:text="待发货"
-                    android:drawablePadding="@dimen/padding"
-                    android:textSize="@dimen/textsize" />
-
-                <Button
+                    android:id="@+id/btn_receive"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -76,6 +66,18 @@
                     android:layout_gravity="center"
                     android:drawableTop="@mipmap/wait"
                     android:text="待收货"
+                    android:drawablePadding="@dimen/padding"
+                    android:textSize="@dimen/textsize" />
+
+                <Button
+                    android:id="@+id/btn_getted"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:drawableTop="@mipmap/yanshou"
+                    android:text="已完成"
                     android:drawablePadding="@dimen/padding"
                     android:textSize="@dimen/textsize" />
 
@@ -116,13 +118,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:drawableLeft="@mipmap/orderaddr"
+                android:drawableLeft="@mipmap/baccount"
                 android:drawablePadding="@dimen/padding"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/padding"
                 android:text="我的账户"
-                android:textSize="@dimen/textsize"
-                android:drawableRight="@mipmap/rightsrrow" />
+                android:textSize="@dimen/textsize" />
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -132,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:drawableLeft="@mipmap/orderaddr"
+                android:drawableLeft="@mipmap/mysale"
                 android:drawablePadding="@dimen/padding"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/padding"

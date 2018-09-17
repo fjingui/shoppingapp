@@ -1,7 +1,6 @@
 package com.shop.myapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -17,8 +15,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.base.bj.paysdk.utils.TrPay;
 import com.learn.myapplication.NoScrollViewPager;
+import com.utils.list.LoginUserAcct;
 
 import java.util.ArrayList;
 
@@ -31,11 +29,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private RadioButton shopradio;
     private RadioButton carradio;
     private RadioButton accoradio;
+    private RadioButton chatradio;
     private NoScrollViewPager framevp;
     private MyFragmentPagerAdapter framePadapter;
     private ArrayList<Fragment> framelist=new ArrayList();
-    private String cust_acct=null;
-    private Boolean iflogin=false;
+    public static String cust_acct=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +41,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_main);
         ConnectivityManager connectservice = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkinfo = connectservice.getActiveNetworkInfo();
+        cust_acct = LoginUserAcct.user.getCust_acct();
         mainview=findViewById(R.id.activity_main);
-        radgroup = (RadioGroup) findViewById(R.id.radiogp);
-         homeradio = (RadioButton) findViewById(R.id.homeradio);
-         shopradio = (RadioButton) findViewById(R.id.shopradio);
-         carradio = (RadioButton) findViewById(R.id.carradio);
-        accoradio= (RadioButton) findViewById(R.id.accoradio);
-        framevp = (NoScrollViewPager) findViewById(R.id.framevp);
-        if(networkinfo == null ){
+        radgroup = findViewById(R.id.radiogp);
+         homeradio = findViewById(R.id.homeradio);
+         shopradio = findViewById(R.id.shopradio);
+         carradio = findViewById(R.id.carradio);
+         chatradio = findViewById(R.id.chatlist);
+        accoradio= findViewById(R.id.accoradio);
+        framevp = findViewById(R.id.framevp);
+        if(!networkinfo.isAvailable() ){
             Toast.makeText(this,"网络不可用，请检查网络状态！",Toast.LENGTH_LONG).show();
         }
         buttonClick();
@@ -58,7 +58,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         framelist.add(new HomeFrame());
         framelist.add(new SellThing());
         framelist.add(new OrderCarFrame());
-        framelist.add(new UserAcct());
+        framelist.add(new ChatListFrame());
+        framelist.add(new UserAcctFragment());
 
         framePadapter=new MyFragmentPagerAdapter(getSupportFragmentManager(),framelist);
         framevp.setAdapter(framePadapter);
@@ -66,6 +67,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
       //  framevp.setCurrentItem(3);
 
         radgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
@@ -76,12 +78,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         framevp.setCurrentItem(1);
                         break;
                     case R.id.carradio:
-                        if (cust_acct!=null) {
-                            framevp.setCurrentItem(2);
-                        }
+                        framevp.setCurrentItem(2);
+                        break;
+                    case R.id.chatlist:
+                        framevp.setCurrentItem(3);
                         break;
                     case R.id.accoradio:
-                        framevp.setCurrentItem(3);
+                        framevp.setCurrentItem(4);
                         break;
 
                 }
@@ -103,6 +106,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         shopradio.setOnClickListener(this);
         carradio.setOnClickListener(this);
         accoradio.setOnClickListener(this);
+        chatradio.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -111,7 +115,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 radgroup.check(R.id.homeradio);
                 break;
             case R.id.shopradio:
-                radgroup.check(R.id.shopradio);
+                if (cust_acct==null){
+                    JumpToActivity.jumpToLogin(this, new JumpToActivity.LoginCallback() {
+                        @Override
+                        public void onlogin() {
+                            cust_acct=JumpToActivity.cust_acct;
+                            framevp.setCurrentItem(0);
+                        }
+                    });
+                }else {
+                    radgroup.check(R.id.shopradio);
+                }
                 break;
             case R.id.carradio:
                 if (cust_acct==null){
@@ -119,13 +133,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         @Override
                         public void onlogin() {
                             cust_acct=JumpToActivity.cust_acct;
-                            iflogin=true;
-                            framevp.setCurrentItem(2);
+                            framevp.setCurrentItem(0);
                         }
                     });
-                }
-                if (cust_acct!=null && iflogin==true) {
+                }else {
                     radgroup.check(R.id.carradio);
+                }
+                break;
+            case R.id.chatlist:
+                if (cust_acct==null){
+                    JumpToActivity.jumpToLogin(this, new JumpToActivity.LoginCallback() {
+                        @Override
+                        public void onlogin() {
+                            cust_acct=JumpToActivity.cust_acct;
+                            framevp.setCurrentItem(0);
+                        }
+                    });
+                }else {
+                    radgroup.check(R.id.chatlist);
                 }
                 break;
             case R.id.accoradio:
@@ -173,11 +198,4 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    public String getCust_acct() {
-        return cust_acct;
-    }
-
-    public void setCust_acct(String cust_acct) {
-        this.cust_acct = cust_acct;
-    }
 }

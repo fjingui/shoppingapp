@@ -14,7 +14,7 @@ public class Product implements Serializable{
     private String product_desc ;
     private String sale_state;
     private int factory_id;
-
+    private String product_unit;
     public int getProduct_id() {
         return product_id;
     }
@@ -69,5 +69,12 @@ public class Product implements Serializable{
 
     public void setFactory_id(int factory_id) {
         this.factory_id = factory_id;
+    }
+
+    public String getProduct_unit() {
+        return product_unit;
+    }
+    public void setProduct_unit(String product_unit) {
+        this.product_unit = product_unit;
     }
 }

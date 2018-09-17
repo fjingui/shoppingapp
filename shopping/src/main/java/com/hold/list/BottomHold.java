@@ -35,6 +35,7 @@ public class BottomHold implements View.OnClickListener {
 
     private TextView gwctv;
     private TextView gmtv;
+    private Button chatbtn;
     private Seller seller;
     private View coverView;
     private AmountView aview;
@@ -62,19 +63,23 @@ public class BottomHold implements View.OnClickListener {
         return aview;
     }
 
+    public Button getChatbtn() {
+        return chatbtn;
+    }
     public BottomHold() {
         bottomtview = initView();
     }
 
     public View initView() {
         View view = View.inflate(BaseApplication.getContext(), R.layout.bottom_view, null);
-        gwctv = (TextView) view.findViewById(R.id.gwctv);
-        gmtv = (TextView) view.findViewById(R.id.gmtv);
+        gwctv = view.findViewById(R.id.gwctv);
+        gmtv = view.findViewById(R.id.gmtv);
+        chatbtn = view.findViewById(R.id.chat_btn);
         gmtv.setOnClickListener(this);
         gwctv.setOnClickListener(this);
 
         shopnums = View.inflate(BaseApplication.getContext(), R.layout.shopping_nums, null);
-        clkNextbtn = (Button) shopnums.findViewById(R.id.pur_nextbtn);
+        clkNextbtn =  shopnums.findViewById(R.id.pur_nextbtn);
         return view;
     }
 
@@ -90,23 +95,25 @@ public class BottomHold implements View.OnClickListener {
 
     public PopupWindow showPopupWindow(View v) {
 
-        aview= (AmountView) shopnums.findViewById(R.id.amountview);
+        aview= shopnums.findViewById(R.id.amountview);
         if (seller.getFactory_name().equals("拍卖珍藏")){
             aview.setGoods_storage(1);
         }else {
             aview.setGoods_storage(50);
         }
-        ImageView purcharimg = (ImageView) shopnums.findViewById(R.id.purchar_img);
-        TextView popmainname = (TextView) shopnums.findViewById(R.id.pop_mainname);
-        TextView popsubname = (TextView) shopnums.findViewById(R.id.pop_subname);
-        TextView purprice = (TextView) shopnums.findViewById(R.id.purchar_price);
+        ImageView purcharimg = shopnums.findViewById(R.id.purchar_img);
+        TextView popmainname = shopnums.findViewById(R.id.pop_mainname);
+        TextView popsubname =  shopnums.findViewById(R.id.pop_subname);
+        TextView proaddr = shopnums.findViewById(R.id.proaddress);
+        TextView purprice = shopnums.findViewById(R.id.purchar_price);
 
         x.image().bind(purcharimg,seller.getFactory_log(),
                 new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                         .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)
                         .setUseMemCache(true).build());
-        popmainname.setText(seller.getFactory_name());
-        popsubname.setText(seller.getProduct_name());
+        popmainname.setText(seller.getProduct_name());
+        popsubname.setText(seller.getFactory_name());
+        proaddr.setText(seller.getFactory_addr());
         purprice.setText(seller.getProduct_price()+seller.getPrice_unit());
 
         PopupWindow popWin = new PopupWindow(shopnums, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT){

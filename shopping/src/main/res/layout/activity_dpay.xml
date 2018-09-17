@@ -1,32 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_dpay"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shop.myapplication.DpayActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/smallheight">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/dpayorder"
-            android:layout_alignParentLeft="true"
-            android:padding="@dimen/padding"
-            android:textSize="@dimen/bigtextsize"
-            android:textColor="@color/colorAccent"
-            android:gravity="center"/>
-    </RelativeLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/bigdiv_line"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/dpayorders"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
-</LinearLayout>
+</RelativeLayout>

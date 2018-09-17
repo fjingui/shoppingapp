@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_withdraw_acc"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.shop.myapplication.WithdrawAcc">
+
+    <FrameLayout
+        android:id="@+id/get_withacct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:paddingBottom="@dimen/margintop">
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:background="@drawable/virt_rec"
+        android:layout_margin="@dimen/margin"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/zfb_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="添加新账号"
+            android:drawableLeft="@mipmap/add"
+            android:drawablePadding="@dimen/padding"/>
+    </RelativeLayout>
+
+</LinearLayout>

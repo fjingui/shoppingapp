@@ -37,8 +37,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_phone"
                     android:inputType="phone"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -55,8 +54,7 @@
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -72,6 +70,15 @@
                 android:background="@color/cover"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/register_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize"
+                android:textColor="@color/textblue"
+                android:text="没有账号？立即注册。"
+                android:layout_marginTop="@dimen/margintop"
+                android:gravity="center"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

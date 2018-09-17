@@ -1,9 +1,27 @@
 package com.shop.myapplication;
 
+import android.Manifest;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.ColorSpace;
+import android.os.Handler;
+import android.os.Message;
+import android.support.multidex.MultiDex;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
+import android.util.Log;
 
+import com.bean.list.*;
+import com.easemob.chat.EMChat;
+import com.easemob.chat.EMChatManager;
+import com.easemob.easeui.controller.EaseUI;
+import com.easemob.easeui.domain.EaseUser;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.utils.list.GetUserAcct;
+import com.utils.list.LoginUserAcct;
+import com.utils.list.MyEaseSpUtils;
 
 import org.xutils.x;
 
@@ -23,8 +41,44 @@ public class BaseApplication extends Application {
         super.onCreate();
 //        xUtils3.0初始化
         x.Ext.init(this);
-        mcontext=getApplicationContext();
+        mcontext = getApplicationContext();
 //        the following line is important
         Fresco.initialize(getApplicationContext());
+
+        MyEaseSpUtils.init(this);
+        LoginUserAcct.getUser();
+        EaseUI.getInstance().init(this);
+        EaseUI.getInstance().setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+            @Override
+            public EaseUser getUser(String username) {
+                return getUserInfo(username);
+            }
+        });
+        EMChat.getInstance().init(this);
+        //   EMClient.getInstance().setDebugMode(true);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    public EaseUser getUserInfo(String username) {
+
+        EaseUser user = new EaseUser(username);
+        GetUserAcct gua = new GetUserAcct(user, username);
+
+        if (username.equals(EMChatManager.getInstance().getCurrentUser())) {
+            user.setNick(LoginUserAcct.getUser().getAcct_name());
+        } else {
+            if (TextUtils.isEmpty(MyEaseSpUtils.getString(username, ""))) {
+                gua.getUserAcct();
+            } else {
+                user.setNick(MyEaseSpUtils.getString(username, ""));
+            }
+
+        }
+        return user;
     }
 }

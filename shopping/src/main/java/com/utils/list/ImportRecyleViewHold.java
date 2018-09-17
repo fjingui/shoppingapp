@@ -13,6 +13,7 @@ import com.shop.myapplication.R;
 
 public class ImportRecyleViewHold extends RecyclerView.ViewHolder {
     public TextView salename;
+    public TextView saleunit;
     public ImageView saleimage;
     public TextView saledesc;
     public TextView saleprice;
@@ -20,10 +21,11 @@ public class ImportRecyleViewHold extends RecyclerView.ViewHolder {
 
     public ImportRecyleViewHold(View itemView, ItemClickListener clicklsner) {
         super(itemView);
-        salename = (TextView) itemView.findViewById(R.id.import_name);
-        saleimage = (ImageView) itemView.findViewById(R.id.improt_image);
-        saledesc = (TextView) itemView.findViewById(R.id.import_desc);
-        saleprice = (TextView) itemView.findViewById(R.id.import_price);
+        salename = itemView.findViewById(R.id.import_name);
+        saleunit = itemView.findViewById(R.id.imp_pro_unit);
+        saleimage = itemView.findViewById(R.id.improt_image);
+        saledesc = itemView.findViewById(R.id.import_desc);
+        saleprice = itemView.findViewById(R.id.import_price);
         this.itemclicklsner = clicklsner;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

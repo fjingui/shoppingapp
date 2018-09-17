@@ -17,4 +17,9 @@ public class GeneOrderId {
         orderno+=orderNum;
         return orderno+"";
     }
+
+    public static synchronized String getAcctNbr(String str){
+       String date =  new SimpleDateFormat("yyMMdd").format(new Date());
+        return str+date;
+    }
 }

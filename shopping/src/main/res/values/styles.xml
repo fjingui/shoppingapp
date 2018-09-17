@@ -14,6 +14,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="AppTheme3" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
     </style>
@@ -46,7 +47,7 @@
     </style>
 
     <style name="acctbtn">
-        <item name="android:drawableRight">@mipmap/rightsrrow</item>
+        <item name="android:drawableRight">@mipmap/sarrow</item>
         <item name="android:paddingRight">@dimen/padding</item>
         <item name="android:background">@color/white</item>
         <item name="android:paddingLeft">@dimen/padding</item>
@@ -60,5 +61,11 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:padding">@dimen/padding</item>
         <item name="android:gravity">center</item>
+    </style>
+    <style name="upzfb">
+        <item name="android:textSize">@dimen/bigtextsize</item>
+        <item name="android:padding">@dimen/padding</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
     </style>
 </resources>

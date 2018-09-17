@@ -1,43 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:id="@+id/orderlayout"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:fitsSystemWindows="true"--><!--tools:context="com.shop.myapplication.OrderAcitvity">-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/orderlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.shop.myapplication.OrderAcitvity">
+    android:layout_height="wrap_content">
 
     <FrameLayout
         android:id="@+id/initframe"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:layout_height="match_parent">
     </FrameLayout>
-    <android.support.design.widget.AppBarLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin1"
+        android:orientation="horizontal">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <TextView
+            android:id="@+id/orderTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize" />
+
+        <Button
+            android:id="@+id/pur_nextbtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/paytextcolor"
+            android:text="确认付款"
+            android:textColor="@color/white"
+            android:textSize="@dimen/bigtextsize" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/shoporderaddr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/order_addr_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/orderaddr"
+            android:padding="@dimen/padding" />
+
+        <LinearLayout
+            android:id="@+id/container_ordername"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/order_addr_img"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding">
 
-    </android.support.design.widget.AppBarLayout>
+            <TextView
+                android:id="@+id/order_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收货人："
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize" />
 
-    <include layout="@layout/content_order_acitvity" />
+            <TextView
+                android:id="@+id/order_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize" />
+        </LinearLayout>
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--app:srcCompat="@android:drawable/ic_dialog_email" />-->
+        <LinearLayout
+            android:id="@+id/container_ordercontact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/container_ordername"
+            android:layout_toRightOf="@id/order_addr_img"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding">
 
-</android.support.design.widget.CoordinatorLayout>
+            <TextView
+                android:id="@+id/order_tel_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="联系电话："
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize" />
+
+            <TextView
+                android:id="@+id/order_tel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/acc_nbr"
+                android:inputType="phone"
+                android:textSize="@dimen/textsize" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/container_ordercontact"
+            android:layout_toRightOf="@id/order_addr_img"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding">
+
+            <TextView
+                android:id="@+id/order_addr_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收货地址："
+                android:textStyle="bold"
+                android:textSize="@dimen/textsize" />
+
+            <TextView
+                android:id="@+id/order_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textsize" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/sarrow" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/bigdivd01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shoporderaddr"
+        android:src="@drawable/bigdiv_line" />
+
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/bigdivd01"
+    android:layout_marginBottom="@dimen/bottom1">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/orderitemlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/smallheight"
+            android:background="@color/notice"
+            android:gravity="center"
+            android:text="请务必仔细核对收货地址是否有误"
+            android:textColor="@color/noticetext"
+            android:textSize="@dimen/textsize" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+
+
+</RelativeLayout>
+

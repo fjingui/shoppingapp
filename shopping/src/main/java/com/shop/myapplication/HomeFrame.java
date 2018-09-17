@@ -34,6 +34,7 @@ import com.hold.list.LoadStateView;
 import com.utils.list.GetDataFromServer;
 import com.utils.list.ImportRecyleViewHold;
 import com.utils.list.ItemClickListener;
+import com.utils.list.LoginUserAcct;
 import com.utils.list.MyRecyleViewHold;
 import com.utils.list.ParseJsonData;
 import com.utils.list.RecyclerViewAdapter;
@@ -79,22 +80,21 @@ public class HomeFrame extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View homeview = View.inflate(getActivity(), R.layout.fragment_home, null);
-        myviewpager = (ViewPager) homeview.findViewById(R.id.vpager);
-        pointgroup = (LinearLayout) homeview.findViewById(R.id.vpoint);
-        salelist= (RecyclerView) homeview.findViewById(R.id.salelist);
-        importlist= (RecyclerView) homeview.findViewById(R.id.importseller);
-        searchview= (SearchView) homeview.findViewById(R.id.mainsearch);
-        stateview= (FrameLayout) homeview.findViewById(R.id.stateview);
+        myviewpager = homeview.findViewById(R.id.vpager);
+        pointgroup = homeview.findViewById(R.id.vpoint);
+        salelist= homeview.findViewById(R.id.salelist);
+        importlist= homeview.findViewById(R.id.importseller);
+        searchview= homeview.findViewById(R.id.mainsearch);
+        stateview=  homeview.findViewById(R.id.stateview);
         mainlayout=homeview.findViewById(R.id.mainlayout);
         importva=new ImportRecyclerAdapter();
-        cust_acct=((MainActivity)getActivity()).getCust_acct();
+        cust_acct= LoginUserAcct.user.getCust_acct();
         
         searchview.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
                     Intent intent = new Intent(getActivity(), SearchActivity.class);
-                    intent.putExtra("cust_acct",cust_acct);
                     startActivity(intent);
                 }
             }
@@ -122,7 +122,7 @@ public class HomeFrame extends Fragment {
     private Handler loadhandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==3){
+            if(msg.what==3 && !getimagespath.getGetresult().toString().equals("")){
                 logoimages= ParseJsonData.parseFromJson(getimagespath.getGetresult(),LogoImages[].class);
                 initData();
                 initPoint();
@@ -130,7 +130,7 @@ public class HomeFrame extends Fragment {
                 myviewpager.setCurrentItem(Integer.MAX_VALUE / 2);
                 mhandler.sendEmptyMessageDelayed(0, 300);
             }
-            if( msg.what==1){
+            if( msg.what==1 && !allseller.getGetresult().toString().equals("")){
                 shoplist= ParseJsonData.parseFromJson(allseller.getGetresult(),Seller[].class);
                 sellerstate=allseller.getState();
                 salelist.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
@@ -148,7 +148,7 @@ public class HomeFrame extends Fragment {
                 SpaceItem space = new SpaceItem(16);
                 salelist.addItemDecoration(space);
                 }
-            if(msg.what==2){
+            if(msg.what==2 && !importsell.getGetresult().toString().equals("")){
                 importseller= ParseJsonData.parseFromJson(importsell.getGetresult(),Seller[].class);
                 importstate=importsell.getState();
                 importlist.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
@@ -293,6 +293,7 @@ public class HomeFrame extends Fragment {
         @Override
         public void onBindViewHolder(ImportRecyleViewHold holder, int position) {
             holder.salename.setText(importseller.get(position).getProduct_name());
+            holder.saleunit.setText(importseller.get(position).getProduct_unit());
             x.image().bind(holder.saleimage,importseller.get(position).getFactory_log(),
                     new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                     .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)

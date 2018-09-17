@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import com.bean.list.Global_Final;
 import com.bean.list.OrderInfo;
 import com.bean.list.OrderItem;
 import com.bean.list.Seller;
+import com.easemob.chat.EMChat;
+import com.easemob.easeui.EaseConstant;
 import com.google.gson.Gson;
 import com.hold.list.BottomHold;
 import com.hold.list.DetailTextHold;
@@ -24,6 +27,7 @@ import com.hold.list.ImagesHold;
 import com.hold.list.LogoHold;
 import com.utils.list.GeneOrderId;
 import com.utils.list.HttpPostData;
+import com.utils.list.LoginUserAcct;
 import com.utils.list.ParseJsonData;
 
 import org.xutils.view.annotation.ViewInject;
@@ -45,10 +49,10 @@ public class DetailActivity extends AppCompatActivity {
     @ViewInject(R.id.coverview)
     private View cover;
     private Seller seller;
-    private DetailTextHold detailTextHold = new DetailTextHold();
-    private BottomHold bottomHold=new BottomHold();
-    private ImagesHold imagesHold = new ImagesHold();
-    private LogoHold logo = new LogoHold();
+    private DetailTextHold detailTextHold;
+    private BottomHold bottomHold;
+    private ImagesHold imagesHold ;
+    private LogoHold logo ;
     private OrderInfo orderInfo;
     private String carorderjson;
     private String cust_acct;
@@ -56,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
     private OrderItem orderitem;
     private String shoptype="";
     private String getorderid;
-
+    private Button mychatbtn;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -81,7 +85,12 @@ public class DetailActivity extends AppCompatActivity {
     public void initData(){
         Intent intent = getIntent();
         seller = (Seller) intent.getSerializableExtra("detailseller");
-        cust_acct=intent.getStringExtra("cust_acct");
+        cust_acct= LoginUserAcct.user.getCust_acct();
+        detailTextHold = new DetailTextHold();
+        bottomHold=new BottomHold();
+        imagesHold = new ImagesHold();
+        logo = new LogoHold();
+        mychatbtn = bottomHold.getChatbtn();
         logo.setData(seller);
         detailTextHold.setData(seller);
         bottomHold.setData(seller);
@@ -95,6 +104,13 @@ public class DetailActivity extends AppCompatActivity {
         bottomlayout.addView(bottomHold.getBottomtview());
         imagelayout.addView(imagesHold.getImagesView());
     }
+    public void startChat(){
+        Intent chatintent = new Intent(DetailActivity.this, SaleChatActivity.class);
+        chatintent.putExtra(EaseConstant.EXTRA_USER_ID,seller.getCust_acct());
+        chatintent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+        startActivity(chatintent);
+    }
+
     public void setBtnClick(){
         bottomHold.getClkNextbtn().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +126,7 @@ public class DetailActivity extends AppCompatActivity {
                         shoptype="待付款";
                         Intent intent = new Intent(BaseApplication.getContext(), OrderAcitvity.class);
                         orderitem=new OrderItem();
+                        orderitem.setCust_acct(cust_acct);
                         orderitem.setOrder_amount(bottomHold.getAview().getAmount());
                         orderitem.setCust_order_id(getorderid);
                         orderitem.setFactory_log(seller.getFactory_log());
@@ -117,6 +134,7 @@ public class DetailActivity extends AppCompatActivity {
                         orderitem.setProduct_id(seller.getProduct_id());
                         orderitem.setProduct_name(seller.getProduct_name());
                         orderitem.setProduct_price(seller.getProduct_price());
+                        orderitem.setProduct_unit(seller.getProduct_unit());
                         orderlist.clear();
                         orderlist.add(orderitem);
                         ArrayList<OrderItem> orderlist2= new ArrayList<OrderItem>(orderlist);
@@ -141,6 +159,16 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+        mychatbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               if(EMChat.getInstance().isLoggedIn()) {
+                   startChat();
+               }else{
+                   Toast.makeText(DetailActivity.this,"请先登录！",Toast.LENGTH_LONG).show();
+               }
+            }
+        });
     }
     public void parseOrderCar(){
         orderInfo =new OrderInfo();
@@ -149,6 +177,7 @@ public class DetailActivity extends AppCompatActivity {
         orderInfo.setProduct_id(seller.getProduct_id());
         orderInfo.setOrder_status(shoptype);
         orderInfo.setOrder_amount(bottomHold.getAview().getAmount());
+        orderInfo.setProduct_unit(seller.getProduct_unit());
         orderInfo.setOrder_money(Math.round(seller.getProduct_price()* orderInfo.getOrder_amount()*100)/100);
         carorderjson= ParseJsonData.parseToJson(orderInfo);
     }
