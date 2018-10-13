@@ -6,6 +6,7 @@
     <dimen name="bottom0">0dp</dimen>
     <dimen name="bottom1">52dp</dimen>
     <dimen name="bottom2">100dp</dimen>
+    <dimen name="bottom3">60dp</dimen>
     <dimen name="margintop">20dp</dimen>
     <dimen name="margin">6dp</dimen>
     <dimen name="margin1">1dp</dimen>

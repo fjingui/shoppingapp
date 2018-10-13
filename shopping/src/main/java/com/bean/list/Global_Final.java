@@ -42,4 +42,6 @@ public class Global_Final {
     public static final String setwithimagepath=basepath+"withdrawimages/";
     public static final String withperform_get=basepath+"json/withperform_selectWithPerform";
     public static final String withperform_update=basepath+"json/withperform_update";
+    public static final String getcoverimg=basepath+"json/getcoverimgs";
+    public static final String apkversion =basepath+"manage/getapkver";
 }

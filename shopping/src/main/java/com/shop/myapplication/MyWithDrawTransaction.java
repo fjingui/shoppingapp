@@ -123,6 +123,7 @@ public class MyWithDrawTransaction extends AppCompatActivity {
             opermoney = itemView.findViewById(R.id.oper_money);
             accbalance = itemView.findViewById(R.id.acc_balance);
             action = itemView.findViewById(R.id.tran_action);
+            action.setVisibility(View.VISIBLE);
             this.settranstate = transtate;
             action.setOnClickListener(new View.OnClickListener() {
                 @Override

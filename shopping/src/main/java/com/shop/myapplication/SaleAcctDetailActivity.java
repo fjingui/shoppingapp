@@ -2,18 +2,16 @@ package com.shop.myapplication;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bean.list.Global_Final;
 import com.bean.list.WithDrawAcctBean;
@@ -50,7 +48,7 @@ public class SaleAcctDetailActivity extends AppCompatActivity {
         cust_acct = getIntent().getStringExtra("cust_acct");
         acctmoney = (TextView) findViewById(R.id.acct_money);
         chrgdetail = (Button) findViewById(R.id.chrgdetail);
-        exchgdetail = (Button) findViewById(R.id.exchgdetail);
+      //  exchgdetail = (Button) findViewById(R.id.exchgdetail);
         withdrawaccont = (Button) findViewById(R.id.withdraw_accout);
         withdrawbtn = (Button) findViewById(R.id.withdraw);
         withdrawdetail = (Button) findViewById(R.id.withdrawdetail);
@@ -66,12 +64,12 @@ public class SaleAcctDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        exchgdetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        exchgdetail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
         withdrawaccont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

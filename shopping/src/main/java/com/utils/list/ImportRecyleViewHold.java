@@ -13,7 +13,7 @@ import com.shop.myapplication.R;
 
 public class ImportRecyleViewHold extends RecyclerView.ViewHolder {
     public TextView salename;
-    public TextView saleunit;
+  //  public TextView saleunit;
     public ImageView saleimage;
     public TextView saledesc;
     public TextView saleprice;
@@ -22,7 +22,7 @@ public class ImportRecyleViewHold extends RecyclerView.ViewHolder {
     public ImportRecyleViewHold(View itemView, ItemClickListener clicklsner) {
         super(itemView);
         salename = itemView.findViewById(R.id.import_name);
-        saleunit = itemView.findViewById(R.id.imp_pro_unit);
+      //  saleunit = itemView.findViewById(R.id.imp_pro_unit);
         saleimage = itemView.findViewById(R.id.improt_image);
         saledesc = itemView.findViewById(R.id.import_desc);
         saleprice = itemView.findViewById(R.id.import_price);

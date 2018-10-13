@@ -1,32 +1,35 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@mipmap/orderbak">
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/upstateview"
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@mipmap/salebakgd">-->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"
+        tools:context="com.shop.myapplication.SellThing">
 
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <FrameLayout
+            android:id="@+id/upstateview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:id="@+id/salelayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context="com.shop.myapplication.SellThing">
+            android:background="@mipmap/salebakgd"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/selectedimages"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:gravity="center"
-                android:hint="点击上传图片，最多7张。\n
-            默认第一张图片封面显示"
+                android:hint="点击上传图片，最多5张\n默认第一张图片封面显示"
                 android:maxLines="8"
                 android:textColorHint="@color/hint"
                 android:textSize="@dimen/textsize" />
@@ -217,18 +220,20 @@
                     android:textColorHint="@color/hint" />
             </LinearLayout>
 
+            <Button
+                android:id="@+id/submitbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/bottom1"
+                android:background="@color/noticetext"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:text="发布销售"
+                android:textColor="@color/white"
+                android:textSize="@dimen/bigtextsize" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-    <Button
-        android:id="@+id/submitbtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/noticetext"
-        android:gravity="center"
-        android:padding="@dimen/padding"
-        android:text="发布销售"
-        android:textColor="@color/white"
-        android:textSize="@dimen/bigtextsize"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/bottom1"/>
-</RelativeLayout>
+
+    </RelativeLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

@@ -1,15 +1,12 @@
 package com.shop.myapplication;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v4.widget.NestedScrollView;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -20,13 +17,12 @@ import com.bean.list.OrderItem;
 import com.bean.list.Seller;
 import com.easemob.chat.EMChat;
 import com.easemob.easeui.EaseConstant;
-import com.google.gson.Gson;
 import com.hold.list.BottomHold;
 import com.hold.list.DetailTextHold;
 import com.hold.list.ImagesHold;
 import com.hold.list.LogoHold;
 import com.utils.list.GeneOrderId;
-import com.utils.list.HttpPostData;
+import com.utils.list.HttpPostReqData;
 import com.utils.list.LoginUserAcct;
 import com.utils.list.ParseJsonData;
 
@@ -120,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
                     if (bottomHold.getBtnflag() == 1) { //加入购物车
                         shoptype="购物车";
                         parseOrderCar();
-                        new HttpPostData().PostData(Global_Final.neworderpath, carorderjson);
+                        new HttpPostReqData().PostData(Global_Final.neworderpath, carorderjson);
                     }
                     if (bottomHold.getBtnflag() == 2) { //立即购买
                         shoptype="待付款";

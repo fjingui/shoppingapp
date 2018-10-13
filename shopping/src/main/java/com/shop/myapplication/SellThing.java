@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,7 @@ import com.bean.list.Product;
 import com.bean.list.Product_Images;
 import com.hold.list.LoadStateView;
 import com.utils.list.GetDataFromServer;
-import com.utils.list.HttpPostData;
+import com.utils.list.HttpPostReqData;
 import com.utils.list.LoginUserAcct;
 import com.utils.list.ParseJsonData;
 import com.utils.list.RemoveParent;
@@ -45,7 +47,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 
 @ContentView(R.layout.fragment_sell_thing)
-public class SellThing extends Fragment implements View.OnClickListener{
+public class SellThing extends Fragment implements View.OnClickListener {
 
     private static final int REQUEST_CODE = 123;
     private ArrayList<String> mResults = new ArrayList<>();
@@ -80,10 +82,12 @@ public class SellThing extends Fragment implements View.OnClickListener{
     private static final int INITTFAC = 10;
     private static final int GETFAC = 11;
     private static final int GETPRO = 12;
+    private static final int GETPRO_2 = 13;
     private static final int UPEDFAC = 20;
     private static final int UPEDPRO = 21;
     private static final int UPEDPROURI = 22;
     private static final int UPEDIMGS = 23;
+    private int lastresult = 0;
     private int upstep = 0;
     private String cust_acct;
     private Factory factory = new Factory();
@@ -98,10 +102,11 @@ public class SellThing extends Fragment implements View.OnClickListener{
     private GetDataFromServer delfailpro;
     private GetDataFromServer delfailproimg;
     private View errorView;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Date dt =	new Date();
+        Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         fmtdate = sdf.format(dt);
     }
@@ -110,7 +115,9 @@ public class SellThing extends Fragment implements View.OnClickListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         cust_acct = LoginUserAcct.user.getCust_acct();
-        if(cust_acct!=null){getFacData(INITTFAC);}
+        if (cust_acct != null) {
+            getFacData(INITTFAC);
+        }
         seledimages.setOnClickListener(this);
         submitbtn.setOnClickListener(new View.OnClickListener() {
             //                else if(mResults.isEmpty()) {
@@ -118,66 +125,76 @@ public class SellThing extends Fragment implements View.OnClickListener{
 //                }
             @Override
             public void onClick(View v) {
+                lastresult = 0;
                 if (cust_acct == null) {
                     JumpToActivity.jumpToLogin(getActivity(), new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct=JumpToActivity.cust_acct;
-                            getFacData(INITTFAC);
-
+                            cust_acct = JumpToActivity.cust_acct;
                         }
                     });
-                }else if(seller.getText().toString().equals("")) {
+                } else if (mResults.size() == 0) {
+                    seledimages.setError("请上传产品图片！");
+                    errorView = seller;
+                    errorView.requestFocus();
+                } else if (seller.getText().toString().equals("")) {
                     seller.setError("称呼不能为空！");
                     errorView = seller;
                     errorView.requestFocus();
-                }else if(selladdr.getText().toString().equals("")) {
+                } else if (selladdr.getText().toString().equals("")) {
                     selladdr.setError("销售地址不能为空！");
                     errorView = seller;
                     errorView.requestFocus();
-                }else if(sellproduct.getText().toString().equals("")) {
+                } else if (sellproduct.getText().toString().equals("")) {
                     sellproduct.setError("销售品不能为空！");
                     errorView = seller;
                     errorView.requestFocus();
-                }else if(sellformat.getText().toString().equals("")) {
+                } else if (sellformat.getText().toString().equals("")) {
                     sellformat.setError("销售规格不能为空！");
                     errorView = seller;
                     errorView.requestFocus();
-                }else if(sellprice.getText().toString().equals("")) {
+                } else if (sellprice.getText().toString().equals("")) {
                     sellprice.setError("销售价格不能为空！");
                     errorView = seller;
                     errorView.requestFocus();
-                }else if(sellamount.getText().toString().equals("")) {
+                } else if (sellamount.getText().toString().equals("")) {
                     sellamount.setError("单价数量不能为空！");
                     errorView = seller;
                     errorView.requestFocus();
-                }else if(sellunit.getText().toString().equals("")) {
+                } else if (sellunit.getText().toString().equals("")) {
                     sellunit.setError("数量单位不能为空！");
                     errorView = seller;
                     errorView.requestFocus();
-                }else if(selldesc.getText().toString().equals("")) {
+                } else if (selldesc.getText().toString().equals("")) {
                     selldesc.setError("销售品描述不能为空！");
                     errorView = seller;
                     errorView.requestFocus();
-                }else if(sellnbr.getText().toString().equals("")) {
+                } else if (sellnbr.getText().toString().equals("")) {
                     sellnbr.setError("联系电话不能为空！");
                     errorView = seller;
                     errorView.requestFocus();
-                }else {
-                    getFacData(GETFAC);
+                } else {
+                    if (TextUtils.isEmpty(factory.getCust_acct())) {
+                        upFacData();
+                    } else {
+                        getProData(GETPRO);
+                    }
                     salelayoutview.setVisibility(View.GONE);
                     upstateflout.removeAllViews();
                     RemoveParent.removeParent(upstateview.showLoading(true));
                     upstateflout.addView(upstateview.showLoading(true));
                     upstateflout.setVisibility(View.VISIBLE);
-                   }
                 }
-            });
+            }
+        });
         upstateview.getFreshbtn().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (upstep == 2 || upstep == 3){
-                   delPro();
+                if (upstep == 2 || upstep == 3) {
+                    delPro();
+                    upstateflout.removeAllViews();
+                    upstateflout.setVisibility(View.GONE);
+                    salelayoutview.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -186,59 +203,62 @@ public class SellThing extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return x.view().inject(this,inflater,container);
+        return x.view().inject(this, inflater, container);
     }
-    private Handler parsedatahandler = new Handler() {
+
+    private Handler parseupdatahandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == INITTFAC) {
-                if(!getfacdata.getGetresult().equals("")) {
+                if (!getfacdata.getGetresult().equals("")) {
                     factory = ParseJsonData.parseObjectJson(getfacdata.getGetresult(), Factory.class);
-                    if (seller.getText().toString().equals("")) {
-                        seller.setText(factory.getFactory_name());
-                    }
-                    if (selladdr.getText().toString().equals("")) {
-                        selladdr.setText(factory.getFactory_addr());
-                    }
-                    if (sellnbr.getText().toString().equals("")) {
-                        sellnbr.setText(String.valueOf(factory.getFac_contact_nbr()));
+                    if (!TextUtils.isEmpty(factory.getCust_acct())) {
+                        if (seller.getText().toString().equals("")) {
+                            seller.setText(factory.getFactory_name());
+                        }
+                        if (selladdr.getText().toString().equals("")) {
+                            selladdr.setText(factory.getFactory_addr());
+                        }
+                        if (sellnbr.getText().toString().equals("")) {
+                            sellnbr.setText(factory.getFac_contact_nbr());
+                        }
                     }
                 }
-            }else if (msg.what == GETFAC){
-                if(getfacdata.getGetresult()!=null) {
-                    factory = ParseJsonData.parseObjectJson(getfacdata.getGetresult(), Factory.class);
-                }
-                if(factory.getCust_acct() == null){
-                    upFacData();
-                }else {
-                    upstep = 1;
-                    upProData();
-                }
-            } else if (msg.what == UPEDFAC){
+            }else if (msg.what == UPEDFAC) {
                 upstep = 1;
-                upProData();
-            }
-            else if (msg.what == UPEDPRO) {
-                upstep = 2;
+                getFacData(GETFAC);
+            } else if (msg.what == GETFAC) {
+                factory = ParseJsonData.parseObjectJson(getfacdata.getGetresult(), Factory.class);
                 getProData(GETPRO);
             } else if (msg.what == GETPRO) {
                 product = ParseJsonData.parseObjectJson(getprodata.getGetresult(), Product.class);
+                if (product.getProduct_id() > 0) {
+                    Toast.makeText(getActivity(), "您已存在同样产品，勿重复上传！", Toast.LENGTH_LONG).show();
+                    salelayoutview.setVisibility(View.VISIBLE);
+                    upstateflout.removeAllViews();
+                    upstateflout.setVisibility(View.GONE);
+                } else {
+                    upProData();
+                    upstep = 2;
+                }
+            } else if (msg.what == UPEDPRO) {
+                getProData(GETPRO_2);
+            } else if (msg.what == GETPRO_2) {
+                product = ParseJsonData.parseObjectJson(getprodata.getGetresult(), Product.class);
                 for (int i = 0; i < mResults.size(); i++) {
-                    setProImgUri(Global_Final.setproimguri+fmtdate+"/"+cust_acct+"-"+i+".jpg");
+                    setProImgUri(Global_Final.setproimguri + fmtdate + "/" + cust_acct + "-" + i + ".jpg");
                 }
-            }else if(msg.what == UPEDPROURI){
-                if(mResults.size()>0){
-                    upstep = 3;
-                    saveImgsTo(Global_Final.saveproimgs);
-                }
+            } else if (msg.what == UPEDPROURI) {
+                upstep = 3;
+                saveImgsTo(Global_Final.saveproimgs);
 
-            }else if (msg.what == UPEDIMGS){
-                upstep =4;
+            } else if (msg.what == UPEDIMGS) {
+                upstep = 4;
                 salelayoutview.setVisibility(View.VISIBLE);
                 upstateflout.setVisibility(View.GONE);
-                Intent intent = new Intent(getActivity(),PublishResult.class);
+                Intent intent = new Intent(getActivity(), PublishResult.class);
                 startActivity(intent);
-            }else{
+            } else {
                 upstateview.getFreshbtn().setText("返回");
                 upstateview.getShowinfo().setText("抱歉，数据上传失败，点击返回重试");
                 salelayoutview.setVisibility(View.GONE);
@@ -247,11 +267,12 @@ public class SellThing extends Fragment implements View.OnClickListener{
                 upstateflout.addView(upstateview.showLoadFail(true));
                 upstateflout.setVisibility(View.VISIBLE);
             }
+
         }
     };
 
-    public void getFacData(int what){
-        getfacdata =new GetDataFromServer(parsedatahandler,upstateflout,what);
+    public void getFacData(int what) {
+        getfacdata = new GetDataFromServer(parseupdatahandler, upstateflout, what);
         getfacdata.setParam(cust_acct);
         new Thread(new Runnable() {
             @Override
@@ -261,10 +282,11 @@ public class SellThing extends Fragment implements View.OnClickListener{
         }).start();
 
     }
-    public void getProData(int what){
-        getprodata = new GetDataFromServer(parsedatahandler,upstateflout,what);
+
+    public void getProData(int what) {
+        getprodata = new GetDataFromServer(parseupdatahandler, upstateflout, what);
         getprodata.setParam3(sellproduct.getText().toString());
-        getprodata.setParam4(String.valueOf(factory.getFactory_id()) );
+        getprodata.setParam4(String.valueOf(factory.getFactory_id()));
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -272,60 +294,71 @@ public class SellThing extends Fragment implements View.OnClickListener{
             }
         }).start();
     }
-    public void  parseSellData(){
-        factory.setCust_acct(Long.parseLong(cust_acct) );
+
+    public void parseSellerData() {
+        factory.setCust_acct(cust_acct);
         factory.setFactory_name(seller.getText().toString());
         factory.setFactory_addr(selladdr.getText().toString());
         factory.setComment(selldesc.getText().toString());
-        factory.setFac_contact_nbr(Long.parseLong(sellnbr.getText().toString()) );
-        factory.setFactory_log(Global_Final.setproimguri+fmtdate+"/"+cust_acct+"_"+0); //获取第一个图像 mresult.get(0)
+        factory.setFac_contact_nbr(sellnbr.getText().toString());
+        factory.setFactory_log(Global_Final.setproimguri + fmtdate + "/" + cust_acct + "-" +0+".jpg"); //获取第一个图像 mresult.get(0)
         facjson = ParseJsonData.parseToJson(factory);
     }
-    public void parseProData(){
+
+    public void parseProData() {
         product.setFactory_id(factory.getFactory_id());
         product.setProduct_name(sellproduct.getText().toString());
-        product.setProduct_price(Float.parseFloat(sellprice.getText().toString()) );
-        product.setPrice_unit(sellunit.getText().toString());
+        product.setProduct_price(Float.parseFloat(sellprice.getText().toString()));
+        if (Integer.parseInt(sellamount.getText().toString()) == 1) {
+            product.setPrice_unit("/" + sellunit.getText().toString());
+        } else {
+            product.setPrice_unit("/" + sellamount.getText().toString() + sellunit.getText().toString());
+        }
         product.setProduct_unit(sellformat.getText().toString());
         product.setProduct_desc(selldesc.getText().toString());
         product.setSale_state("待售");
         projson = ParseJsonData.parseToJson(product);
     }
-    public void parsePorImg(String imgpath){
+
+    public void parsePorImg(String imgpath) {
         pro_imgs.setProduct_id(product.getProduct_id());
         pro_imgs.setPro_img_addr(imgpath); //设置上传后图片路径
         proimgsjson = ParseJsonData.parseToJson(pro_imgs);
     }
-    public void upFacData(){
-        parseSellData();
+
+    public void upFacData() {
+        parseSellerData();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                new HttpPostData(parsedatahandler, UPEDFAC).PostData(Global_Final.insertfactory,facjson);
+                new HttpPostReqData(parseupdatahandler, UPEDFAC).PostData(Global_Final.insertfactory, facjson);
             }
         }).start();
     }
-    public void upProData(){
+
+    public void upProData() {
         parseProData();
         System.out.println(projson);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                new HttpPostData(parsedatahandler, UPEDPRO).PostData(Global_Final.insertproduct,projson);
+                new HttpPostReqData(parseupdatahandler, UPEDPRO).PostData(Global_Final.insertproduct, projson);
             }
         }).start();
     }
-    public void setProImgUri(String imgpath){
+
+    public void setProImgUri(String imgpath) {
         parsePorImg(imgpath);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                new HttpPostData(parsedatahandler, UPEDPROURI).PostData(Global_Final.insertproimg,proimgsjson);
+                new HttpPostReqData(parseupdatahandler, UPEDPROURI).PostData(Global_Final.insertproimg, proimgsjson);
             }
         }).start();
     }
-    public void delPro(){
-        delfailpro =new GetDataFromServer();
+
+    public void delPro() {
+        delfailpro = new GetDataFromServer();
         delfailpro.setParam5(product.getProduct_id());
         new Thread(new Runnable() {
             @Override
@@ -334,8 +367,9 @@ public class SellThing extends Fragment implements View.OnClickListener{
             }
         }).start();
     }
-    public void delProImg(){
-        delfailproimg =new GetDataFromServer();
+
+    public void delProImg() {
+        delfailproimg = new GetDataFromServer();
         delfailproimg.setParam5(product.getProduct_id());
         new Thread(new Runnable() {
             @Override
@@ -344,7 +378,8 @@ public class SellThing extends Fragment implements View.OnClickListener{
             }
         }).start();
     }
-    public void saveImgsTo(String url){
+
+    public void saveImgsTo(String url) {
         RequestParams params = new RequestParams(url);
         List<KeyValue> list = new ArrayList<KeyValue>();
         for (int i = 0; i < mResults.size(); i++) {
@@ -352,12 +387,16 @@ public class SellThing extends Fragment implements View.OnClickListener{
         }
         MultipartBody body = new MultipartBody(list, "UTF-8");
         params.setRequestBody(body);
-        params.addQueryStringParameter("cust_acct",cust_acct);
-        params.addQueryStringParameter("product_id",product.getProduct_id()+"" );
+        params.addQueryStringParameter("cust_acct", cust_acct);
+        params.addQueryStringParameter("product_id", product.getProduct_id() + "");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                parsedatahandler.sendEmptyMessage(UPEDIMGS);
+                lastresult += 1;
+                if(lastresult == mResults.size()){
+                    parseupdatahandler.sendEmptyMessage(UPEDIMGS);
+                }
+                Log.e("上传次数:", lastresult + "");
             }
 
             @Override
@@ -373,12 +412,13 @@ public class SellThing extends Fragment implements View.OnClickListener{
             }
         });
     }
+
     @Override
     public void onClick(View v) {
 
 // start multiple photos selector
         Intent intent = new Intent(getContext(), ImagesSelectorActivity.class);
-        intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 7);
+        intent.putExtra(SelectorSettings.SELECTOR_MAX_IMAGE_NUMBER, 5);
 // min size of image which will be shown; to filter tiny images (mainly icons)
         intent.putExtra(SelectorSettings.SELECTOR_MIN_IMAGE_SIZE, 100000);
         intent.putExtra(SelectorSettings.SELECTOR_SHOW_CAMERA, true);
@@ -387,16 +427,17 @@ public class SellThing extends Fragment implements View.OnClickListener{
 
         startActivityForResult(intent, REQUEST_CODE);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // get selected images from selector
-        if(requestCode == REQUEST_CODE) {
-            if(resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
                 mResults = data.getStringArrayListExtra(SelectorSettings.SELECTOR_RESULTS);
                 assert mResults != null;
                 StringBuffer sb = new StringBuffer();
                 sb.append(String.format("共 %d 张照片：", mResults.size())).append("\n");
-                for(String result : mResults) {
+                for (String result : mResults) {
                     sb.append(result).append("\n");
                 }
                 seledimages.setText(sb.toString());

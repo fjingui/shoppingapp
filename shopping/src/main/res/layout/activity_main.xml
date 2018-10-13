@@ -9,6 +9,28 @@
     android:focusableInTouchMode="true"
     tools:context="com.shop.myapplication.MainActivity">
 
+    <com.learn.myapplication.PullDoorView
+        android:id="@+id/welcomeimage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/pulldoorimg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="上滑可以进入首页"
+            android:textColor="@color/textblue"
+            android:textSize="18sp" />
+    </com.learn.myapplication.PullDoorView>
+
     <com.learn.myapplication.NoScrollViewPager
         android:id="@+id/framevp"
         android:layout_width="match_parent"

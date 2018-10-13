@@ -46,7 +46,7 @@ public void setData(Seller inf) {
         proname.setText(inf.getProduct_name());
         facname.setText(inf.getFactory_name());
         subname.setText(inf.getProduct_unit());
-        saleprice.setText("￥"+inf.getProduct_price()+inf.getPrice_unit());
+        saleprice.setText("￥"+inf.getProduct_price()+"元"+inf.getPrice_unit());
         }
 
 public View getLogoview() {

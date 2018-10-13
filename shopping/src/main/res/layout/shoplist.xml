@@ -14,14 +14,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/shop_im"
-        android:padding="@dimen/padding"
-        android:textSize="@dimen/textsize" />
+        android:textSize="@dimen/bigtextsize"
+        android:paddingLeft="@dimen/padding"
+        android:paddingBottom="@dimen/padding"/>
     <TextView
         android:id="@+id/fac_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/shop_name"
-        android:padding="@dimen/padding"/>
+        android:paddingLeft="@dimen/padding"
+        android:paddingBottom="@dimen/padding"/>
     <TextView
         android:id="@+id/shop_addr"
         android:layout_width="wrap_content"

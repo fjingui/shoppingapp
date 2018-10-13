@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +27,7 @@ import com.bean.list.OrderInfo;
 import com.bean.list.OrderItem;
 import com.utils.list.GetDataFromServer;
 import com.utils.list.HoldItemChangeListener;
-import com.utils.list.HttpPostData;
+import com.utils.list.HttpPostReqData;
 import com.utils.list.LoginUserAcct;
 import com.utils.list.OrderRecyleViewHold;
 import com.utils.list.ParseJsonData;
@@ -200,7 +199,7 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
             error.requestFocus();
         } else {
             resetCustInfo();
-            new HttpPostData().PostData(Global_Final.newcustpath, custinfojson);
+            new HttpPostReqData().PostData(Global_Final.newcustpath, custinfojson);
             TrPay.getInstance(OrderAcitvity.this).callPay(tradename, outtradeno, amount, backparams, notifyurl, userid, new PayResultListener() {
                 @Override
                 public void onPayFinish(Context context, String outtradeno, int resultCode, String resultString, int payType, Long amount, String tradename) {
@@ -209,7 +208,7 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
                         for (int i = 0; i < orderlist.size(); i++) {
                             String str1 = "已付款";
                             setOrderInfo(orderlist.get(i), str1);
-                            new HttpPostData().PostData(Global_Final.neworderpath, orderinfojson);
+                            new HttpPostReqData().PostData(Global_Final.neworderpath, orderinfojson);
                         }
                         Toast.makeText(OrderAcitvity.this, "支付成功，等待商家发货", Toast.LENGTH_LONG).show();
                         //支付成功逻辑处理
@@ -217,7 +216,7 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
                         for (int i = 0; i < orderlist.size(); i++) {
                             String str2 = "待付款";
                             setOrderInfo(orderlist.get(i), str2);
-                            new HttpPostData().PostData(Global_Final.neworderpath, orderinfojson);
+                            new HttpPostReqData().PostData(Global_Final.neworderpath, orderinfojson);
 
                             Toast.makeText(OrderAcitvity.this, "支付失败，请稍后重新尝试", Toast.LENGTH_LONG).show();
                             //支付失败逻辑处理

@@ -1,11 +1,8 @@
 package com.learn.myapplication;
 
-import android.content.Context;
 import android.view.View;
 
 import com.easemob.chat.EMMessage;
-import com.easemob.easeui.EaseConstant;
-import com.easemob.easeui.controller.EaseUI;
 import com.easemob.easeui.ui.EaseChatFragment;
 import com.easemob.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.utils.list.LoginUserAcct;

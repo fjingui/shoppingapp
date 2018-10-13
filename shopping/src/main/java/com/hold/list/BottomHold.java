@@ -1,7 +1,5 @@
 package com.hold.list;
 
-import android.app.Application;
-import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -9,22 +7,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bean.list.Seller;
 import com.learn.myapplication.AmountView;
 import com.shop.myapplication.BaseApplication;
-import com.shop.myapplication.JumpToActivity;
-import com.shop.myapplication.MainActivity;
-import com.shop.myapplication.OrderAcitvity;
 import com.shop.myapplication.R;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
-
-import java.io.Serializable;
-
-import static android.view.View.X;
 
 /**
  * Created by Administrator on 2017/7/8.

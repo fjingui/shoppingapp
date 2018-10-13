@@ -11,16 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.bean.list.CustInfo;
 import com.bean.list.Global_Final;
-import com.bean.list.OrderItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lljjcoder.citypickerview.widget.CityPicker;
-import com.utils.list.HttpPostData;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;

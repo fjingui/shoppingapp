@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/line02"
-                android:layout_marginBottom="@dimen/bottom">
+                android:layout_marginBottom="@dimen/bottom3">
             </android.support.v4.widget.NestedScrollView>
 
         </RelativeLayout>

@@ -5,7 +5,6 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +15,7 @@ import com.bean.list.ChrgDetail;
 import com.bean.list.Global_Final;
 import com.bean.list.WithDrawAcctBean;
 import com.utils.list.GetDataFromServer;
-import com.utils.list.HttpPostData;
+import com.utils.list.HttpPostReqData;
 import com.utils.list.ParseJsonData;
 
 public class IWantWithDraw extends AppCompatActivity {
@@ -95,7 +94,7 @@ public class IWantWithDraw extends AppCompatActivity {
                 }else {
                     remian = Float.parseFloat(balance) -Float.parseFloat(withmoney.getText().toString());
                     setAcctChrgDeail();
-                    new HttpPostData().PostData(Global_Final.accdtailinsert,accdetailjson);
+                    new HttpPostReqData().PostData(Global_Final.accdtailinsert,accdetailjson);
                     finish();
                 }
             }

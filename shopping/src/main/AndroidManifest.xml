@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
     <application
         android:name=".BaseApplication"
@@ -38,6 +39,15 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
+        </provider>
+        <provider
+            android:name="com.learn.myapplication.MyFileProvider"
+            android:authorities="com.shop.myapplication.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
         </provider>
 
         <activity
@@ -126,7 +136,8 @@
         <activity
             android:name=".IWantWithDraw"
             android:label="我要提现" />
-        <activity android:name=".MyWithDrawTransaction"></activity>
+        <activity android:name=".MyWithDrawTransaction" />
+        <activity android:name=".ShoppingAbout" android:label=""></activity>
     </application>
 
 </manifest>

@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/head_icon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerInParent="true"
             android:src="@mipmap/header" />
 
@@ -184,6 +184,20 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/padding"
                 android:text="客服电话：18956662004"
+                android:textSize="@dimen/textsize" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/smalldiv_line" />
+
+            <Button
+                android:id="@+id/shopping_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding"
+                android:text="关于农家购"
                 android:textSize="@dimen/textsize" />
 
             <ImageView

@@ -14,10 +14,8 @@ import android.widget.Toast;
 
 import com.bean.list.CustInfo;
 import com.bean.list.Global_Final;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lljjcoder.citypickerview.widget.CityPicker;
-import com.utils.list.HttpPostData;
+import com.utils.list.HttpPostReqData;
 import com.utils.list.ParseJsonData;
 
 public class OrderAddrManage extends AppCompatActivity {
@@ -63,7 +61,7 @@ public class OrderAddrManage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"收货地址不能为空",Toast.LENGTH_SHORT).show();
                 } else {
                     newCustInfo("18956662004",addrname.getText().toString(),addrphone.getText().toString(),addrselect.getText().toString()+addrdetail.getText().toString());
-                    new HttpPostData().PostData(Global_Final.newcustpath,newcustjson);
+                    new HttpPostReqData().PostData(Global_Final.newcustpath,newcustjson);
                     finish();
                 }
             }

@@ -1,14 +1,9 @@
 package com.shop.myapplication;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,28 +15,21 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.bean.list.Global_Final;
 import com.bean.list.LogoImages;
 import com.bean.list.Seller;
 import com.bean.list.SpaceItem;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.hold.list.LoadStateView;
 import com.utils.list.GetDataFromServer;
 import com.utils.list.ImportRecyleViewHold;
 import com.utils.list.ItemClickListener;
 import com.utils.list.LoginUserAcct;
-import com.utils.list.MyRecyleViewHold;
 import com.utils.list.ParseJsonData;
 import com.utils.list.RecyclerViewAdapter;
 import com.utils.list.RemoveParent;
 
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -293,13 +281,13 @@ public class HomeFrame extends Fragment {
         @Override
         public void onBindViewHolder(ImportRecyleViewHold holder, int position) {
             holder.salename.setText(importseller.get(position).getProduct_name());
-            holder.saleunit.setText(importseller.get(position).getProduct_unit());
+          //  holder.saleunit.setText(importseller.get(position).getProduct_unit());
             x.image().bind(holder.saleimage,importseller.get(position).getFactory_log(),
                     new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                     .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)
                     .setUseMemCache(true).build());
             holder.saledesc.setText(importseller.get(position).getProduct_desc());
-            holder.saleprice.setText(importseller.get(position).getProduct_price() + importseller.get(position).getPrice_unit());
+            holder.saleprice.setText("￥"+importseller.get(position).getProduct_price() + importseller.get(position).getPrice_unit());
         }
     }
 

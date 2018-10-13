@@ -1,7 +1,7 @@
 package com.shop.myapplication;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bean.list.Global_Final;
-import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.exceptions.EaseMobException;
 import com.utils.list.GeneOrderId;
@@ -26,6 +25,7 @@ public class RegesterActivity extends AppCompatActivity implements View.OnClickL
     private EditText passw;
     private EditText repassw;
     private Button register;
+    int myregresult =0;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -92,17 +92,18 @@ public class RegesterActivity extends AppCompatActivity implements View.OnClickL
            // Toast.makeText(RegesterActivity.this, "密码输入不一致", Toast.LENGTH_LONG).show();
         }else{
             registerUserAccount(reg_account,reg_username,init_pass,acctnbr);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        EMChatManager.getInstance().createAccountOnServer(account.getText().toString().trim(),"123456");
-                        EMChatManager.getInstance().updateCurrentUserNick(username.getText().toString().trim());
-                    } catch (EaseMobException e) {
-                        e.printStackTrace();
+            if(myregresult>0){
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            EMChatManager.getInstance().createAccountOnServer(account.getText().toString().trim(),"123456");
+                        } catch (EaseMobException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }).start();
+                }).start();
+            }
             }
         }
 
@@ -116,7 +117,12 @@ public class RegesterActivity extends AppCompatActivity implements View.OnClickL
         x.http().post(registe, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Toast.makeText(RegesterActivity.this,"恭喜，注册成功，返回登录。",Toast.LENGTH_LONG).show();
+                myregresult = Integer.parseInt(result) ;
+                if(myregresult>0) {
+                    Toast.makeText(RegesterActivity.this, "注册成功！", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(RegesterActivity.this, "账户已被注册！请更换号码。", Toast.LENGTH_LONG).show();
+                }
             }
             @Override
             public void onCancelled(CancelledException cex) {

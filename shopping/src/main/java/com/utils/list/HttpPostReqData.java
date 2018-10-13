@@ -13,16 +13,44 @@ import org.xutils.x;
  * Created by Administrator on 2017/9/6 0006.
  */
 
-public class HttpPostData {
+public class HttpPostReqData {
     private Handler noticehandler;
     int mes;
+    private String resultdata;
 
-    public HttpPostData(Handler noticehandler, int mes) {
+    public HttpPostReqData(Handler noticehandler, int mes) {
         this.noticehandler = noticehandler;
         this.mes = mes;
     }
 
-    public HttpPostData() {
+    public HttpPostReqData() {
+    }
+
+    public void requestData(String path){
+        RequestParams reqpara = new RequestParams(path);
+        x.http().post(reqpara, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                resultdata = result;
+                noticehandler.sendEmptyMessage(mes);
+              //  Toast.makeText(BaseApplication.getContext(),"成功",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     public void PostData(String path, String json){
@@ -51,5 +79,9 @@ public class HttpPostData {
 
             }
         });
+    }
+
+    public String getResultdata() {
+        return resultdata;
     }
 }

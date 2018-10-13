@@ -10,14 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.bean.list.Global_Final;
 import com.easemob.chat.EMChatManager;
 import com.utils.list.LoginUserAcct;
-import com.utils.list.ParseJsonData;
-
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
 
 /**
  * Created by Administrator on 2017/9/18 0018.
@@ -35,20 +29,22 @@ public class UserAcctFragment extends Fragment {
     private Button gettedbtn;
     private String cust_acct;
     private Button backlogin;
+    private Button shopping_about;
     private com.bean.list.UserAcct user;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View accview = View.inflate(getContext(), R.layout.fragment_useracct, null);
-        dfkbtn = (Button) accview.findViewById(R.id.btn_dfk);
-        receivebtn = (Button) accview.findViewById(R.id.btn_receive);
-        gettedbtn = (Button) accview.findViewById(R.id.btn_getted);
-        allorders = (Button) accview.findViewById(R.id.allorder);
-        backlogin = (Button) accview.findViewById(R.id.backlogin);
-        orderaddrmanage = (Button) accview.findViewById(R.id.orderaddr_manage);
-        headerbtn = (Button) accview.findViewById(R.id.headerbtn);
-        sale_thing = (Button) accview.findViewById(R.id.sale_thing);
-        sale_acct = (Button) accview.findViewById(R.id.sale_acct);
+        dfkbtn = accview.findViewById(R.id.btn_dfk);
+        receivebtn = accview.findViewById(R.id.btn_receive);
+        gettedbtn = accview.findViewById(R.id.btn_getted);
+        allorders = accview.findViewById(R.id.allorder);
+        backlogin = accview.findViewById(R.id.backlogin);
+        orderaddrmanage = accview.findViewById(R.id.orderaddr_manage);
+        headerbtn = accview.findViewById(R.id.headerbtn);
+        sale_thing = accview.findViewById(R.id.sale_thing);
+        sale_acct = accview.findViewById(R.id.sale_acct);
+        shopping_about = accview.findViewById(R.id.shopping_about);
 
         if (cust_acct == null) {
             cust_acct = LoginUserAcct.user.getCust_acct();
@@ -231,6 +227,13 @@ public class UserAcctFragment extends Fragment {
                     intent.putExtra("cust_acct", cust_acct);
                     startActivity(intent);
                 }
+            }
+        });
+        shopping_about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ShoppingAbout.class);
+                startActivity(intent);
             }
         });
         return accview;

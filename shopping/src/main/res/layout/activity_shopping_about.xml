@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_shopping_about"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.shop.myapplication.ShoppingAbout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <TextView
+            android:id="@+id/abount_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="关于农家购"
+            android:textSize="@dimen/headtext1"/>
+        <TextView
+            android:id="@+id/shopping_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/abount_head"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:textSize="@dimen/textsize"
+            android:textColor="@color/title"/>
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divider"/>
+    <TextView
+        android:id="@+id/check_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@mipmap/sarrow"
+        android:drawablePadding="@dimen/fab_margin"
+        android:padding="@dimen/padding"
+        android:text="检查更新"
+        android:textSize="@dimen/bigtextsize"/>
+</LinearLayout>

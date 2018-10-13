@@ -52,19 +52,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/acctbtn"
-        android:drawableLeft="@mipmap/prepay"
+        android:drawableLeft="@mipmap/write"
         android:text="@string/chrgdetail" />
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/divider"/>
-    <Button
-        android:id="@+id/exchgdetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/acctbtn"
-        android:drawableLeft="@mipmap/prepay"
-        android:text="@string/exchgdetail" />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/acctbtn"
-        android:drawableLeft="@mipmap/prepay"
+        android:drawableLeft="@mipmap/withacc"
         android:text="提现账户" />
     <LinearLayout
         android:id="@+id/withdrawtraction"
@@ -91,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/acctbtn"
-            android:drawableLeft="@mipmap/prepay"
+            android:drawableLeft="@mipmap/write"
             android:text="待办提现事务" />
     </LinearLayout>
 
