@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.shop.myapplication"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -62,5 +62,6 @@ android {
         compile project(':easeUI')
         compile 'com.squareup.picasso:picasso:2.5.2'
         compile 'com.teprinciple:updateapputils:1.4'
+        compile 'com.android.support:multidex:1.0.1'
     }
 }

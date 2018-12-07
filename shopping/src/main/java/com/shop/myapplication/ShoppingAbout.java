@@ -53,6 +53,7 @@ public class ShoppingAbout extends AppCompatActivity {
                         .checkBy(UpdateAppUtils.CHECK_BY_VERSION_NAME) //更新检测方式，默认为VersionCode
                         .serverVersionCode(apkversion.getVersion_code())
                         .serverVersionName(apkversion.getVersion_name())
+                        .showNotification(true)
                         .apkPath(apkversion.getApk_path())
                         .update();
             }

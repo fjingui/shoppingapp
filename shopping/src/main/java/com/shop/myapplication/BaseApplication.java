@@ -1,19 +1,10 @@
 package com.shop.myapplication;
 
-import android.Manifest;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.graphics.ColorSpace;
-import android.os.Handler;
-import android.os.Message;
 import android.support.multidex.MultiDex;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.bean.list.*;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.easeui.controller.EaseUI;
@@ -70,7 +61,7 @@ public class BaseApplication extends Application {
         GetUserAcct gua = new GetUserAcct(user, username);
 
         if (username.equals(EMChatManager.getInstance().getCurrentUser())) {
-            user.setNick(LoginUserAcct.getUser().getAcct_name());
+            user.setNick(LoginUserAcct.user.getAcct_name());
         } else {
             if (TextUtils.isEmpty(MyEaseSpUtils.getString(username, ""))) {
                 gua.getUserAcct();

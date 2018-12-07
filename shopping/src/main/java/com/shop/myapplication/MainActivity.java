@@ -34,6 +34,8 @@ import java.util.ArrayList;
 
 import util.UpdateAppUtils;
 
+import static com.utils.list.LoginUserAcct.user;
+
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -51,7 +53,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private NoScrollViewPager framevp;
     private MyFragmentPagerAdapter framePadapter;
     private ArrayList<Fragment> framelist=new ArrayList();
-    public static String cust_acct=null;
+    public  String cust_acct;
     private HttpPostReqData hreqdata;
     private HttpPostReqData initapkver;
     private Handler initdata = new Handler(){
@@ -72,6 +74,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         .checkBy(UpdateAppUtils.CHECK_BY_VERSION_NAME) //更新检测方式，默认为VersionCode
                         .serverVersionCode(apkversion.getVersion_code())
                         .serverVersionName(apkversion.getVersion_name())
+                        .downloadBy(UpdateAppUtils.DOWNLOAD_BY_BROWSER)
+                        .showNotification(true)
                         .apkPath(apkversion.getApk_path())
                         .update();
             }
@@ -84,7 +88,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_main);
         ConnectivityManager connectservice = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkinfo = connectservice.getActiveNetworkInfo();
-        cust_acct = LoginUserAcct.user.getCust_acct();
+        if(connectservice == null ){
+            Toast.makeText(this,"网络不可用，请检查网络状态！",Toast.LENGTH_LONG).show();
+        }else if(!networkinfo.isAvailable() ){
+            Toast.makeText(this,"网络不可用，请检查网络状态！",Toast.LENGTH_LONG).show();
+        }
+        if(user.getCust_acct() != null){
+            cust_acct = user.getCust_acct();
+        }
         pdoorview = findViewById(R.id.welcomeimage);
         pulldoorimg = findViewById(R.id.pulldoorimg);
         mainview=findViewById(R.id.activity_main);
@@ -95,11 +106,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
          chatradio = findViewById(R.id.chatlist);
         accoradio= findViewById(R.id.accoradio);
         framevp = findViewById(R.id.framevp);
-        if(!networkinfo.isAvailable() ){
-            Toast.makeText(this,"网络不可用，请检查网络状态！",Toast.LENGTH_LONG).show();
-        }
         initCover();
-
         buttonClick();
         framelist.add(new HomeFrame());
         framelist.add(new SellThing());
@@ -136,7 +143,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             }
         });
-       // pdoorview.setBgImage(R.mipmap.smallruralcover);
 
     }
 
@@ -168,41 +174,42 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 radgroup.check(R.id.homeradio);
                 break;
             case R.id.shopradio:
-                if (cust_acct==null){
+                if (user.getCust_acct() == null){
                     JumpToActivity.jumpToLogin(this, new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct=JumpToActivity.cust_acct;
+                          //  cust_acct=JumpToActivity.cust_acct;
                             framevp.setCurrentItem(0);
                         }
                     });
                 }else {
+                    cust_acct = LoginUserAcct.user.getCust_acct();
                     radgroup.check(R.id.shopradio);
                 }
                 break;
             case R.id.carradio:
-                if (cust_acct==null){
+                if (user.getCust_acct() == null){
                     JumpToActivity.jumpToLogin(this, new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct=JumpToActivity.cust_acct;
                             framevp.setCurrentItem(0);
                         }
                     });
                 }else {
+                    cust_acct = LoginUserAcct.user.getCust_acct();
                     radgroup.check(R.id.carradio);
                 }
                 break;
             case R.id.chatlist:
-                if (cust_acct==null){
+                if (user.getCust_acct() == null){
                     JumpToActivity.jumpToLogin(this, new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct=JumpToActivity.cust_acct;
                             framevp.setCurrentItem(0);
                         }
                     });
                 }else {
+                    cust_acct = LoginUserAcct.user.getCust_acct();
                     radgroup.check(R.id.chatlist);
                 }
                 break;

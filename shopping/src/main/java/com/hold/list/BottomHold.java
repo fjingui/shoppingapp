@@ -86,11 +86,7 @@ public class BottomHold implements View.OnClickListener {
     public PopupWindow showPopupWindow(View v) {
 
         aview= shopnums.findViewById(R.id.amountview);
-        if (seller.getFactory_name().equals("拍卖珍藏")){
-            aview.setGoods_storage(1);
-        }else {
-            aview.setGoods_storage(50);
-        }
+        aview.setGoods_storage(seller.getProduct_stor());
         ImageView purcharimg = shopnums.findViewById(R.id.purchar_img);
         TextView popmainname = shopnums.findViewById(R.id.pop_mainname);
         TextView popsubname =  shopnums.findViewById(R.id.pop_subname);

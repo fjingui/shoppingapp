@@ -6,7 +6,8 @@
     android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center">
     <ImageView
         android:id="@+id/order_pro_img"
         android:layout_width="@dimen/logoheight"
@@ -84,7 +85,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:textSize="@dimen/textsize"
-                android:text="10.0"/>
+                android:enabled="false"
+                android:text="0.00"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textsize"
                 android:inputType="number"
+                android:enabled="false"
                 android:text="0.00"/>
             <TextView
                 android:layout_width="wrap_content"

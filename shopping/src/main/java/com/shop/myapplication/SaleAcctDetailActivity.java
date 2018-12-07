@@ -22,7 +22,6 @@ public class SaleAcctDetailActivity extends AppCompatActivity {
 
     private TextView acctmoney;
     private Button chrgdetail;
-    private Button exchgdetail;
     private Button withdrawbtn;
     private Button withdrawaccont;
     private Button withdrawdetail;
@@ -48,7 +47,6 @@ public class SaleAcctDetailActivity extends AppCompatActivity {
         cust_acct = getIntent().getStringExtra("cust_acct");
         acctmoney = (TextView) findViewById(R.id.acct_money);
         chrgdetail = (Button) findViewById(R.id.chrgdetail);
-      //  exchgdetail = (Button) findViewById(R.id.exchgdetail);
         withdrawaccont = (Button) findViewById(R.id.withdraw_accout);
         withdrawbtn = (Button) findViewById(R.id.withdraw);
         withdrawdetail = (Button) findViewById(R.id.withdrawdetail);
@@ -64,12 +62,7 @@ public class SaleAcctDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-//        exchgdetail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+
         withdrawaccont.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

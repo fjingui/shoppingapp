@@ -17,6 +17,23 @@ public class HttpPostReqData {
     private Handler noticehandler;
     int mes;
     private String resultdata;
+    RequestParams postparam = new RequestParams();
+
+    public void setParam1(float express_chrg){
+        this.postparam.addQueryStringParameter("express_chrg", express_chrg + "");
+    }
+    public void setParam2(float discount_chrg){
+        this.postparam.addQueryStringParameter("discount_chrg", discount_chrg + "");
+    }
+    public void setParam3(String cust_order_id){
+        this.postparam.addQueryStringParameter("cust_order_id", cust_order_id);
+    }
+    public void setParam4(float totalmoney){
+        this.postparam.addQueryStringParameter("order_money", totalmoney + "");
+    }
+    public void setParam5(String order_status){
+        this.postparam.addQueryStringParameter("order_status", order_status );
+    }
 
     public HttpPostReqData(Handler noticehandler, int mes) {
         this.noticehandler = noticehandler;
@@ -24,6 +41,7 @@ public class HttpPostReqData {
     }
 
     public HttpPostReqData() {
+
     }
 
     public void requestData(String path){
@@ -77,6 +95,30 @@ public class HttpPostReqData {
             @Override
             public void onFinished() {
 
+            }
+        });
+    }
+    public void postData02(String path){
+        postparam.setUri(path);
+        x.http().post(postparam, new Callback.CommonCallback<String>() {
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                Toast.makeText(BaseApplication.getContext(),"提交成功",Toast.LENGTH_SHORT).show();
             }
         });
     }

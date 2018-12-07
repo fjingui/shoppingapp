@@ -24,8 +24,9 @@
     <dimen name="viewpager">200dp</dimen>
     <dimen name="itemheight">200dp</dimen>
     <dimen name="logoheight">100dp</dimen>
+    <dimen name="orderflowheight">170dp</dimen>
     <dimen name="loginbtnheight">20dp</dimen>
-    <dimen name="ordersheight">80dp</dimen>
+    <dimen name="ordersheight">100dp</dimen>
     <dimen name="aview_btnwidth">26dp</dimen>
     <dimen name="aview_edwidth">39dp</dimen>
     <dimen name="aview_textsize">12sp</dimen>

@@ -171,6 +171,21 @@
                 android:paddingLeft="@dimen/padding"
                 android:text="修改密码"
                 android:textSize="@dimen/textsize" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/smalldiv_line" />
+
+            <Button
+                android:id="@+id/dspthing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/padding"
+                android:text="待审批货物"
+                android:textSize="@dimen/textsize"
+                android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="match_parent"

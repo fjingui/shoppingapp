@@ -30,7 +30,7 @@ public class UserAcctFragment extends Fragment {
     private String cust_acct;
     private Button backlogin;
     private Button shopping_about;
-    private com.bean.list.UserAcct user;
+    private Button dspthing;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +45,10 @@ public class UserAcctFragment extends Fragment {
         sale_thing = accview.findViewById(R.id.sale_thing);
         sale_acct = accview.findViewById(R.id.sale_acct);
         shopping_about = accview.findViewById(R.id.shopping_about);
-
+        dspthing = accview.findViewById(R.id.dspthing);
+        if( TextUtils.equals(LoginUserAcct.user.getCust_acct(),"18956662004")  ){
+            dspthing.setVisibility(View.VISIBLE);
+        }
         if (cust_acct == null) {
             cust_acct = LoginUserAcct.user.getCust_acct();
         }
@@ -63,7 +66,7 @@ public class UserAcctFragment extends Fragment {
                     JumpToActivity.jumpToLogin(getActivity(), new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct = JumpToActivity.cust_acct;
+                            cust_acct = LoginUserAcct.user.getCust_acct();
                             headerbtn.setText(LoginUserAcct.user.getAcct_name());
                             Intent intent = new Intent(getContext(), DpayActivity.class);
                             intent.putExtra("cust_acct", cust_acct);
@@ -84,7 +87,7 @@ public class UserAcctFragment extends Fragment {
                     JumpToActivity.jumpToLogin(getActivity(), new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct = JumpToActivity.cust_acct;
+                            cust_acct = LoginUserAcct.user.getCust_acct();
                             headerbtn.setText(LoginUserAcct.user.getAcct_name());
                             Intent intent = new Intent(getContext(), DreceiveActivity.class);
                             intent.putExtra("cust_acct", cust_acct);
@@ -179,7 +182,6 @@ public class UserAcctFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 cust_acct = "";
-                MainActivity.cust_acct="";
                 LoginUserAcct.user=null;
                 EMChatManager.getInstance().logout();
                 headerbtn.setText(R.string.loginbtn);
@@ -233,6 +235,13 @@ public class UserAcctFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ShoppingAbout.class);
+                startActivity(intent);
+            }
+        });
+        dspthing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ApproveGoods.class);
                 startActivity(intent);
             }
         });

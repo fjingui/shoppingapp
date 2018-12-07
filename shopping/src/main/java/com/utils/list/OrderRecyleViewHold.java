@@ -25,8 +25,9 @@ public class OrderRecyleViewHold extends RecyclerView.ViewHolder {
     public EditText itemkold;
     public EditText orderyunfee;
     public HoldItemChangeListener htcl;
+    private Boolean if_edit;
 
-    public OrderRecyleViewHold(View itemView,HoldItemChangeListener textlisn) {
+    public OrderRecyleViewHold(View itemView,HoldItemChangeListener textlisn,Boolean if_edit) {
         super(itemView);
         orderProNumsLabel= itemView.findViewById(R.id.order_pro_nums_label);
         proaddress= itemView.findViewById(R.id.proaddress);
@@ -38,7 +39,12 @@ public class OrderRecyleViewHold extends RecyclerView.ViewHolder {
         itemkold = itemView.findViewById(R.id.itemkold);
         orderyunfee = itemView.findViewById(R.id.order_yunfee_value);
         htcl = textlisn;
+        this.if_edit = if_edit;
 
+        if (if_edit){
+            itemkold.setEnabled(true);
+            orderyunfee.setEnabled(true);
+        }
         itemkold.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

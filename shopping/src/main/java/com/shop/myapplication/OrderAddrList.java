@@ -1,26 +1,26 @@
 package com.shop.myapplication;
 
 import android.content.Intent;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bean.list.CustInfo;
 import com.bean.list.Global_Final;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
+import com.utils.list.FocusItemClickListen;
+import com.utils.list.GetDataFromServer;
+import com.utils.list.LoginUserAcct;
+import com.utils.list.ParseJsonData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,19 +28,78 @@ import java.util.List;
 public class OrderAddrList extends AppCompatActivity {
 
     private List<CustInfo> addrmanagelist = new ArrayList<>();
+    private CustInfo cif = new CustInfo();
     private RecyclerView addrmanagerecy;
     private Button newaddrbtn;
-    private AddrManageAdapter addradapter = new AddrManageAdapter();
     private String cust_acct;
+    private AddrManageAdapter addradapter = new AddrManageAdapter();
+    private GetDataFromServer addrlist;
+    private GetDataFromServer deladd;
+    private GetDataFromServer setaddrmain;
+
+    private Handler addresslist = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 001) {
+                if(addrlist.getGetresult()!=null){
+                    addrmanagelist = ParseJsonData.parseFromJson(addrlist.getGetresult(), CustInfo[].class);
+                    if(!addrmanagelist.isEmpty()){
+                        addrmanagerecy.setLayoutManager(new LinearLayoutManager(OrderAddrList.this, LinearLayoutManager.VERTICAL, false));
+                        addradapter = new AddrManageAdapter();
+                        addrmanagerecy.setAdapter(addradapter);
+                        addradapter.setDeladdr(new FocusItemClickListen() {
+                            @Override
+                            public void itemOnclick(int position) {
+                                deladd = new GetDataFromServer();
+                                deladd.setParam6(addrmanagelist.get(position).getCust_id());
+                                deladd.delData(Global_Final.delcustaddr);
+                                initData();
+                            }
+                        });
+                        addradapter.setEdtaddr(new FocusItemClickListen() {
+                            @Override
+                            public void itemOnclick(int position) {
+                                Intent orderadd = new Intent(OrderAddrList.this, OrderAddrManage.class);
+                                cif = addrmanagelist.get(position);
+                                orderadd.putExtra("cust_info", cif);
+                                startActivity(orderadd);
+                            }
+                        });
+                        addradapter.setBoxcheck(new BoxChecked() {
+                            @Override
+                            public void boxCheckedChange(int position) {
+                                for(int i=0;i<addrmanagerecy.getChildCount();i++){
+                                    RadioButton rb = addrmanagerecy.getLayoutManager().getChildAt(i).findViewById(R.id.addr_check);
+                                    if(i == position){
+                                        rb.setChecked(true);
+                                    }else {
+                                        rb.setChecked(false);
+                                    }
+                                }
+
+                                setaddrmain = new GetDataFromServer();
+                                setaddrmain.setParam(cust_acct);
+                                setaddrmain.setParam6(addrmanagelist.get(position).getCust_id());
+                                setaddrmain.getData(Global_Final.updatecuststatus);
+                            }
+                        });
+                    }
+                }
+
+            }
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,19 +108,7 @@ public class OrderAddrList extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addrmanagerecy = (RecyclerView) findViewById(R.id.allorderaddr);
         newaddrbtn = (Button) findViewById(R.id.neworderaddr);
-        addrmanagerecy.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         initData();
-        addrmanagerecy.setAdapter(addradapter);
-        addradapter.setBoxcheck(new BoxChecked() {
-            @Override
-            public void boxCheckedChange(View view, int position) {
-                CheckBox check = (CheckBox) view;
-                check.setChecked(true);
-                updateCustStatus(addrmanagelist.get(position).getCust_id());
-                SystemClock.sleep(300);
-                initData();
-            }
-        });
         newaddrbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,106 +118,67 @@ public class OrderAddrList extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+    }
+
     public void initData() {
-        cust_acct=getIntent().getStringExtra("cust_acct");
-        new Thread() {
-            public void run() {
-                getDataFromServer();
-                SystemClock.sleep(500);
-                if (addrmanagelist != null) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            addradapter.notifyDataSetChanged();
-                        }
-                    });
-                }
-            }
-        }.start();
-    }
-
-    public void parseCustAddr(String json) {
-        Gson gson = new Gson();
-        addrmanagelist = gson.fromJson(json, new TypeToken<List<CustInfo>>() {
-        }.getType());
-    }
-
-    public void getDataFromServer() {
-        RequestParams reparam = new RequestParams(Global_Final.requestcustlist);
-        reparam.addQueryStringParameter("cust_acct", cust_acct);
-        x.http().post(reparam, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                parseCustAddr(result);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
-    }
-
-    public void updateCustStatus(int custid) {
-        RequestParams params = new RequestParams(Global_Final.updatecuststatus);
-        params.addQueryStringParameter("cust_acct", cust_acct);
-        params.addQueryStringParameter("cust_id", String.valueOf(custid));
-        x.http().post(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                System.out.println(result);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
+        cust_acct = LoginUserAcct.user.getCust_acct();
+        addrlist = new GetDataFromServer(addresslist, null, 001);
+        addrlist.setParam(cust_acct);
+        addrlist.getData(Global_Final.requestcustlist);
     }
 
     public class OrderManageHold extends RecyclerView.ViewHolder {
         private TextView addrname;
         private TextView addrphone;
         private TextView orderaddr;
-        private CheckBox addrchecked;
+        RadioButton addrchecked;
         private Button addredit;
         private Button addrdel;
         BoxChecked boxchecked;
+        private FocusItemClickListen deladdr;
+        private FocusItemClickListen edtaddr;
 
-        public OrderManageHold(View itemView, final BoxChecked boxcheck) {
+        public OrderManageHold(View itemView, BoxChecked boxcheck, FocusItemClickListen del, FocusItemClickListen edt) {
             super(itemView);
-            this.addrname = (TextView) itemView.findViewById(R.id.addr_name);
-            this.addrphone = (TextView) itemView.findViewById(R.id.addr_phone);
-            this.orderaddr = (TextView) itemView.findViewById(R.id.orderaddr);
-            this.addrchecked = (CheckBox) itemView.findViewById(R.id.addr_check);
-            this.addredit = (Button) itemView.findViewById(R.id.addr_edit);
-            this.addrdel = (Button) itemView.findViewById(R.id.addr_del);
-            this.boxchecked=boxcheck;
+            this.addrname = itemView.findViewById(R.id.addr_name);
+            this.addrphone = itemView.findViewById(R.id.addr_phone);
+            this.orderaddr = itemView.findViewById(R.id.orderaddr);
+            this.addrchecked = itemView.findViewById(R.id.addr_check);
+            this.addredit = itemView.findViewById(R.id.addr_edit);
+            this.addrdel = itemView.findViewById(R.id.addr_del);
+            this.boxchecked = boxcheck;
+            this.edtaddr = edt;
+            this.deladdr = del;
+
             addrchecked.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (boxchecked != null) {
-                        boxchecked.boxCheckedChange(v, getAdapterPosition());
+                    if (boxchecked != null ) {
+                        boxchecked.boxCheckedChange( getAdapterPosition());
+                    }
+                }
+            });
+            addrdel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (deladdr != null) {
+                        if (!addrchecked.isChecked()) {
+                            deladdr.itemOnclick(getAdapterPosition());
+                        } else {
+                            Toast.makeText(OrderAddrList.this, "不能删除当前地址!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+            addredit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (edtaddr != null) {
+                        edtaddr.itemOnclick(getAdapterPosition());
                     }
                 }
             });
@@ -179,6 +187,16 @@ public class OrderAddrList extends AppCompatActivity {
 
     public class AddrManageAdapter extends RecyclerView.Adapter<OrderManageHold> {
         private BoxChecked boxcheck;
+        private FocusItemClickListen deladdr;
+        private FocusItemClickListen edtaddr;
+
+        public void setDeladdr(FocusItemClickListen deladdr) {
+            this.deladdr = deladdr;
+        }
+
+        public void setEdtaddr(FocusItemClickListen edtaddr) {
+            this.edtaddr = edtaddr;
+        }
 
         public void setBoxcheck(BoxChecked boxcheck) {
             this.boxcheck = boxcheck;
@@ -191,7 +209,7 @@ public class OrderAddrList extends AppCompatActivity {
         @Override
         public OrderManageHold onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = View.inflate(parent.getContext(), R.layout.orderaddrlist, null);
-            return new OrderManageHold(view,boxcheck);
+            return new OrderManageHold(view, boxcheck, deladdr, edtaddr);
         }
 
         @Override
@@ -210,6 +228,6 @@ public class OrderAddrList extends AppCompatActivity {
     }
 
     public interface BoxChecked {
-        void boxCheckedChange(View view, int position);
+        void boxCheckedChange(int position);
     }
 }

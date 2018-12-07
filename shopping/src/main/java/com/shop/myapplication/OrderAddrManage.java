@@ -2,8 +2,9 @@ package com.shop.myapplication;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,6 +25,7 @@ public class OrderAddrManage extends AppCompatActivity {
     private TextView addrselect;
     private Button saveaddr;
     private String newcustjson;
+    private CustInfo newcust = new CustInfo();
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -49,7 +51,7 @@ public class OrderAddrManage extends AppCompatActivity {
                 chooseArea(v);
             }
         });
-
+        initData();
         saveaddr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,9 +62,18 @@ public class OrderAddrManage extends AppCompatActivity {
                 } else if (addrselect.getText().toString().isEmpty() || addrdetail.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(),"收货地址不能为空",Toast.LENGTH_SHORT).show();
                 } else {
-                    newCustInfo("18956662004",addrname.getText().toString(),addrphone.getText().toString(),addrselect.getText().toString()+addrdetail.getText().toString());
-                    new HttpPostReqData().PostData(Global_Final.newcustpath,newcustjson);
-                    finish();
+                    int cid = 0;
+                    if(!TextUtils.isEmpty(newcust.getCust_id()+"") ) {
+                        cid =newcust.getCust_id();
+                    }
+                        newCustInfo(cid,"18956662004",addrname.getText().toString(),addrphone.getText().toString(),addrselect.getText().toString()+addrdetail.getText().toString());
+                        if(cid > 0){
+                            new HttpPostReqData().PostData(Global_Final.updatecust,newcustjson);
+                        }else{
+                            new HttpPostReqData().PostData(Global_Final.newcustpath,newcustjson);
+                        }
+
+                        finish();
                 }
             }
         });
@@ -102,8 +113,17 @@ public class OrderAddrManage extends AppCompatActivity {
             }
         });
     }
-    private void newCustInfo(String cust_acct,String custname,String custphone,String addr){
-        CustInfo newcust = new CustInfo();
+    public void initData(){
+        newcust = (CustInfo) getIntent().getSerializableExtra("cust_info");
+        if(newcust != null){
+            addrname.setText(newcust.getCust_name());
+            addrphone.setText(newcust.getCust_contact_nbr());
+        }
+    }
+    private void newCustInfo(int cust_id,String cust_acct,String custname,String custphone,String addr){
+        if( cust_id >0 ){
+            newcust.setCust_id(cust_id);
+        }
         newcust.setCust_acct(cust_acct);
         newcust.setCust_name(custname);
         newcust.setCust_contact_nbr(custphone);

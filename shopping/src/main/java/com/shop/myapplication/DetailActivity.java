@@ -102,7 +102,7 @@ public class DetailActivity extends AppCompatActivity {
     }
     public void startChat(){
         Intent chatintent = new Intent(DetailActivity.this, SaleChatActivity.class);
-        chatintent.putExtra(EaseConstant.EXTRA_USER_ID,seller.getCust_acct());
+        chatintent.putExtra(EaseConstant.EXTRA_USER_ID,seller.getSaler_cust_acct());
         chatintent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         startActivity(chatintent);
     }
@@ -119,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
                         new HttpPostReqData().PostData(Global_Final.neworderpath, carorderjson);
                     }
                     if (bottomHold.getBtnflag() == 2) { //立即购买
-                        shoptype="待付款";
+                        shoptype="待确认";
                         Intent intent = new Intent(BaseApplication.getContext(), OrderAcitvity.class);
                         orderitem=new OrderItem();
                         orderitem.setCust_acct(cust_acct);
@@ -131,13 +131,11 @@ public class DetailActivity extends AppCompatActivity {
                         orderitem.setProduct_name(seller.getProduct_name());
                         orderitem.setProduct_price(seller.getProduct_price());
                         orderitem.setProduct_unit(seller.getProduct_unit());
+                        orderitem.setSaler_cust_acct(seller.getSaler_cust_acct());
                         orderlist.clear();
                         orderlist.add(orderitem);
                         ArrayList<OrderItem> orderlist2= new ArrayList<OrderItem>(orderlist);
                         intent.putParcelableArrayListExtra("orderlist", orderlist2);
-//                        intent.putExtra("smpseller", seller);
-//                        intent.putExtra("orderinfo", orderInfo);
-                        intent.putExtra("cust_acct",cust_acct);
                         startActivity(intent);
                     }
                     bottomHold.getPouwindow().dismiss();
@@ -146,9 +144,8 @@ public class DetailActivity extends AppCompatActivity {
                     JumpToActivity.jumpToLogin(DetailActivity.this, new JumpToActivity.LoginCallback() {
                         @Override
                         public void onlogin() {
-                            cust_acct=JumpToActivity.cust_acct;
                             Intent acctintent = new Intent();
-                            acctintent.putExtra("cust_acct",cust_acct);
+                            cust_acct = LoginUserAcct.user.getCust_acct();
                             setResult(2,acctintent);
                         }
                     });
@@ -168,7 +165,7 @@ public class DetailActivity extends AppCompatActivity {
     }
     public void parseOrderCar(){
         orderInfo =new OrderInfo();
-        orderInfo.setCust_acct(cust_acct );
+        orderInfo.setCust_acct(LoginUserAcct.user.getCust_acct() );
         orderInfo.setCust_order_id(getorderid);
         orderInfo.setProduct_id(seller.getProduct_id());
         orderInfo.setOrder_status(shoptype);

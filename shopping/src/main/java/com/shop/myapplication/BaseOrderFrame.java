@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bean.list.OrderItem;
 import com.utils.list.GetDataFromServer;
+import com.utils.list.LoginUserAcct;
 import com.utils.list.ParseJsonData;
 
 import org.xutils.image.ImageOptions;
@@ -36,70 +37,69 @@ public class BaseOrderFrame extends Fragment {
     private TextView ordertitle;
     private String order_status;
     private String orderpath;
-    private final String status1 = "已验收";
-    private final String status2 = "待收货";
-    private final String status3 = "待付款";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View inflate = View.inflate(getActivity(), R.layout.activity_base_order, null);
-        dpayorders= (RecyclerView) inflate.findViewById(R.id.dpayorders);
+        dpayorders = (RecyclerView) inflate.findViewById(R.id.dpayorders);
         ordertitle = (TextView) inflate.findViewById(R.id.ordertitle);
         emptydata = (TextView) inflate.findViewById(R.id.ordersempty);
         return inflate;
     }
 
-    private Handler getdata = new Handler(){
+    private Handler getdata = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==11 && getorders.getGetresult()!=null){
-                dpayorderlist= ParseJsonData.parseFromJson(getorders.getGetresult(),OrderItem[].class);
-                dpayorders.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false));
-                DpayAdapter dpayAdapter = new DpayAdapter();
-                dpayAdapter.setdelListner(new ItemDelListener() {
-                    @Override
-                    public void itemOnDel(int position) {
-                        if(dpayorderlist.get(position).getOrder_status().equals(status3)) {
-                            ArrayList<OrderItem> items = new ArrayList();
-                            items.add(dpayorderlist.get(position));
-                            Intent intent = new Intent(getActivity(), OrderAcitvity.class);
-                            intent.putParcelableArrayListExtra("orderlist", items);
-                            startActivity(intent);
-                        }
-                    }
-                });
+            if (msg.what == 11) {
+                if(getorders.getGetresult()!=null){
+                    dpayorderlist = ParseJsonData.parseFromJson(getorders.getGetresult(), OrderItem[].class);
+                    if (!dpayorderlist.isEmpty()) {
+                        dpayorders.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                        DpayAdapter dpayAdapter = new DpayAdapter();
+                        dpayAdapter.setpayListner(new ItemPayListener() {
+                            @Override
+                            public void itemPay(int position) {
+                                ArrayList<OrderItem> items = new ArrayList();
+                                items.add(dpayorderlist.get(position));
+                                Intent intent = new Intent(getActivity(), OrderFlowActivity.class);
+                                intent.putParcelableArrayListExtra("orderlist", items);
+                                startActivity(intent);
+                            }
+                        });
 
-                dpayorders.setAdapter(dpayAdapter);
-            }else{
-                emptydata.setText("暂无数据！");
-                emptydata.setVisibility(View.VISIBLE);
+                        dpayorders.setAdapter(dpayAdapter);
+                    } else {
+                        emptydata.setText("暂无数据！");
+                        emptydata.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         }
     };
-    public void setOrderStatus(String setstatus){
+
+    public void setOrderStatus(String setstatus) {
         this.order_status = setstatus;
     }
-    public void setOrderPath(String setpath){
+
+    public void setOrderPath(String setpath) {
         this.orderpath = setpath;
     }
+
     public void setOrdertitle(String title) {
         ordertitle.setText(title);
     }
-    public void initDataFromServer(){
+
+    public void initDataFromServer() {
         emptydata.setVisibility(View.GONE);
-        cust_acct = getActivity().getIntent().getStringExtra("cust_acct");
-        getorders = new GetDataFromServer(getdata,null,11);
+        cust_acct = LoginUserAcct.user.getCust_acct();
+        getorders = new GetDataFromServer(getdata, null, 11);
         getorders.setParam(cust_acct);
         getorders.setParam2(order_status);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                getorders.getData(orderpath);
-            }
-        }).start();
+        getorders.getData(orderpath);
     }
-    class DpayItemHold extends RecyclerView.ViewHolder{
+
+    class DpayItemHold extends RecyclerView.ViewHolder {
         private TextView orderid;
         private TextView payorder;
         private ImageView orderimage;
@@ -110,22 +110,23 @@ public class BaseOrderFrame extends Fragment {
         private Button del;
         private ItemDelListener itemdellisn;
         private ItemPayListener itempaylisn;
+
         public DpayItemHold(View itemView, ItemDelListener itemdellisner, ItemPayListener itempaylisner) {
             super(itemView);
-            this.orderid= (TextView) itemView.findViewById(R.id.myorder_orderid);
-            this.payorder= (TextView) itemView.findViewById(R.id.myorder_opertype);
-            this.orderimage= (ImageView) itemView.findViewById(R.id.itemimage);
-            this.proname= (TextView) itemView.findViewById(R.id.itemfac);
-            this.priceamount= (TextView) itemView.findViewById(R.id.pricecounts);
+            this.orderid = (TextView) itemView.findViewById(R.id.myorder_orderid);
+            this.payorder = (TextView) itemView.findViewById(R.id.myorder_opertype);
+            this.orderimage = (ImageView) itemView.findViewById(R.id.itemimage);
+            this.proname = (TextView) itemView.findViewById(R.id.itemfac);
+            this.priceamount = (TextView) itemView.findViewById(R.id.pricecounts);
             itemstatus = (TextView) itemView.findViewById(R.id.item_status);
-            this.dpaymoney= (TextView) itemView.findViewById(R.id.myorder_totalmoney);
-            this.del= (Button) itemView.findViewById(R.id.myorder_operate);
-            this.itemdellisn=itemdellisner;
-            this.itempaylisn=itempaylisner;
+            this.dpaymoney = (TextView) itemView.findViewById(R.id.myorder_totalmoney);
+            this.del = (Button) itemView.findViewById(R.id.myorder_operate);
+            this.itemdellisn = itemdellisner;
+            this.itempaylisn = itempaylisner;
             del.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (itemdellisn!=null){
+                    if (itemdellisn != null) {
                         itemdellisn.itemOnDel(getAdapterPosition());
                     }
                 }
@@ -133,53 +134,47 @@ public class BaseOrderFrame extends Fragment {
             payorder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(itempaylisn!=null){
+                    if (itempaylisn != null) {
                         itempaylisn.itemPay(getAdapterPosition());
                     }
                 }
             });
         }
     }
-    class DpayAdapter extends RecyclerView.Adapter<DpayItemHold>{
+
+    class DpayAdapter extends RecyclerView.Adapter<DpayItemHold> {
 
         private ItemDelListener itemdellisn;
         private ItemPayListener itempaylisn;
 
-        public void setdelListner(ItemDelListener itemdellisn){
-            this.itemdellisn=itemdellisn;
+        public void setdelListner(ItemDelListener itemdellisn) {
+            this.itemdellisn = itemdellisn;
         }
-        public void setpayListner(ItemPayListener itempaylisn){
-            this.itempaylisn=itempaylisn;
+
+        public void setpayListner(ItemPayListener itempaylisn) {
+            this.itempaylisn = itempaylisn;
         }
+
         @Override
         public DpayItemHold onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view=View.inflate(getActivity(),R.layout.orderitemhold_frame,null);
-            return new DpayItemHold(view,itemdellisn,itempaylisn);
+            View view = View.inflate(getActivity(), R.layout.orderitemhold_frame, null);
+            return new DpayItemHold(view, itemdellisn, itempaylisn);
         }
 
         @Override
         public void onBindViewHolder(DpayItemHold holder, int position) {
-            holder.orderid.setText("订单号："+dpayorderlist.get(position).getCust_order_id());
-            x.image().bind(holder.orderimage,dpayorderlist.get(position).getFactory_log(),new ImageOptions.Builder()
+            holder.orderid.setText("订单号：" + dpayorderlist.get(position).getCust_order_id());
+            x.image().bind(holder.orderimage, dpayorderlist.get(position).getFactory_log(), new ImageOptions.Builder()
                     .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                     .setFailureDrawableId(R.mipmap.ic_launcher)
                     .setLoadingDrawableId(R.mipmap.ic_launcher)
                     .setUseMemCache(true).build());
-            if(dpayorderlist.get(position).getOrder_status().equals(status1)){
-                holder.payorder.setText("再次购买");
-                holder.del.setText("查看物流");
-            }else if (dpayorderlist.get(position).getOrder_status().equals(status2)){
-                holder.payorder.setText("确认收货");
-                holder.del.setText("查看物流");
-            }else {
-                holder.payorder.setText("立即付款");
-                holder.del.setText("修改运费");
-            }
+            holder.payorder.setText("查看详情");
             holder.proname.setText(dpayorderlist.get(position).getFactory_name());
-            holder.priceamount.setText(dpayorderlist.get(position).getProduct_price()+"*"+
+            holder.priceamount.setText(dpayorderlist.get(position).getProduct_price() + "元*" +
                     dpayorderlist.get(position).getOrder_amount());
             holder.itemstatus.setText(dpayorderlist.get(position).getOrder_status());
-            holder.dpaymoney.setText("总价："+dpayorderlist.get(position).getOrder_money());
+            holder.dpaymoney.setText("总价：" + dpayorderlist.get(position).getOrder_money()+"元");
         }
 
         @Override
@@ -187,10 +182,12 @@ public class BaseOrderFrame extends Fragment {
             return dpayorderlist.size();
         }
     }
-    public interface ItemDelListener{
+
+    public interface ItemDelListener {
         void itemOnDel(int position);
     }
-    public interface ItemPayListener{
+
+    public interface ItemPayListener {
         void itemPay(int position);
     }
 }

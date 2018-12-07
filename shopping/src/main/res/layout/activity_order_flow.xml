@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_order_flow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.shop.myapplication.OrderFlowActivity">
+
+    <LinearLayout
+        android:id="@+id/ordercurflow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/noticetext"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/curflowtext"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ordersheight"
+            android:layout_margin="@dimen/fab_margin"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:padding="@dimen/padding"
+            android:textSize="@dimen/textsize" />
+
+        <RadioGroup
+            android:id="@+id/statusgroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/statuswrite"
+                style="@style/radiostyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/order_status"
+                android:text="待修改" />
+
+            <RadioButton
+                android:id="@+id/statuspay"
+                style="@style/radiostyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/order_status"
+                android:text="待支付" />
+
+            <RadioButton
+                android:id="@+id/statussend"
+                style="@style/radiostyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/order_status"
+                android:text="待发货" />
+
+            <RadioButton
+                android:id="@+id/statusaccept"
+                style="@style/radiostyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/order_status"
+                android:text="待收货" />
+
+            <RadioButton
+                style="@style/radiostyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/order_status"
+                android:text="已完成" />
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btncertify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/orderTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize" />
+
+        <Button
+            android:id="@+id/pur_nextbtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/paytextcolor"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/bigtextsize" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/shoporderaddr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ordercurflow"
+        android:padding="@dimen/padding">
+
+        <ImageView
+            android:id="@+id/order_addr_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/orderaddr" />
+
+        <LinearLayout
+            android:id="@+id/order_detailinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/order_addr_img"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/fab_margin">
+
+            <LinearLayout
+                android:id="@+id/container_ordername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/order_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收货人："
+                    android:textSize="@dimen/textsize"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/order_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textsize" />
+
+                <TextView
+                    android:id="@+id/order_tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding"
+                    android:textSize="@dimen/textsize" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/order_addr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:textSize="@dimen/textsize" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/updateaddrico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/order_detailinfo"
+            android:paddingRight="@dimen/padding"
+            android:src="@mipmap/sarrow" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/bigdivd01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shoporderaddr"
+        android:src="@drawable/bigdiv_line" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bigdivd01"
+        android:layout_marginBottom="@dimen/bottom1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/orderitemlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/tradehint"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/smallheight"
+                android:background="@color/notice"
+                android:gravity="center"
+                android:text="请务必仔细核对收货地址是否有误"
+                android:textColor="@color/noticetext"
+                android:textSize="@dimen/textsize" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

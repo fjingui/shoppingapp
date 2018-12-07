@@ -1,7 +1,5 @@
 package com.shop.myapplication;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,22 +7,22 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.base.bj.paysdk.domain.TrPayResult;
-import com.base.bj.paysdk.listener.PayResultListener;
-import com.base.bj.paysdk.utils.TrPay;
 import com.bean.list.CustInfo;
 import com.bean.list.Global_Final;
 import com.bean.list.OrderInfo;
 import com.bean.list.OrderItem;
+import com.bean.list.OrderStatus;
 import com.utils.list.GetDataFromServer;
 import com.utils.list.HoldItemChangeListener;
 import com.utils.list.HttpPostReqData;
@@ -40,7 +38,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderAcitvity extends AppCompatActivity implements View.OnClickListener {
+public class OrderAcitvity extends AppCompatActivity {
 
     @ViewInject(R.id.order_name)
     private TextView custname;
@@ -52,25 +50,22 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
     private TextView ordertotal;
     @ViewInject(R.id.pur_nextbtn)
     private Button payBtn;
+    @ViewInject(R.id.order_detailinfo)
+    private LinearLayout orderdetailinfo;
     private int proamount = 0;
-    private float inittotalmoney = 0;
     private float totalmoney = 0;
     private CustInfo custinfo = new CustInfo();
+    private OrderInfo orderinfo = new OrderInfo();
+    private String orderinfojson;
     private List<OrderItem> orderlist = new ArrayList();
     private RecyclerView orderitems;
     private OrderRecyleViewAdapter orderitemsadapter;
-    private String custinfojson;
-    private OrderInfo orderinfo = new OrderInfo();
-    private String orderinfojson;
     private String cust_acct = "";
     private GetDataFromServer datafromserv;
     private FrameLayout initframe;
-    private TextView orderaddrmanage;
     private View orderlayout;
-    private String paycustorderid;
     private DecimalFormat decf = new DecimalFormat(".0");
-    private final static String channel = "360";//应用商店渠道名(如：360，小米、华为)
-    private final static String appkey = "55388a820c3644aa8eaef76f9f89ecdb";
+    private Boolean ifeditable = false;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -85,147 +80,119 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_acitvity);
-    //    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         initframe = (FrameLayout) findViewById(R.id.initframe);
         orderitems = (RecyclerView) findViewById(R.id.orderitemlist);
-        orderaddrmanage = (TextView) findViewById(R.id.order_addr);
         orderlayout = findViewById(R.id.orderlayout);
         payBtn = (Button) findViewById(R.id.pur_nextbtn);
         x.view().inject(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         initData();
 
-        orderaddrmanage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(orderlist.get(0).getCust_acct().equals(cust_acct)){
+        if(!TextUtils.equals(cust_acct,orderlist.get(0).getSaler_cust_acct())){
+            orderdetailinfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     Intent intent = new Intent(OrderAcitvity.this, OrderAddrList.class);
-                    intent.putExtra("cust_acct",cust_acct);
+                    startActivity(intent);
+
+                }
+            });
+        }else{
+            orderdetailinfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(OrderAcitvity.this,"非购买者本人不能修改!",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        getDataFromServer();
+        if(!TextUtils.equals(cust_acct,orderlist.get(0).getSaler_cust_acct())){
+            payBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(OrderAcitvity.this, OrderFlowActivity.class);
+                    //                    回写订单表
+                    if(!orderlist.isEmpty()){
+                        for (int i=0;i<orderlist.size();i++){
+                            if(TextUtils.equals(orderlist.get(i).getOrder_status(),OrderStatus.STATUS_CAR)){
+                                HttpPostReqData setcarstaus = new HttpPostReqData();
+                                setcarstaus.setParam3(orderlist.get(i).getCust_order_id());
+                                setcarstaus.setParam5(OrderStatus.STATUS_WRITE);
+                                setcarstaus.postData02(Global_Final.updateorderstatus);
+                            }else{
+                                orderlist.get(i).setOrder_status(OrderStatus.STATUS_WRITE);
+                                setOrderInfo(orderlist.get(i),OrderStatus.STATUS_WRITE);
+                                new HttpPostReqData().PostData(Global_Final.neworderpath, orderinfojson);
+                            }
+                        }
+                    }
+                    ArrayList<OrderItem> orderlist2= new ArrayList<OrderItem>(orderlist);
+                    intent.putParcelableArrayListExtra("orderlist", orderlist2);
                     startActivity(intent);
                 }
-            }
-        });
-        getDataFromServer();
-        payBtn.setOnClickListener(OrderAcitvity.this);
-        TrPay.getInstance(this).initPaySdk(appkey, channel);
+            });
+        }
+
     }
 
     public void initData() {
         Intent intent = getIntent();
         cust_acct = LoginUserAcct.user.getCust_acct();
         orderlist = intent.getParcelableArrayListExtra("orderlist");
-        paycustorderid = orderlist.get(0).getCust_order_id();
+        if(TextUtils.equals(cust_acct,orderlist.get(0).getSaler_cust_acct())){
+            ifeditable =true;
+        }
     }
-
     private Handler getdatahandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 1) {
+            if (msg.what == 1 ) {
                 custinfo = ParseJsonData.parseObjectJson(datafromserv.getGetresult(), CustInfo.class);
-                custaddr.setText(custinfo.getCust_address());
-                custname.setText(custinfo.getCust_name());
-                custnbr.setText(custinfo.getCust_contact_nbr());
-                orderitems.setLayoutManager(new LinearLayoutManager(OrderAcitvity.this, LinearLayoutManager.VERTICAL, false));
-                orderitemsadapter = new OrderRecyleViewAdapter();
-                orderitems.setAdapter(orderitemsadapter);
-                orderitemsadapter.setHtcl(new HoldItemChangeListener() {
-                    @Override
-                    public void textChange(int i) {
-                        proamount=0;
-                        totalmoney=0;
-                        orderitemsadapter.notifyDataSetChanged();
-                    }
-                });
+                if (custinfo != null) {
+                    custaddr.setText(custinfo.getCust_address());
+                    custname.setText(custinfo.getCust_name());
+                    custnbr.setText(custinfo.getCust_contact_nbr());
+                    orderitems.setLayoutManager(new LinearLayoutManager(OrderAcitvity.this, LinearLayoutManager.VERTICAL, false));
+                    orderitemsadapter = new OrderRecyleViewAdapter();
+                    orderitems.setAdapter(orderitemsadapter);
+                    orderitemsadapter.setIf_edit(ifeditable);
+                    proamount = 0;
+                    totalmoney = 0;
+                    orderitemsadapter.notifyDataSetChanged();
+                    orderitemsadapter.setHtcl(new HoldItemChangeListener() {
+                        @Override
+                        public void textChange(int i) {
+                            proamount = 0;
+                            totalmoney = 0;
+                            orderitemsadapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+                orderlayout.setVisibility(View.VISIBLE);
             }
-            orderlayout.setVisibility(View.VISIBLE);
         }
     };
 
-    public void resetCustInfo() {
-        custinfo.setCust_address(custaddr.getText() + "");
-        custinfo.setCust_contact_nbr(custnbr.getText() + "");
-        custinfo.setCust_name(custname.getText() + "");
-        custinfojson = ParseJsonData.parseToJson(custinfo);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDataFromServer();
+        initData();
     }
-
+    public void getDataFromServer() {
+        datafromserv = new GetDataFromServer(getdatahandler, initframe, 1);
+        datafromserv.setParam(cust_acct);
+        datafromserv.getData(Global_Final.requestcustpath);
+        orderlayout.setVisibility(View.GONE);
+    }
     public void setOrderInfo(OrderItem order, String ordertype) {
         orderinfo.setCust_acct(cust_acct);
         orderinfo.setCust_order_id(order.getCust_order_id());
         orderinfo.setOrder_amount(order.getOrder_amount());
         orderinfo.setProduct_id(order.getProduct_id());
         orderinfo.setOrder_status(ordertype);
-        orderinfo.setOrder_money(Math.round(totalmoney * 100) / 100);
+        orderinfo.setOrder_money(order.getProduct_price() * order.getOrder_amount());
         orderinfojson = ParseJsonData.parseToJson(orderinfo);
-    }
-
-    public void getDataFromServer() {
-        datafromserv = new GetDataFromServer(getdatahandler, initframe, 1);
-        datafromserv.setParam(cust_acct);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                datafromserv.getData(Global_Final.requestcustpath);
-            }
-        }).start();
-        orderlayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onClick(View v) {
-//发起支付所需参数
-        String userid = cust_acct;//商户系统用户ID(如：trpay@52yszd.com，商户系统内唯一)
-        String outtradeno = String.valueOf(paycustorderid);//商户系统订单号(为便于演示，此处利用UUID生成模拟订单号，商户系统内唯一)
-        String backparams = "";//商户系统回调参数
-        String notifyurl = "http://101.200.13.92/notify/";//商户系统回调地址
-        String tradename = orderlist.get(0).getFactory_name();//商品名称
-        if (proamount > 1) {
-            tradename = tradename + "等多件";
-        }
-        Long amount = Long.valueOf(Math.round(totalmoney * 100) / 1 + "");//商品价格（单位：分。如1.5元传150）
-        if (amount < 1) {
-            Toast.makeText(OrderAcitvity.this, "金额不能小于1分！", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (custaddr.getText().toString().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "收货地址不能为空", Toast.LENGTH_SHORT).show();
-        } else if (custname.getText().toString().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "收货人不能为空", Toast.LENGTH_SHORT).show();
-        } else if (custnbr.getText().toString().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "联系电话不能为空", Toast.LENGTH_SHORT).show();
-        } else if(totalmoney <= 0){
-            payBtn.setError("总金额不能小于0");
-            View error = payBtn;
-            error.requestFocus();
-        } else {
-            resetCustInfo();
-            new HttpPostReqData().PostData(Global_Final.newcustpath, custinfojson);
-            TrPay.getInstance(OrderAcitvity.this).callPay(tradename, outtradeno, amount, backparams, notifyurl, userid, new PayResultListener() {
-                @Override
-                public void onPayFinish(Context context, String outtradeno, int resultCode, String resultString, int payType, Long amount, String tradename) {
-                    if (resultCode == TrPayResult.RESULT_CODE_SUCC.getId()) {//1：支付成功回调
-                        TrPay.getInstance((Activity) context).closePayView();//关闭快捷支付页面
-                        for (int i = 0; i < orderlist.size(); i++) {
-                            String str1 = "已付款";
-                            setOrderInfo(orderlist.get(i), str1);
-                            new HttpPostReqData().PostData(Global_Final.neworderpath, orderinfojson);
-                        }
-                        Toast.makeText(OrderAcitvity.this, "支付成功，等待商家发货", Toast.LENGTH_LONG).show();
-                        //支付成功逻辑处理
-                    } else if (resultCode == TrPayResult.RESULT_CODE_FAIL.getId()) {//2：支付失败回调
-                        for (int i = 0; i < orderlist.size(); i++) {
-                            String str2 = "待付款";
-                            setOrderInfo(orderlist.get(i), str2);
-                            new HttpPostReqData().PostData(Global_Final.neworderpath, orderinfojson);
-
-                            Toast.makeText(OrderAcitvity.this, "支付失败，请稍后重新尝试", Toast.LENGTH_LONG).show();
-                            //支付失败逻辑处理
-                        }
-                    }
-                }
-            });
-
-        }
     }
 
     class OrderRecyleViewAdapter extends RecyclerView.Adapter<OrderRecyleViewHold> {
@@ -233,6 +200,11 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
         private float itemmoney=0;
         private float itemdiscount=0;
         private HoldItemChangeListener htcl;
+        private Boolean if_edit;
+
+        public void setIf_edit(Boolean if_edit) {
+            this.if_edit = if_edit;
+        }
 
         public void setHtcl(HoldItemChangeListener htcl) {
             this.htcl = htcl;
@@ -241,7 +213,7 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
         @Override
         public OrderRecyleViewHold onCreateViewHolder(ViewGroup parent, int viewType) {
             View orderview = View.inflate(OrderAcitvity.this, R.layout.orderitem_pay, null);
-            return new OrderRecyleViewHold(orderview,htcl);
+            return new OrderRecyleViewHold(orderview,htcl,if_edit);
         }
 
         @Override
@@ -261,6 +233,7 @@ public class OrderAcitvity extends AppCompatActivity implements View.OnClickList
             totalmoney += itemsum;
             proamount += orderlist.get(position).getOrder_amount();
             ordertotal.setText("共" + proamount + "件商品，" + "总金额￥" + decf.format(totalmoney) + "元");
+
         }
 
         @Override

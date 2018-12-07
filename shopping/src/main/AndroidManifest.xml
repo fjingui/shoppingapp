@@ -137,7 +137,11 @@
             android:name=".IWantWithDraw"
             android:label="我要提现" />
         <activity android:name=".MyWithDrawTransaction" />
-        <activity android:name=".ShoppingAbout" android:label=""></activity>
+        <activity
+            android:name=".ShoppingAbout"
+            android:label="" />
+        <activity android:name=".ApproveGoods" />
+        <activity android:name=".OrderFlowActivity"></activity>
     </application>
 
 </manifest>

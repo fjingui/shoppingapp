@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:id="@+id/orderlayout"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:fitsSystemWindows="true"--><!--tools:context="com.shop.myapplication.OrderAcitvity">-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -36,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/paytextcolor"
-            android:text="确认付款"
+            android:text="确定"
             android:textColor="@color/white"
             android:textSize="@dimen/bigtextsize" />
     </LinearLayout>
@@ -44,23 +43,31 @@
     <RelativeLayout
         android:id="@+id/shoporderaddr"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding">
 
         <ImageView
             android:id="@+id/order_addr_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:background="@mipmap/orderaddr"
-            android:padding="@dimen/padding" />
+            android:background="@mipmap/orderaddr" />
+
+        <LinearLayout
+            android:id="@+id/order_detailinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_toRightOf="@id/order_addr_img"
+            android:paddingLeft="@dimen/fab_margin"
+            android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/container_ordername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/order_addr_img"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/order_name_label"
@@ -72,63 +79,33 @@
 
             <TextView
                 android:id="@+id/order_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textsize" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/container_ordercontact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/container_ordername"
-            android:layout_toRightOf="@id/order_addr_img"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding">
-
-            <TextView
-                android:id="@+id/order_tel_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="联系电话："
-                android:textStyle="bold"
                 android:textSize="@dimen/textsize" />
-
             <TextView
                 android:id="@+id/order_tel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/acc_nbr"
-                android:inputType="phone"
-                android:textSize="@dimen/textsize" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/container_ordercontact"
-            android:layout_toRightOf="@id/order_addr_img"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding">
-
-            <TextView
-                android:id="@+id/order_addr_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="收货地址："
-                android:textStyle="bold"
+                android:padding="@dimen/padding"
                 android:textSize="@dimen/textsize" />
+        </LinearLayout>
 
             <TextView
                 android:id="@+id/order_addr"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
                 android:textSize="@dimen/textsize" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/sarrow" />
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/sarrow"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/order_detailinfo"
+            android:paddingRight="@dimen/padding"/>
 
     </RelativeLayout>
 

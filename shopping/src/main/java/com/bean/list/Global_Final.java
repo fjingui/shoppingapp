@@ -6,18 +6,23 @@ package com.bean.list;
 
 public class Global_Final {
     //10.0.2.2 /114.115.138.24 /192.168.1.100
-    public static final String basepath = "http://192.168.1.100:8080/shopping_service/";
+    public static final String basepath = "http://192.168.1.101:8080/shopping_service/";
     public static final String imagespath =basepath +"json/homeimgs";
     public static final String sellerpath =basepath +"json/sellerjson";
+    public static final String approvegood =basepath +"json/approvejson";
     public static final String importseller =basepath +"json/importseller";
     public static final String limitsellerpath=basepath + "json/limitseller";
     public static final String neworderpath=basepath+"json/neworder";
     public static final String requestorderpath=basepath+"json/reqorder_queryOrder";
     public static final String requestsalerorders=basepath+"json/reqorder_querySalerOrders";
-    public static final String newcustpath=basepath+"json/newcust";
+    public static final String updateorderchrg=basepath+"json/updateorder";
+    public static final String updateorderstatus=basepath+"json/updateorderstatus";
+    public static final String newcustpath=basepath+"json/newcust2_insertCust";
     public static final String requestcustpath=basepath+"json/requestcust_queryCust";
+    public static final String delcustaddr=basepath+"json/newcust_delCustAddress";
     public static final String requestcustlist=basepath+"json/requestcust_queryCustList";
     public static final String updatecuststatus=basepath+"json/newcust_updateCustStatus";
+    public static final String updatecust=basepath+"json/newcust2_updateCust";
     public static final String deleteorderpath=basepath+"json/order_deleteOrder";
     public static final String deleteallorder=basepath+"json/order_delallorder";
     public static final String userlogin=basepath+"json/userlogin";

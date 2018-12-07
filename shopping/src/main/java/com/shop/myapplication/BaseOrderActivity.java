@@ -1,13 +1,14 @@
 package com.shop.myapplication;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,9 @@ import android.widget.Toast;
 
 import com.bean.list.Global_Final;
 import com.bean.list.OrderItem;
+import com.bean.list.OrderStatus;
 import com.utils.list.GetDataFromServer;
+import com.utils.list.LoginUserAcct;
 import com.utils.list.ParseJsonData;
 
 import org.xutils.common.Callback;
@@ -39,10 +42,6 @@ public class BaseOrderActivity extends AppCompatActivity {
     private TextView ordertitle;
     private String order_status;
     private String orderpath;
-    private final String status1 = "已验收";
-    private final String status2 = "待收货";
-    private final String status3 = "待付款";
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -63,39 +62,51 @@ public class BaseOrderActivity extends AppCompatActivity {
     private Handler getdata = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==11 && getorders.getGetresult()!=null){
+            if(msg.what==11){
                 dpayorderlist= ParseJsonData.parseFromJson(getorders.getGetresult(),OrderItem[].class);
-                dpayorders.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false));
-                DpayAdapter dpayAdapter = new DpayAdapter();
-                dpayAdapter.setdelListner(new ItemDelListener() {
-                    @Override
-                    public void itemOnDel(int position) {
-                        if(dpayorderlist.get(position).getOrder_status().equals(status3)) {
-                            String cust_order_id = dpayorderlist.get(position).getCust_order_id();
-                            delOrderFromServer(Global_Final.deleteorderpath, cust_order_id, cust_acct);
-                            SystemClock.sleep(300);
-                            initDataFromServer();
+                if(!dpayorderlist.isEmpty()){
+                    dpayorders.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false));
+                    DpayAdapter dpayAdapter = new DpayAdapter();
+                    dpayAdapter.setdelListner(new ItemDelListener() {
+                        @Override
+                        public void itemOnDel(int position) {
+                            ArrayList<OrderItem> payitems = new ArrayList();
+                            payitems.add(dpayorderlist.get(position));
+                            if(dpayorderlist.get(position).getOrder_status().equals(OrderStatus.STATUS_PAY)
+                                    ||dpayorderlist.get(position).getOrder_status().equals(OrderStatus.STATUS_WRITE)) {
+                                String cust_order_id = dpayorderlist.get(position).getCust_order_id();
+                                delOrderFromServer(Global_Final.deleteorderpath, cust_order_id, cust_acct);
+                                SystemClock.sleep(300);
+                                initDataFromServer();
+                            }else if (dpayorderlist.get(position).getOrder_status().equals(OrderStatus.STATUS_OVER)){
+                                Intent intent = new Intent(getApplicationContext(), OrderFlowActivity.class);
+                                intent.putParcelableArrayListExtra("orderlist", payitems);
+                                startActivity(intent);
+                            }
                         }
-                    }
-                });
-                dpayAdapter.setpayListner(new ItemPayListener() {
+                    });
+                    dpayAdapter.setpayListner(new ItemPayListener() {
 
-                    @Override
-                    public void itemPay(int position) {
-                        ArrayList<OrderItem> payitems = new ArrayList();
-                        payitems.add(dpayorderlist.get(position));
-                        if(dpayorderlist.get(position).getOrder_status().equals(status1)
-                                || dpayorderlist.get(position).getOrder_status().equals(status3)) {
-                            Intent intent = new Intent(getApplicationContext(), OrderAcitvity.class);
-                            intent.putParcelableArrayListExtra("orderlist", payitems);
-                            startActivity(intent);
+                        @Override
+                        public void itemPay(int position) {
+                            ArrayList<OrderItem> payitems = new ArrayList();
+                            payitems.add(dpayorderlist.get(position));
+                            if(dpayorderlist.get(position).getOrder_status().equals(OrderStatus.STATUS_OVER)){
+                                Intent intent = new Intent(getApplicationContext(), OrderAcitvity.class);
+                                intent.putParcelableArrayListExtra("orderlist", payitems);
+                                startActivity(intent);
+                            }else{
+                                Intent intent = new Intent(getApplicationContext(), OrderFlowActivity.class);
+                                intent.putParcelableArrayListExtra("orderlist", payitems);
+                                startActivity(intent);
+                            }
                         }
-                    }
-                });
-                dpayorders.setAdapter(dpayAdapter);
-            }else{
-                emptydata.setText("暂无数据！");
-                emptydata.setVisibility(View.VISIBLE);
+                    });
+                    dpayorders.setAdapter(dpayAdapter);
+                }else{
+                    emptydata.setText("暂无数据！");
+                    emptydata.setVisibility(View.VISIBLE);
+                }
             }
         }
     };
@@ -108,18 +119,13 @@ public class BaseOrderActivity extends AppCompatActivity {
     public void setOrdertitle(String title) {
         ordertitle.setText(title);
     }
-    public void initDataFromServer(){
+    public void initDataFromServer() {
         emptydata.setVisibility(View.GONE);
-        cust_acct = getIntent().getStringExtra("cust_acct");
-        getorders = new GetDataFromServer(getdata,null,11);
+        cust_acct = LoginUserAcct.user.getCust_acct();
+        getorders = new GetDataFromServer(getdata, null, 11);
         getorders.setParam(cust_acct);
         getorders.setParam2(order_status);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                getorders.getData(orderpath);
-            }
-        }).start();
+        getorders.getData(orderpath);
     }
     public void delOrderFromServer(String delPath, String orderid,String cust_acct){
         RequestParams delorderparm=new RequestParams(delPath);
@@ -208,21 +214,32 @@ public class BaseOrderActivity extends AppCompatActivity {
                     .setFailureDrawableId(R.mipmap.ic_launcher)
                     .setLoadingDrawableId(R.mipmap.ic_launcher)
                     .setUseMemCache(true).build());
-            if(dpayorderlist.get(position).getOrder_status().equals(status1)){
-                holder.payorder.setText("再次购买");
-                holder.del.setText("查看物流");
-            }else if (dpayorderlist.get(position).getOrder_status().equals(status2)){
+            if(dpayorderlist.get(position).getOrder_status().equals(OrderStatus.STATUS_OVER)){
+                if(TextUtils.equals(cust_acct,dpayorderlist.get(position).getSaler_cust_acct())){
+                    holder.payorder.setVisibility(View.GONE);
+                    holder.del.setText("查看详情");
+                }else{
+                    holder.payorder.setText("再次购买");
+                    holder.del.setText("查看详情");
+                }
+            }else if (dpayorderlist.get(position).getOrder_status().equals(OrderStatus.STATUS_ACCEPT)){
                 holder.payorder.setText("确认收货");
-                holder.del.setText("查看物流");
-            }else {
+                holder.del.setVisibility(View.GONE);
+            }else if (dpayorderlist.get(position).getOrder_status().equals(OrderStatus.STATUS_PAY)){
                 holder.payorder.setText("立即付款");
                 holder.del.setText("取消订单");
+            }else if (dpayorderlist.get(position).getOrder_status().equals(OrderStatus.STATUS_WRITE)){
+                holder.payorder.setText("查看详情");
+                holder.del.setText("取消订单");
+            }else{
+                holder.payorder.setText("查看详情");
+                holder.del.setVisibility(View.GONE);
             }
             holder.proname.setText(dpayorderlist.get(position).getFactory_name());
-            holder.priceamount.setText(dpayorderlist.get(position).getProduct_price()+"*"+
+            holder.priceamount.setText(dpayorderlist.get(position).getProduct_price()+"元*"+
                     dpayorderlist.get(position).getOrder_amount());
             holder.itemstatus.setText(dpayorderlist.get(position).getOrder_status());
-            holder.dpaymoney.setText("总价："+dpayorderlist.get(position).getOrder_money());
+            holder.dpaymoney.setText("总价："+dpayorderlist.get(position).getOrder_money()+"元");
         }
 
         @Override

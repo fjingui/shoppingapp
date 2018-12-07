@@ -116,7 +116,7 @@ public class PullDoorView extends RelativeLayout {
                 mDelY = mCurryY - mLastDownY;
                 if (mDelY < 0) {
 
-                    if (Math.abs(mDelY) > mScreenHeigh / 2) {
+                    if (Math.abs(mDelY) > mScreenHeigh / 4) {
 
                         // 向上滑动超过半个屏幕高的时候 开启向上消失动画
                         startBounceAnim(this.getScrollY(), mScreenHeigh, 450);

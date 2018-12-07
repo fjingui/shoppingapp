@@ -3,8 +3,6 @@ package com.bean.list;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
 /**
  * Created by Administrator on 2017/9/2 0002.
  */
@@ -17,10 +15,14 @@ public class OrderItem implements Parcelable{
     private int product_id;
     private String product_name;
     private Float product_price;
+    private int product_stor;
     private int order_amount;
     private float order_money;
     private String order_status;
     private String product_unit;
+    private String saler_cust_acct;
+    private float express_chrg;
+    private float discount_chrg;
 
     public OrderItem(){
     }
@@ -81,6 +83,14 @@ public class OrderItem implements Parcelable{
         this.product_price = product_price;
     }
 
+    public int getProduct_stor() {
+        return product_stor;
+    }
+
+    public void setProduct_stor(int product_stor) {
+        this.product_stor = product_stor;
+    }
+
     public int getProduct_id() {
         return product_id;
     }
@@ -112,6 +122,30 @@ public class OrderItem implements Parcelable{
         this.product_unit = product_unit;
     }
 
+    public String getSaler_cust_acct() {
+        return saler_cust_acct;
+    }
+
+    public void setSaler_cust_acct(String saler_cust_acct) {
+        this.saler_cust_acct = saler_cust_acct;
+    }
+
+    public float getDiscount_chrg() {
+        return discount_chrg;
+    }
+
+    public void setDiscount_chrg(float discount_chrg) {
+        this.discount_chrg = discount_chrg;
+    }
+
+    public float getExpress_chrg() {
+        return express_chrg;
+    }
+
+    public void setExpress_chrg(float express_chrg) {
+        this.express_chrg = express_chrg;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -130,6 +164,10 @@ public class OrderItem implements Parcelable{
         dest.writeString(order_status);
         dest.writeString(product_unit);
         dest.writeString(cust_acct);
+        dest.writeInt(product_stor);
+        dest.writeString(saler_cust_acct);
+        dest.writeFloat(express_chrg);
+        dest.writeFloat(discount_chrg);
     }
     protected OrderItem(Parcel in) {
         cust_order_id = in.readString();
@@ -143,6 +181,10 @@ public class OrderItem implements Parcelable{
         order_status=in.readString();
         product_unit=in.readString();
         cust_acct=in.readString();
+        product_stor=in.readInt();
+        saler_cust_acct=in.readString();
+        express_chrg=in.readFloat();
+        discount_chrg=in.readFloat();
     }
     public static final Creator<OrderItem> CREATOR = new Creator<OrderItem>() {
         @Override

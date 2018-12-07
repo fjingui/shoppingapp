@@ -21,10 +21,11 @@ public class Seller implements Serializable {
     private int product_id;
     private String product_name;
     private Float product_price;
+    private int product_stor;
     private String price_unit;
     private String product_desc;
-    private String cust_acct;
     private String product_unit;
+    private String saler_cust_acct;
     private List<Product_Images> pro_imgs=new ArrayList<Product_Images>();
 
     public List<Product_Images> getPro_imgs() {
@@ -129,9 +130,6 @@ public class Seller implements Serializable {
         this.comment = comment;
     }
 
-    public String getCust_acct() {
-        return cust_acct;
-    }
     public String getProduct_unit() {
         return product_unit;
     }
@@ -139,8 +137,20 @@ public class Seller implements Serializable {
         this.product_unit = product_unit;
     }
 
-    public void setCust_acct(String cust_acct) {
-        this.cust_acct = cust_acct;
+    public int getProduct_stor() {
+        return product_stor;
+    }
+
+    public void setProduct_stor(int product_stor) {
+        this.product_stor = product_stor;
+    }
+
+    public String getSaler_cust_acct() {
+        return saler_cust_acct;
+    }
+
+    public void setSaler_cust_acct(String saler_cust_acct) {
+        this.saler_cust_acct = saler_cust_acct;
     }
 
     @Override

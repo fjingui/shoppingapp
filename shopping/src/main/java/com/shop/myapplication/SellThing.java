@@ -7,7 +7,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +64,8 @@ public class SellThing extends Fragment implements View.OnClickListener {
     private EditText sellformat;
     @ViewInject(R.id.sellprice)
     private EditText sellprice;
+    @ViewInject(R.id.prostor)
+    private EditText prostor;
     @ViewInject(R.id.sellamount)
     private EditText sellamount;
     @ViewInject(R.id.sellunit)
@@ -114,8 +115,8 @@ public class SellThing extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        cust_acct = LoginUserAcct.user.getCust_acct();
-        if (cust_acct != null) {
+        if (LoginUserAcct.user.getCust_acct() != null) {
+            cust_acct = LoginUserAcct.user.getCust_acct();
             getFacData(INITTFAC);
         }
         seledimages.setOnClickListener(this);
@@ -309,10 +310,15 @@ public class SellThing extends Fragment implements View.OnClickListener {
         product.setFactory_id(factory.getFactory_id());
         product.setProduct_name(sellproduct.getText().toString());
         product.setProduct_price(Float.parseFloat(sellprice.getText().toString()));
+        if(!TextUtils.isEmpty(prostor.getText().toString())){
+            product.setProduct_stor(Integer.parseInt(prostor.getText().toString()) );
+        }else{
+            product.setProduct_stor(1);
+        }
         if (Integer.parseInt(sellamount.getText().toString()) == 1) {
-            product.setPrice_unit("/" + sellunit.getText().toString());
+            product.setPrice_unit("元/" + sellunit.getText().toString());
         } else {
-            product.setPrice_unit("/" + sellamount.getText().toString() + sellunit.getText().toString());
+            product.setPrice_unit("元/" + sellamount.getText().toString() + sellunit.getText().toString());
         }
         product.setProduct_unit(sellformat.getText().toString());
         product.setProduct_desc(selldesc.getText().toString());
@@ -338,7 +344,6 @@ public class SellThing extends Fragment implements View.OnClickListener {
 
     public void upProData() {
         parseProData();
-        System.out.println(projson);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -396,7 +401,6 @@ public class SellThing extends Fragment implements View.OnClickListener {
                 if(lastresult == mResults.size()){
                     parseupdatahandler.sendEmptyMessage(UPEDIMGS);
                 }
-                Log.e("上传次数:", lastresult + "");
             }
 
             @Override

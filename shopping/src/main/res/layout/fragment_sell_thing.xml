@@ -138,6 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="元" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -155,7 +156,7 @@
                     android:id="@+id/sellamount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="限数字"
+                    android:hint="数字"
                     android:inputType="number"
                     android:textColorHint="@color/hint" />
 
@@ -173,9 +174,27 @@
 
                     <EditText
                         android:id="@+id/sellunit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="只/斤等"
+                        android:textColorHint="@color/hint" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding"
+                        android:text="库存:"
+                        android:textSize="@dimen/textsize" />
+                    <EditText
+                        android:id="@+id/prostor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="只/斤/瓶等"
+                        android:inputType="number"
+                        android:hint="默认1"
                         android:textColorHint="@color/hint" />
                 </LinearLayout>
             </LinearLayout>

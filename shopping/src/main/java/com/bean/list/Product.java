@@ -10,6 +10,7 @@ public class Product implements Serializable{
     private int product_id;
     private String product_name;
     private Float product_price;
+    private int product_stor;
     private String price_unit;
     private String product_desc ;
     private String sale_state;
@@ -76,5 +77,13 @@ public class Product implements Serializable{
     }
     public void setProduct_unit(String product_unit) {
         this.product_unit = product_unit;
+    }
+
+    public int getProduct_stor() {
+        return product_stor;
+    }
+
+    public void setProduct_stor(int product_stor) {
+        this.product_stor = product_stor;
     }
 }

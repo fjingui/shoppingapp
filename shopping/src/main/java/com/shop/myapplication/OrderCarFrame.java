@@ -68,17 +68,18 @@ public class OrderCarFrame extends Fragment {
         alldel = carorder.findViewById(R.id.alldel);
         itemcheckedpri=  carorder.findViewById(R.id.itemcheckedpri);
         payitems = carorder.findViewById(R.id.paychecked);
-        cust_acct = LoginUserAcct.user.getCust_acct();
 
         allchecked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                for (int i=0;i<orderitems.getLayoutManager().getChildCount();i++){
-                     CheckBox radbtn= orderitems.getLayoutManager().getChildAt(i).findViewById(R.id.itemclick);
-                  if(radbtn.isChecked()) {radbtn.setChecked(false);}
-                    else {
-                      radbtn.setChecked(true);
-                  }
+                if(orderitems.getLayoutManager() !=null){
+                    for (int i=0;i<orderitems.getLayoutManager().getChildCount();i++){
+                        CheckBox radbtn= orderitems.getLayoutManager().getChildAt(i).findViewById(R.id.itemclick);
+                        if(radbtn.isChecked()) {radbtn.setChecked(false);}
+                        else {
+                            radbtn.setChecked(true);
+                        }
+                    }
                 }
             }
         });
@@ -106,7 +107,8 @@ public class OrderCarFrame extends Fragment {
                 }
             }
         });
-        if(cust_acct!=null){
+        if(LoginUserAcct.user.getCust_acct()!=null){
+            cust_acct = LoginUserAcct.user.getCust_acct();
             initCarOrderFromSercer();
             initCustAddrFromServer();
             }
@@ -119,35 +121,46 @@ public class OrderCarFrame extends Fragment {
         if(msg.what==1){
             if(!getcarorderlist.getGetresult().equals("")) {
                 orderlist = ParseJsonData.parseFromJson(getcarorderlist.getGetresult(), OrderItem[].class);
-                orderdata = new OrderAdapter();
-                orderitems.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                orderitems.setAdapter(orderdata);
-                orderdata.setItemCheckedListener(new ItemCheckedListener() {
-                    @Override
-                    public void itemOnChecked() {
-                        checkedhandler.sendEmptyMessage(0);
-                    }
-                });
-                bottomview.bringToFront();
-                orderdata.setItemDelListener(new ItemDelListener() {
-                    @Override
-                    public void itemOnDel(int position) {
-                        orderid = orderlist.get(position).getCust_order_id();
-                        delOrderFromServer(Global_Final.deleteorderpath, orderid, cust_acct);
-                        SystemClock.sleep(300);
-                        initCarOrderFromSercer();
-                        orderid = null;
-                    }
-                });
+                if(orderlist != null){
+                    orderdata = new OrderAdapter();
+                    orderitems.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                    orderitems.setAdapter(orderdata);
+                    orderdata.setItemCheckedListener(new ItemCheckedListener() {
+                        @Override
+                        public void itemOnChecked() {
+                            checkedhandler.sendEmptyMessage(0);
+                        }
+                    });
+                    bottomview.bringToFront();
+                    orderdata.setItemDelListener(new ItemDelListener() {
+                        @Override
+                        public void itemOnDel(int position) {
+                            orderid = orderlist.get(position).getCust_order_id();
+                            delOrderFromServer(Global_Final.deleteorderpath, orderid, cust_acct);
+                            SystemClock.sleep(300);
+                            initCarOrderFromSercer();
+                            orderid = null;
+                        }
+                    });
+                }
             }else{
                 emptydata.setText("暂无数据!");
                 emptydata.setVisibility(View.VISIBLE);
             }
         } else if(msg.what==2){
-            custaddr= ParseJsonData.parseObjectJson(gercustaddr.getGetresult(),CustInfo.class);
+            if(gercustaddr.getGetresult()!=null){
+                custaddr= ParseJsonData.parseObjectJson(gercustaddr.getGetresult(),CustInfo.class);
+            }
         }
     }
 };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initCarOrderFromSercer();
+    }
+
     private Handler checkedhandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -179,22 +192,12 @@ public class OrderCarFrame extends Fragment {
         getcarorderlist=new GetDataFromServer(loadcardata,null,1);
         getcarorderlist.setParam(cust_acct);
         getcarorderlist.setParam2("'购物车'");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                getcarorderlist.getData(Global_Final.requestorderpath);
-            }
-        }).start();
+        getcarorderlist.getData(Global_Final.requestorderpath);
     }
     public void initCustAddrFromServer(){
         gercustaddr=new GetDataFromServer(loadcardata,null,2);
         gercustaddr.setParam(cust_acct);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                gercustaddr.getData(Global_Final.requestcustpath);
-            }
-        }).start();
+        gercustaddr.getData(Global_Final.requestcustpath);
     }
 
     public void delOrderFromServer(String delPath, String orderid,String cust_acct){
@@ -299,7 +302,7 @@ public class OrderCarFrame extends Fragment {
             holder.itemname.setText(orderlist.get(position).getProduct_name());
             holder.itemfac.setText(orderlist.get(position).getFactory_name());
             holder.itempri.setText("￥"+orderlist.get(position).getProduct_price());
-            holder.itemamount.setGoods_storage(50);
+            holder.itemamount.setGoods_storage(orderlist.get(position).getProduct_stor());
             holder.itemamount.getEtAmount().setText(orderlist.get(position).getOrder_amount()+"");
 
         }

@@ -10,6 +10,7 @@
     <string name="allbtn">全选</string>
     <string name="loadfail">数据加载失败，请检查网络状态！</string>
     <string name="upfail">抱歉，数据上传失败，点击刷新按钮重试！</string>
+    <string name="emptydata">暂无数据！</string>
     <string name="freshbtn">点我刷新数据</string>
     <string name="upagain">再试一次</string>
     <string name="loginbtn">点击登录</string>

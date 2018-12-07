@@ -110,7 +110,7 @@ public class HomeFrame extends Fragment {
     private Handler loadhandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==3 && !getimagespath.getGetresult().toString().equals("")){
+            if(msg.what==3 ){
                 logoimages= ParseJsonData.parseFromJson(getimagespath.getGetresult(),LogoImages[].class);
                 initData();
                 initPoint();
@@ -118,7 +118,7 @@ public class HomeFrame extends Fragment {
                 myviewpager.setCurrentItem(Integer.MAX_VALUE / 2);
                 mhandler.sendEmptyMessageDelayed(0, 300);
             }
-            if( msg.what==1 && !allseller.getGetresult().toString().equals("")){
+            if( msg.what==1){
                 shoplist= ParseJsonData.parseFromJson(allseller.getGetresult(),Seller[].class);
                 sellerstate=allseller.getState();
                 salelist.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));

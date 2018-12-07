@@ -1,9 +1,7 @@
 package com.utils.list;
 
-import com.bean.list.*;
+import com.bean.list.Global_Final;
 import com.bean.list.UserAcct;
-import com.shop.myapplication.MainActivity;
-import com.utils.list.ParseJsonData;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -17,11 +15,10 @@ public class LoginUserAcct {
 
     public static com.bean.list.UserAcct user;
 
-    public synchronized static com.bean.list.UserAcct getUser(){
+    public synchronized static void getUser(){
         if(user == null){
             user = new UserAcct();
         }
-        return user;
     }
 
 
@@ -32,7 +29,6 @@ public class LoginUserAcct {
             @Override
             public void onSuccess(String result) {
                 user = ParseJsonData.parseObjectJson(result, com.bean.list.UserAcct.class);
-                MainActivity.cust_acct=user.getCust_acct();
             }
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
