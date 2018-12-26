@@ -5,8 +5,9 @@ package com.bean.list;
  */
 
 public class Global_Final {
-    //10.0.2.2 /114.115.138.24 /192.168.1.100
-    public static final String basepath = "http://192.168.1.101:8080/shopping_service/";
+    //10.0.2.2 /114.116.152.155 /192.168.1.101
+
+    public static final String basepath = "http://114.116.152.155:8080/shopping_service/";
     public static final String imagespath =basepath +"json/homeimgs";
     public static final String sellerpath =basepath +"json/sellerjson";
     public static final String approvegood =basepath +"json/approvejson";
@@ -49,4 +50,5 @@ public class Global_Final {
     public static final String withperform_update=basepath+"json/withperform_update";
     public static final String getcoverimg=basepath+"json/getcoverimgs";
     public static final String apkversion =basepath+"manage/getapkver";
+    public static final String updateprostate = basepath+"manage/prostate_update";
 }

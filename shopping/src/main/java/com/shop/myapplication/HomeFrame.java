@@ -110,7 +110,7 @@ public class HomeFrame extends Fragment {
     private Handler loadhandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==3 ){
+            if(msg.what==3 && getimagespath.getGetresult()!=null){
                 logoimages= ParseJsonData.parseFromJson(getimagespath.getGetresult(),LogoImages[].class);
                 initData();
                 initPoint();
@@ -118,38 +118,42 @@ public class HomeFrame extends Fragment {
                 myviewpager.setCurrentItem(Integer.MAX_VALUE / 2);
                 mhandler.sendEmptyMessageDelayed(0, 300);
             }
-            if( msg.what==1){
+            if( msg.what==1 && allseller.getGetresult()!=null){
                 shoplist= ParseJsonData.parseFromJson(allseller.getGetresult(),Seller[].class);
-                sellerstate=allseller.getState();
-                salelist.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-                salerva=new RecyclerViewAdapter(shoplist);
-                salelist.setAdapter(salerva);
-                salerva.setIclistener(new ItemClickListener() {
-                    @Override
-                    public void itemClick(int position) {
-                        Intent intent = new Intent(BaseApplication.getContext(), DetailActivity.class);
-                        intent.putExtra("detailseller", shoplist.get(position));
-                        intent.putExtra("cust_acct",cust_acct);
-                        startActivity(intent);
-                    }
-                });
-                SpaceItem space = new SpaceItem(16);
-                salelist.addItemDecoration(space);
+                if(!shoplist.isEmpty()){
+                    sellerstate=allseller.getState();
+                    salelist.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+                    salerva=new RecyclerViewAdapter(shoplist);
+                    salelist.setAdapter(salerva);
+                    salerva.setIclistener(new ItemClickListener() {
+                        @Override
+                        public void itemClick(int position) {
+                            Intent intent = new Intent(BaseApplication.getContext(), DetailActivity.class);
+                            intent.putExtra("detailseller", shoplist.get(position));
+                            intent.putExtra("source","sale");;
+                            startActivity(intent);
+                        }
+                    });
+                    SpaceItem space = new SpaceItem(16);
+                    salelist.addItemDecoration(space);
                 }
-            if(msg.what==2 && !importsell.getGetresult().toString().equals("")){
+            }
+            if(msg.what==2 && importsell.getGetresult()!=null){
                 importseller= ParseJsonData.parseFromJson(importsell.getGetresult(),Seller[].class);
-                importstate=importsell.getState();
-                importlist.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-                importlist.setAdapter(importva);
-                importva.setIclistener(new ItemClickListener() {
-                    @Override
-                    public void itemClick(int position) {
-                        Intent intent = new Intent(BaseApplication.getContext(), DetailActivity.class);
-                        intent.putExtra("detailseller", importseller.get(position));
-                        intent.putExtra("cust_acct",cust_acct);
-                        startActivity(intent);
-                    }
-                });
+                if(!importseller.isEmpty()){
+                    importstate=importsell.getState();
+                    importlist.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+                    importlist.setAdapter(importva);
+                    importva.setIclistener(new ItemClickListener() {
+                        @Override
+                        public void itemClick(int position) {
+                            Intent intent = new Intent(BaseApplication.getContext(), DetailActivity.class);
+                            intent.putExtra("detailseller", importseller.get(position));
+                            intent.putExtra("source","sale");
+                            startActivity(intent);
+                        }
+                    });
+                }
             }
 
             if(sellerstate=="success" && importstate=="success"){

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.bean.list.ManageAcct;
 import com.easemob.chat.EMChatManager;
 import com.utils.list.LoginUserAcct;
 
@@ -46,7 +47,7 @@ public class UserAcctFragment extends Fragment {
         sale_acct = accview.findViewById(R.id.sale_acct);
         shopping_about = accview.findViewById(R.id.shopping_about);
         dspthing = accview.findViewById(R.id.dspthing);
-        if( TextUtils.equals(LoginUserAcct.user.getCust_acct(),"18956662004")  ){
+        if( TextUtils.equals(LoginUserAcct.user.getCust_acct(), ManageAcct.mainacct)  ){
             dspthing.setVisibility(View.VISIBLE);
         }
         if (cust_acct == null) {

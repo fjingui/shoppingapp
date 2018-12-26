@@ -62,7 +62,7 @@ public class BaseOrderActivity extends AppCompatActivity {
     private Handler getdata = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==11){
+            if(msg.what==11 && getorders.getGetresult()!=null){
                 dpayorderlist= ParseJsonData.parseFromJson(getorders.getGetresult(),OrderItem[].class);
                 if(!dpayorderlist.isEmpty()){
                     dpayorders.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false));

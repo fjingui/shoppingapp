@@ -31,7 +31,7 @@ public class ApproveGoods extends AppCompatActivity {
     private Handler initdata = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what == 0001){
+            if(msg.what == 0001 && getgoods.getGetresult()!=null){
                 goodslist = ParseJsonData.parseFromJson(getgoods.getGetresult(),Seller[].class);
                 if(goodslist.isEmpty()){
                     lstatev.setText(R.string.emptydata);
@@ -46,6 +46,7 @@ public class ApproveGoods extends AppCompatActivity {
                         public void itemClick(int position) {
                             Intent intent = new Intent(BaseApplication.getContext(), DetailActivity.class);
                             intent.putExtra("detailseller", goodslist.get(position));
+                            intent.putExtra("source","manage");
                             startActivity(intent);
                         }
                     });
@@ -74,5 +75,11 @@ public class ApproveGoods extends AppCompatActivity {
     public void initData(){
         getgoods = new GetDataFromServer(initdata,null,0001);
         getgoods.getData(Global_Final.approvegood);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 }

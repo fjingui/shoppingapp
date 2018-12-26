@@ -1,10 +1,11 @@
 package com.shop.myapplication;
 
 import android.content.Intent;
-import android.support.v4.widget.NestedScrollView;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.bean.list.OrderItem;
 import com.bean.list.Seller;
 import com.easemob.chat.EMChat;
 import com.easemob.easeui.EaseConstant;
+import com.hold.list.ApproveButton;
 import com.hold.list.BottomHold;
 import com.hold.list.DetailTextHold;
 import com.hold.list.ImagesHold;
@@ -57,6 +59,10 @@ public class DetailActivity extends AppCompatActivity {
     private String shoptype="";
     private String getorderid;
     private Button mychatbtn;
+    private Button appvchatbtn;
+    private String srcflag;
+    private ApproveButton appbtn;
+    private HttpPostReqData hprd ;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==android.R.id.home){
@@ -76,11 +82,12 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initData();
         setViews();
-        setBtnClick();
     }
     public void initData(){
         Intent intent = getIntent();
         seller = (Seller) intent.getSerializableExtra("detailseller");
+        srcflag = intent.getStringExtra("source");
+        System.out.println("来自于....."+srcflag);
         cust_acct= LoginUserAcct.user.getCust_acct();
         detailTextHold = new DetailTextHold();
         bottomHold=new BottomHold();
@@ -97,7 +104,29 @@ public class DetailActivity extends AppCompatActivity {
         logolayout.addView(logo.getLogoview());
         detaillayout.addView(detailTextHold.getDetailtextview());
         bottomlayout.bringToFront();
-        bottomlayout.addView(bottomHold.getBottomtview());
+        if(TextUtils.equals(srcflag,"sale")){
+            bottomlayout.removeAllViews();
+            bottomlayout.addView(bottomHold.getBottomtview());
+            setBtnClick();
+        }else{
+            bottomlayout.removeAllViews();
+            ApproveButton appbtn = new ApproveButton();
+            Button appvchatbtn = appbtn.getChatbtn();
+            bottomlayout.addView(appbtn.getApprovebtn());
+            appvchatbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(EMChat.getInstance().isLoggedIn()) {
+                        startChat();
+                    }else{
+                        Toast.makeText(DetailActivity.this,"请先登录！",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            hprd = new HttpPostReqData();
+            hprd.setParam6(seller.getProduct_id());
+            appbtn.setUpdatestate(hprd);
+        }
         imagelayout.addView(imagesHold.getImagesView());
     }
     public void startChat(){

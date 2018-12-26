@@ -61,12 +61,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         public void handleMessage(Message msg) {
             if(msg.what == 0001){
                 coverimg = ParseJsonData.parseObjectJson(hreqdata.getResultdata(),CoverImgs.class);
-                x.image().bind(pulldoorimg,coverimg.getCover_path(),
-                        new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-                                .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)
-                                .setUseMemCache(true).build());
-                pdoorview.bringToFront();
-
+                if(coverimg != null){
+                    x.image().bind(pulldoorimg,coverimg.getCover_path(),
+                            new ImageOptions.Builder().setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                                    .setFailureDrawableId(R.mipmap.ic_launcher).setLoadingDrawableId(R.mipmap.ic_launcher)
+                                    .setUseMemCache(true).build());
+                    pdoorview.bringToFront();
+                }
             }
             if(msg.what == 0002){
                 apkversion = ParseJsonData.parseObjectJson(initapkver.getResultdata(),ApkVersion.class);

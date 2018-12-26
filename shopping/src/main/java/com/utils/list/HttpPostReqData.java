@@ -34,6 +34,9 @@ public class HttpPostReqData {
     public void setParam5(String order_status){
         this.postparam.addQueryStringParameter("order_status", order_status );
     }
+    public void setParam6(int product_id){
+        this.postparam.addQueryStringParameter("product_id", product_id+"" );
+    }
 
     public HttpPostReqData(Handler noticehandler, int mes) {
         this.noticehandler = noticehandler;

@@ -119,7 +119,7 @@ public class OrderCarFrame extends Fragment {
     @Override
     public void handleMessage(Message msg) {
         if(msg.what==1){
-            if(!getcarorderlist.getGetresult().equals("")) {
+            if(getcarorderlist.getGetresult()!=null) {
                 orderlist = ParseJsonData.parseFromJson(getcarorderlist.getGetresult(), OrderItem[].class);
                 if(orderlist != null){
                     orderdata = new OrderAdapter();
@@ -189,10 +189,12 @@ public class OrderCarFrame extends Fragment {
 
     public void initCarOrderFromSercer(){
         emptydata.setVisibility(View.GONE);
-        getcarorderlist=new GetDataFromServer(loadcardata,null,1);
-        getcarorderlist.setParam(cust_acct);
-        getcarorderlist.setParam2("'购物车'");
-        getcarorderlist.getData(Global_Final.requestorderpath);
+        if(getcarorderlist == null ){
+            getcarorderlist=new GetDataFromServer(loadcardata,null,1);
+            getcarorderlist.setParam(cust_acct);
+            getcarorderlist.setParam2("'购物车'");
+            getcarorderlist.getData(Global_Final.requestorderpath);
+        }
     }
     public void initCustAddrFromServer(){
         gercustaddr=new GetDataFromServer(loadcardata,null,2);
